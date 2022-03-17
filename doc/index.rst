@@ -1,25 +1,25 @@
 Welcome the documentation of the IRNL RDT Correction!
 =====================================================
 
-This package provides acorrection script to power the nonlinear correctors in
+This package provides a correction script to power the nonlinear correctors in
 the (HL-)LHC insertion regions based on RDTs.
 
 Package Reference
 =================
 
 .. toctree::
-   :caption: IRNL RDT Correction
+   :caption: Main
    :maxdepth: 1
 
-    .. automodule:: pylhc.irnl_rdt_correction
-        :members:
+   main
 
+..
+    This is commented out for later:
+    .. toctree::
+       :caption: Tools
+       :maxdepth: 1
 
-.. toctree::
-   :caption: Modules
-   :maxdepth: 1
-
-
+       tools
 
 
 Indices and tables
