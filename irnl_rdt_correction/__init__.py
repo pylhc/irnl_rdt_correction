@@ -7,7 +7,7 @@ Correction script to power the nonlinear correctors in the (HL-)LHC insertion re
 :copyright: pyLHC/OMC-Team working group.
 :license: MIT, see the LICENSE.md file for details.
 """
-__title__ = "irnl_rdt_correction"
+__title__ = "irnl-rdt-correction"
 __description__ = "Correction script to power the nonlinear correctors in the (HL-)LHC insertion regions based on RDTs."
 __url__ = "https://github.com/pylhc/irnl_rdt_correction"
 __version__ = "0.0.0"
