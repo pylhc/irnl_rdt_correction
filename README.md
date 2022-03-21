@@ -5,6 +5,7 @@
 [![Code Climate maintainability (percentage)](https://img.shields.io/codeclimate/maintainability-percentage/pylhc/irnl_rdt_correction.svg?style=popout)](https://codeclimate.com/github/pylhc/irnl_rdt_correction)
 [![GitHub last commit](https://img.shields.io/github/last-commit/pylhc/irnl_rdt_correction.svg?style=popout)](https://github.com/pylhc/irnl_rdt_correction/)
 [![GitHub release](https://img.shields.io/github/release/pylhc/irnl_rdt_correction.svg?style=popout)](https://github.com/pylhc/irnl_rdt_correction/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6373374.svg)](https://doi.org/10.5281/zenodo.6373374)
 
 Performs local correction of the Resonance Driving Terms (RDTs)
 in the Insertion Regions (IRs) based on the principle described in
