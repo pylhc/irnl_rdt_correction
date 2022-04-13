@@ -42,20 +42,20 @@ class Timer:
         self.step(name)
         self.print = print_fun
 
-    def step(self, name: str = None):
+    def step(self, name: str = None) -> float:
         if not name:
             name = str(len(self.steps))
         time_ = time()
         self.steps[name] = time_
         return time_
 
-    def time_since_step(self, step=None):
+    def time_since_step(self, step=None) -> float:
         if not step:
             step = list(self.steps.keys())[-1]
         dtime = time() - self.steps[step]
         return dtime
 
-    def time_between_steps(self, start: str = None, end: str = None):
+    def time_between_steps(self, start: str = None, end: str = None) -> float:
         list_steps = list(self.steps.keys())
         if not start:
             start = list_steps[0]
@@ -99,7 +99,7 @@ def get_max_knl_order(df: TfsDataFrame) -> int:
     return df.columns.str.extract(r"^K(\d+)S?L$", expand=False).dropna().astype(int).max()
 
 
-def is_anti_mirror_symmetric(column_name: str):
+def is_anti_mirror_symmetric(column_name: str) -> bool:
     """ Returns true if the column name is a KNL/KNSL column and the
     magnetic field that this column represents is anti-symmetric upon mirroring on y axis."""
     try:
@@ -129,15 +129,15 @@ def field_component2order(field_component) -> Tuple[int, bool]:
     return int(field_component[1]), FIELD_SKEW_MAP[field_component[0]]
 
 
-def is_odd(n):
+def is_odd(n: int) -> bool:
     return bool(n % 2)
 
 
-def is_even(n):
+def is_even(n: int) -> bool:
     return not is_odd(n)
 
 
-def i_pow(n):
+def i_pow(n: int) -> complex:
     """ i to the power of n."""
     return 1j**(n % 4)   # more exact with modulo
 

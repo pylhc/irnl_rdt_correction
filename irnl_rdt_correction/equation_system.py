@@ -69,39 +69,63 @@ def solve(rdt_maps, optics_seq: Sequence[Optics],
 
 # Preparation ------------------------------------------------------------------
 
-def get_current_rdt_maps(rdt_maps: Sequence[RDTMap]):
-    """ Creates a new rdt_map with all rdt's that share correctors.  """
-    n_maps = len(rdt_maps)
-    new_rdt_map = [{} for _ in rdt_maps]
+def get_current_rdt_maps(rdt_maps: Sequence[RDTMap]) -> Tuple[Sequence[RDTMap], Sequence[RDTMap], Set[str]]:
+    """ Creates a new rdt_map with all rdt's that share correctors.
+
+    This function is called in a while-loop, `so rdt_maps` is the
+    `remaining_rdt_maps` from the last loop.
+    The while-loop is interrupted when no remaining rdts are left.
+    """
+    n_maps = len(rdt_maps)  # should be number of optics given
+    new_rdt_map = [{} for _ in range(n_maps)]  # don't use [{}] * n_maps!!
+
+    # get the next set of correctors from the first rdt in the first
+    # non-empty rdt_mapping.
     for rdt_map in rdt_maps:
-        # get next RDT/correctors
-        if len(rdt_map):
-            rdt, correctors = list(rdt_map.items())[0]
-            break
+        try:
+            rdt, correctors = next(iter(rdt_map.items()))
+        except StopIteration:
+           continue  # rdt_map is empty
+        else:
+            break  # found an rdt map
     else:
-        raise ValueError("rdt_maps are empty. "
+        # Ran through all maps without fining any non-empy ones.
+        # This should have been caught at the end of this function.
+        raise ValueError("All rdt_maps are empty. "
                          "This should have triggered an end of the solver loop "
                          "earlier. Please investigate.")
 
+    # Use these as initial set of correctors.
+    # Notice that the current rdt has not yet been added to the new mapping.
+    # This will happen in the loop, when the rdt to compare is the current rdt.
     correctors = set(correctors)
     checked_correctors = set()
     while len(correctors):
-        # find all RDTs with the same correctors
-        checked_correctors |= correctors
-        additional_correctors = set()  # new correctors found this loop
+        # find all RDTs that share correctors
+        checked_correctors |= correctors  # all correctors checked so far or to be checked in this round
+        additional_correctors = set()  # new correctors found this round, i.e. correctors to be checked in next round
 
         for corrector in correctors:
-            for idx in range(n_maps):
+            for idx in range(n_maps):  # check for all optics
                 for rdt_current, rdt_correctors in rdt_maps[idx].items():
                     if corrector in rdt_correctors:
-                        new_rdt_map[idx][rdt_current] = rdt_correctors
-                        additional_correctors |= (set(rdt_correctors) - checked_correctors)
+                        # this rdt shares one or more correctors with the original rdt
+                        # it might have been added already if multiple correctors are shared
+                        if rdt not in new_rdt_map[idx]:
+                            # new rdt
+                            new_rdt_map[idx][rdt_current] = rdt_correctors
+
+                            # any hence unchecked correctors are added and will be checked in
+                            # the next round until no new correctors are found.
+                            additional_correctors |= (set(rdt_correctors) - checked_correctors)
 
         correctors = additional_correctors
 
+    # gather all remaining rdts from the rdt_maps
     remaining_rdt_map = [{k: v for k, v in rdt_maps[idx].items()
                           if k not in new_rdt_map[idx].keys()} for idx in range(n_maps)]
 
+    # check if there are any rdts left. `None` should interrupt the outer loop.
     if not any(len(rrm) for rrm in remaining_rdt_map):
         remaining_rdt_map = None
 
