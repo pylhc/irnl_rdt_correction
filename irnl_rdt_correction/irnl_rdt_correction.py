@@ -9,8 +9,21 @@ feed-down and using feed-down to correct lower order RDTs.
 Details can be found in [#DillyNonlinearIRCorrections2022]_ .
 
 TODO:
- - Allow not giving errors (need to be `None` in list)
- - Sort RDTs by highest corrector instead of highest RDT order (possibly)
+ - [easy] Allow not giving errors (need to be `None` in list,
+   so that the list lengths are still the same and there is a
+   clear correspondence twiss-errors-beams).
+   Should then be assumed all zero.
+ - [easy] Allow for more than two optics given
+   (e.g. find corrections for 15cm and 30cm for both beams)
+ - [medium] Maybe sort RDTs by highest corrector instead of highest RDT order?
+   This should allow for correctors that correct via feed-down
+   to be assigned before lower order RDTs are calculated.
+   Might cause other problems, though. To be thought about.
+ - [hard] Take phase advance into account.
+   That would mean correct the RDT at the position of the correctors.
+   Might be problematic, as we have two correctors (one on each side)
+   per order, so that might become a non-linear problem (as now there
+   are two equations, one per corrector, which are non-linearly dependend.)
 
 
 .. rubric:: References
