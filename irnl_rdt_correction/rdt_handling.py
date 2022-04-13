@@ -126,6 +126,12 @@ def sort_rdts(rdts: Sequence, rdts2: Sequence) -> Tuple[RDTMap, RDTMap]:
 
 
 def _build_rdt_mapping(rdts: RDTInputTypes) -> RDTMap:
+    """ Create a mapping RDT -> List of Correctors.
+
+    This function converts the rdt-string from the input to an RDT-object
+    and either creates as list with the default correctors for this RDT
+    or uses the given one.
+    """
     LOG.debug("Building RDT dictionary.")
     if not isinstance(rdts, dict):
         rdts = {rdt: [] for rdt in rdts}
