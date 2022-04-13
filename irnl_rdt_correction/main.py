@@ -55,7 +55,7 @@ from irnl_rdt_correction.utilities import Timer, log_setup
 LOG = logging.getLogger(__name__)
 
 
-def main(**opt) -> Tuple[str, tfs.TfsDataFrame]:
+def irnl_rdt_correction(**opt) -> Tuple[str, tfs.TfsDataFrame]:
     """ Get correctors and their optimal powering to minimize the given RDTs.
 
     Keyword Args:
@@ -155,4 +155,4 @@ def main(**opt) -> Tuple[str, tfs.TfsDataFrame]:
 
 if __name__ == '__main__':
     log_setup()
-    main()
+    irnl_rdt_correction()

@@ -1,6 +1,6 @@
-from irnl_rdt_correction.irnl_rdt_correction import main
+from irnl_rdt_correction.main import irnl_rdt_correction
 from utilities import log_setup
 
 if __name__ == '__main__':
     log_setup()
-    main()
+    irnl_rdt_correction()

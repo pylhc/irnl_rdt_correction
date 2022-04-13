@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from irnl_rdt_correction.irnl_rdt_correction import main as irnl_correct
+from irnl_rdt_correction.main import irnl_rdt_correction
 from tests.helpers import (
     generate_pseudo_model, generate_errortable, get_some_magnet_names, VALUE, STRENGTH, IP, \
     EPS, FIELD
@@ -32,7 +32,7 @@ def test_general_feeddown(tmp_path: Path, x: float, y: float):
 
     # Correction ---------------------------------------------------------------
     rdts = "f4000", "f3001"
-    _, df_corrections = irnl_correct(
+    _, df_corrections = irnl_rdt_correction(
         accel=accel,
         twiss=[twiss],
         errors=[errors],
@@ -45,7 +45,7 @@ def test_general_feeddown(tmp_path: Path, x: float, y: float):
         iterations=1,
     )
 
-    _, df_corrections_fd1 = irnl_correct(
+    _, df_corrections_fd1 = irnl_rdt_correction(
         accel=accel,
         twiss=[twiss],
         errors=[errors],
@@ -60,7 +60,7 @@ def test_general_feeddown(tmp_path: Path, x: float, y: float):
 
     errors["K4L"] = 0
     errors["K5L"] = error_value  # normal dodecapole errors
-    _, df_corrections_fd2 = irnl_correct(
+    _, df_corrections_fd2 = irnl_rdt_correction(
         accel=accel,
         twiss=[twiss],
         errors=[errors],
@@ -129,7 +129,7 @@ def test_correct_via_feeddown(tmp_path: Path, x: float, y: float, corrector: str
 
     # Correction ---------------------------------------------------------------
     rdts = {"f4000": [corrector]}
-    _, df_corrections = irnl_correct(
+    _, df_corrections = irnl_rdt_correction(
         accel=accel,
         twiss=[twiss],
         errors=[errors],

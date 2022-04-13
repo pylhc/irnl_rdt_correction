@@ -3,7 +3,7 @@ from pandas.testing import assert_frame_equal
 
 from irnl_rdt_correction.equation_system import get_integral_sign
 from irnl_rdt_correction.io_handling import maybe_switch_signs
-from irnl_rdt_correction.irnl_rdt_correction import main as irnl_correct
+from irnl_rdt_correction.main import irnl_rdt_correction
 from irnl_rdt_correction.rdt_handling import IRCorrector, RDT
 from irnl_rdt_correction.utilities import list2str, Optics
 from tests.helpers import ABC, generate_pseudo_model, get_opposite_sign_beam4_kl_columns, generate_errortable, MAX_N
@@ -21,7 +21,7 @@ def test_list_to_str():
 
 def test_wrong_arguments():
     with pytest.raises(AttributeError) as e:
-        irnl_correct(
+        irnl_rdt_correction(
             feddown=0,
             itterations=1,
         )

@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from irnl_rdt_correction.irnl_rdt_correction import main as irnl_correct
+from irnl_rdt_correction.main import irnl_rdt_correction
 from tests.helpers import (
     generate_pseudo_model, generate_errortable, get_some_magnet_names, IP, VALUE, EPS
 )
@@ -47,7 +47,7 @@ def test_dual_optics(tmp_path: Path):
     # so these methods will fail:
     for solver in ["inv", "linear"]:
         with pytest.raises(np.linalg.LinAlgError):
-            _, df_corrections = irnl_correct(
+            _, df_corrections = irnl_rdt_correction(
                 accel=accel,
                 twiss=[twiss1, twiss2],
                 errors=[errors1, errors2],
@@ -60,7 +60,7 @@ def test_dual_optics(tmp_path: Path):
             )
 
     # Best approximation for corrector values, via least-squares:
-    _, df_corrections = irnl_correct(
+    _, df_corrections = irnl_rdt_correction(
         accel=accel,
         twiss=[twiss1, twiss2],
         errors=[errors1, errors2],
@@ -127,7 +127,7 @@ def test_dual_optics_rdts(tmp_path: Path):
     )
 
     # Correction ---------------------------------------------------------------
-    _, df_corrections = irnl_correct(
+    _, df_corrections = irnl_rdt_correction(
         accel=accel,
         twiss=[twiss1, twiss2],
         errors=[errors1, errors2],

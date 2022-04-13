@@ -36,7 +36,7 @@ python -m pip install --editable "irnl_rdt_correction[all]"
 
 ## Main Script 
 
--  [**irnl_rdt_correction.py**](irnl_rdt_correction/irnl_rdt_correction.py) - Script to compute RDT correction in the (HL)LHC IRs including feed-down effects.
+-  [**irnl_rdt_correction.py**](irnl_rdt_correction/main.py) - Script to compute RDT correction in the (HL)LHC IRs including feed-down effects.
 
 ## License
 

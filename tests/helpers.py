@@ -6,7 +6,7 @@ import h5py
 import pandas as pd
 from tfs import TfsDataFrame
 
-from constants import BETA, KEYWORD, PLANES, MULTIPOLE
+from irnl_rdt_correction.constants import BETA, KEYWORD, PLANES, MULTIPOLE
 
 X, Y = PLANES
 

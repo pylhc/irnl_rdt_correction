@@ -4,7 +4,7 @@ import pytest
 from pandas.testing import assert_frame_equal, assert_series_equal
 
 from constants import BETA
-from irnl_rdt_correction.irnl_rdt_correction import main as irnl_correct
+from irnl_rdt_correction.main import irnl_rdt_correction
 from tests.helpers import (
     generate_pseudo_model, get_corrector_magnets_mask, get_some_magnet_names,
     generate_errortable, VALUE, IP, EPS
@@ -36,7 +36,7 @@ def test_different_rdts(tmp_path: Path):
     errors["K3L"] = error_value
 
     # Correction -----------------------------------------------------------
-    _, df_corrections_f4000 = irnl_correct(
+    _, df_corrections_f4000 = irnl_rdt_correction(
         accel=accel,
         twiss=[twiss],
         errors=[errors],
@@ -49,7 +49,7 @@ def test_different_rdts(tmp_path: Path):
         iterations=1,
     )
 
-    _, df_corrections_f2200 = irnl_correct(
+    _, df_corrections_f2200 = irnl_rdt_correction(
         accel=accel,
         twiss=[twiss],
         errors=[errors],
@@ -62,7 +62,7 @@ def test_different_rdts(tmp_path: Path):
         iterations=1,
     )
 
-    _, df_corrections_f2002 = irnl_correct(
+    _, df_corrections_f2002 = irnl_rdt_correction(
         accel=accel,
         twiss=[twiss],
         errors=[errors],
@@ -118,7 +118,7 @@ def test_switched_beta():
     )
 
     # Correction ---------------------------------------------------------------
-    _, df_corrections = irnl_correct(
+    _, df_corrections = irnl_rdt_correction(
         accel=accel,
         twiss=[twiss, ],
         errors=[errors, ],
@@ -129,7 +129,7 @@ def test_switched_beta():
         iterations=1,
     )
 
-    _, df_corrections_switched = irnl_correct(
+    _, df_corrections_switched = irnl_rdt_correction(
         accel=accel,
         twiss=[twiss, ],
         errors=[errors, ],
