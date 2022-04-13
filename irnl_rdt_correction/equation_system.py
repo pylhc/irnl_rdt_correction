@@ -6,9 +6,10 @@ Builds and solves the equation system from the rdt-to-corrector-maps given.
 
 """
 import logging
-from typing import Sequence, Tuple, Set
+from typing import Sequence, Tuple, Set, Dict
 
 import numpy as np
+from numpy.typing import ArrayLike
 from pandas import DataFrame, Series
 
 from irnl_rdt_correction.constants import BETA, SIDES, PLANES, DELTA, KEYWORD, MULTIPOLE
@@ -85,7 +86,7 @@ def get_current_rdt_maps(rdt_maps: Sequence[RDTMap]) -> Tuple[Sequence[RDTMap], 
         try:
             rdt, correctors = next(iter(rdt_map.items()))
         except StopIteration:
-           continue  # rdt_map is empty
+            continue  # rdt_map is empty
         else:
             break  # found an rdt map
     else:
@@ -173,7 +174,7 @@ def get_available_correctors(field_components: Set[str], accel: str, ip: int,
 
 
 def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_seq: Sequence[Optics],
-                                     update_optics: bool, ignore_settings: bool):
+                                     update_optics: bool, ignore_settings: bool) -> Dict[IRCorrector, Sequence[float]]:
     """ If wished save original corrector values from optics (for later restoration)
     and sync corrector values in list and optics. """
     saved_values = {}
@@ -200,7 +201,7 @@ def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_s
 # Build Equation System --------------------------------------------------------
 
 def build_equation_system(rdt_maps: Sequence[dict], correctors: Sequence[IRCorrector], ip: int,
-                          optics_seq: Sequence[Optics], feeddown: int) -> Tuple[np.ndarray, np.ndarray]:
+                          optics_seq: Sequence[Optics], feeddown: int) -> Tuple[ArrayLike, ArrayLike]:
     """ Builds equation system as in Eq. (43) in [#DillyNonlinearIRCorrections2022]_
     for a given ip for all given optics and error files (i.e. beams) and rdts.
 
@@ -227,7 +228,7 @@ def build_equation_system(rdt_maps: Sequence[dict], correctors: Sequence[IRCorre
     return b_matrix, integral
 
 
-def get_elements_integral(rdt: RDT, ip: int, optics: Optics, feeddown: int):
+def get_elements_integral(rdt: RDT, ip: int, optics: Optics, feeddown: int) -> float:
     """ Calculate the RDT integral for all elements of the IP. """
     integral = 0
     lm, jk = rdt.l + rdt.m, rdt.j + rdt.k
@@ -271,7 +272,7 @@ def get_elements_integral(rdt: RDT, ip: int, optics: Optics, feeddown: int):
     return integral
 
 
-def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics):
+def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) -> float:
     """ Calculate B-Matrix Element for Corrector. """
     LOG.debug(f" - Corrector {corrector.name}.")
     lm, jk = rdt.l + rdt.m, rdt.j + rdt.k
