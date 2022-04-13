@@ -4,7 +4,7 @@ Constants
 
 These constants rely a lot on the HL-LHC/LHC Naming Scheme.
 """
-from typing import Union
+from typing import Union, Dict, Sequence
 
 from pandas import DataFrame
 from tfs import TfsDataFrame
@@ -33,3 +33,4 @@ EXT_MADX = ".madx"  # suffix for madx-command file
 
 # Types ---
 StrOrDataFrame = Union[str, DataFrame, TfsDataFrame]
+RDTInputTypes = Union[Sequence[str], Dict[str, Sequence[str]]]

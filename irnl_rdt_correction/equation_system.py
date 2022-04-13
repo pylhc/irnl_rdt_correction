@@ -12,9 +12,9 @@ import numpy as np
 from pandas import DataFrame, Series
 
 from irnl_rdt_correction.constants import BETA, SIDES, PLANES, DELTA, KEYWORD, MULTIPOLE
-from irnl_rdt_correction.rdt_handling import IRCorrector, RDT
+from irnl_rdt_correction.rdt_handling import IRCorrector, RDT, RDTMap
 from irnl_rdt_correction.utilities import (
-    list2str, i_pow, is_even, is_odd, is_anti_mirror_symmetric, idx2str, DotDict, Optics
+    list2str, i_pow, is_even, is_odd, is_anti_mirror_symmetric, idx2str, Optics
 )
 
 LOG = logging.getLogger(__name__)
@@ -69,7 +69,7 @@ def solve(rdt_maps, optics_seq: Sequence[Optics],
 
 # Preparation ------------------------------------------------------------------
 
-def get_current_rdt_maps(rdt_maps):
+def get_current_rdt_maps(rdt_maps: Sequence[RDTMap]):
     """ Creates a new rdt_map with all rdt's that share correctors.  """
     n_maps = len(rdt_maps)
     new_rdt_map = [{} for _ in rdt_maps]

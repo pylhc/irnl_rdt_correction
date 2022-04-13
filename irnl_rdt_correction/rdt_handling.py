@@ -8,9 +8,9 @@ for checking and sorting.
 """
 
 import logging
-from typing import Sequence, Tuple, Dict, List
+from typing import Sequence, Tuple, Dict
 
-from irnl_rdt_correction.constants import ORDER_NAME_MAP, SKEW_NAME_MAP, POSITION, SIDES
+from irnl_rdt_correction.constants import ORDER_NAME_MAP, SKEW_NAME_MAP, POSITION, SIDES, RDTInputTypes
 from irnl_rdt_correction.utilities import field_component2order, order2field_component, list2str
 
 LOG = logging.getLogger(__name__)
@@ -106,23 +106,26 @@ class RDT:
         return self.name == other.name
 
 
+RDTMap = Dict[RDT, Sequence[str]]
+
+
 # RDT Sorting ------------------------------------------------------------------
 
-def sort_rdts(rdts: Sequence, rdts2: Sequence) -> Tuple[dict, dict]:
+def sort_rdts(rdts: Sequence, rdts2: Sequence) -> Tuple[RDTMap, RDTMap]:
     """ Sorts RDTs by reversed-order and orientation (skew, normal). """
     LOG.debug("Sorting RDTs")
     LOG.debug(" - First Optics:")
-    rdt_dict = _build_rdt_dict(rdts)
+    rdt_dict = _build_rdt_mapping(rdts)
     if rdts2 is not None:
         LOG.debug(" - Second Optics:")
-        rdt_dict2 = _build_rdt_dict(rdts2)
+        rdt_dict2 = _build_rdt_mapping(rdts2)
     else:
         LOG.debug(" - Second Optics: same RDTs as first.")
         rdt_dict2 = rdt_dict.copy()
     return rdt_dict, rdt_dict2
 
 
-def _build_rdt_dict(rdts: Sequence) -> Dict[RDT, List[str]]:
+def _build_rdt_mapping(rdts: RDTInputTypes) -> RDTMap:
     LOG.debug("Building RDT dictionary.")
     if not isinstance(rdts, dict):
         rdts = {rdt: [] for rdt in rdts}
@@ -140,7 +143,7 @@ def _build_rdt_dict(rdts: Sequence) -> Dict[RDT, List[str]]:
     return rdt_dict
 
 
-def get_needed_orders(rdt_maps: Sequence[dict], feed_down: int) -> Sequence[int]:
+def get_needed_orders(rdt_maps: Sequence[RDTMap], feed_down: int) -> Sequence[int]:
     """Returns the sorted orders needed for correction, based on the order
     of the RDTs to correct plus the feed-down involved and the order of the
     corrector, which can be higher than the RDTs in case one wants to correct
@@ -159,7 +162,7 @@ def get_needed_orders(rdt_maps: Sequence[dict], feed_down: int) -> Sequence[int]
 
 
 # Order Checks ----
-def check_corrector_order(rdt_maps: Sequence[dict], update_optics: bool, feed_down: int):
+def check_corrector_order(rdt_maps: Sequence[RDTMap], update_optics: bool, feed_down: int):
     """ Perform checks on corrector orders compared to RDT orders and feed-down. """
     for rdt_map in rdt_maps:
         for rdt, correctors in rdt_map.items():
@@ -167,7 +170,7 @@ def check_corrector_order(rdt_maps: Sequence[dict], update_optics: bool, feed_do
             _check_update_optics(rdt, correctors, rdt_map, update_optics, feed_down)
 
 
-def _check_update_optics(rdt: RDT, correctors: list, rdt_map: dict, update_optics: bool, feed_down: int):
+def _check_update_optics(rdt: RDT, correctors: Sequence[str], rdt_map: RDTMap, update_optics: bool, feed_down: int):
     """ Check if corrector values are actually set before they are needed for feed-down.
     Otherwise an error is thrown. This is only problematic if `update_optics` is `True`.
 
@@ -207,7 +210,7 @@ def _check_update_optics(rdt: RDT, correctors: list, rdt_map: dict, update_optic
                     f" the corrector is defined by {rdt.name}.")
 
 
-def _check_corrector_order_not_lower(rdt: RDT, correctors: List[str]):
+def _check_corrector_order_not_lower(rdt: RDT, correctors: Sequence[str]):
     """ Check if only higher and equal order correctors are defined to correct
     a given rdt."""
     wrong_correctors = [c for c in correctors if int(c[1]) < rdt.order]
