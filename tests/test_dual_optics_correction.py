@@ -23,7 +23,7 @@ def test_dual_optics(tmp_path: Path):
     # Setup ----------------------------------------------------------------
     beta = 2
     error_value = 2
-    optics1 = generate_pseudo_model(
+    twiss1 = generate_pseudo_model(
         accel=accel, n_ips=n_ips, n_magnets=n_magnets, betax=beta, betay=beta)
     errors1 = generate_errortable(
         index=get_some_magnet_names(n_ips=n_ips, n_magnets=n_magnets),
@@ -33,7 +33,7 @@ def test_dual_optics(tmp_path: Path):
     # Optics 2
     beta2 = 4
     error_value2 = 3 * error_value
-    optics2 = generate_pseudo_model(
+    twiss2 = generate_pseudo_model(
         accel=accel, n_ips=n_ips, n_magnets=n_magnets, betax=beta2, betay=beta2)
     errors2 = generate_errortable(
         index=get_some_magnet_names(n_ips=n_ips, n_magnets=n_magnets),
@@ -49,7 +49,7 @@ def test_dual_optics(tmp_path: Path):
         with pytest.raises(np.linalg.LinAlgError):
             _, df_corrections = irnl_correct(
                 accel=accel,
-                optics=[optics1, optics2],
+                twiss=[twiss1, twiss2],
                 errors=[errors1, errors2],
                 beams=[1, 1],
                 rdts=[rdt, ],
@@ -62,7 +62,7 @@ def test_dual_optics(tmp_path: Path):
     # Best approximation for corrector values, via least-squares:
     _, df_corrections = irnl_correct(
         accel=accel,
-        optics=[optics1, optics2],
+        twiss=[twiss1, twiss2],
         errors=[errors1, errors2],
         beams=[1, 1],
         rdts=[rdt, ],
@@ -107,7 +107,7 @@ def test_dual_optics_rdts(tmp_path: Path):
     rdt1 = "f4000"
     beta = 2
     error_value = 2
-    optics1 = generate_pseudo_model(
+    twiss1 = generate_pseudo_model(
         accel=accel, n_ips=n_ips, n_magnets=n_magnets, betax=beta, betay=beta)
     errors1 = generate_errortable(
         index=get_some_magnet_names(n_ips=n_ips, n_magnets=n_magnets),
@@ -118,7 +118,7 @@ def test_dual_optics_rdts(tmp_path: Path):
     rdt2 = "f2002"
     beta2 = 4
     error_value2 = error_value
-    optics2 = generate_pseudo_model(
+    twiss2 = generate_pseudo_model(
         accel=accel, n_ips=n_ips, n_magnets=n_magnets, betax=beta2, betay=beta2)
 
     errors2 = generate_errortable(
@@ -129,7 +129,7 @@ def test_dual_optics_rdts(tmp_path: Path):
     # Correction ---------------------------------------------------------------
     _, df_corrections = irnl_correct(
         accel=accel,
-        optics=[optics1, optics2],
+        twiss=[twiss1, twiss2],
         errors=[errors1, errors2],
         beams=[1, 1],
         rdts=[rdt1, ],

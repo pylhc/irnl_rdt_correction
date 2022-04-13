@@ -2,10 +2,10 @@ import pytest
 from pandas.testing import assert_frame_equal
 
 from irnl_rdt_correction.equation_system import get_integral_sign
-from irnl_rdt_correction.io_handling import switch_signs_for_beams
+from irnl_rdt_correction.io_handling import maybe_switch_signs
 from irnl_rdt_correction.irnl_rdt_correction import main as irnl_correct
 from irnl_rdt_correction.rdt_handling import IRCorrector, RDT
-from irnl_rdt_correction.utilities import list2str
+from irnl_rdt_correction.utilities import list2str, Optics
 from tests.helpers import ABC, generate_pseudo_model, get_opposite_sign_beam4_kl_columns, generate_errortable, MAX_N
 
 
@@ -32,23 +32,23 @@ def test_wrong_arguments():
 @pytest.mark.parametrize('beam', (1, 2, 4))
 def test_switch_signs(beam: int):
     all_k = [f"K{order}{orientation}L" for order in range(2, MAX_N) for orientation in ("S", "")]
-    optics = generate_pseudo_model(n_ips=1, n_magnets=10, accel='lhc', x=10, y=5)
-    optics[all_k] = 1
+    twiss = generate_pseudo_model(n_ips=1, n_magnets=10, accel='lhc', x=10, y=5)
+    twiss[all_k] = 1
 
-    errors = generate_errortable(index=optics.index, value=2.)
+    errors = generate_errortable(index=twiss.index, value=2.)
 
     # make copies as it switches in place
-    optics_switch = optics.copy()
+    twiss_switch = twiss.copy()
     errors_switch = errors.copy()
-    switch_signs_for_beams([optics_switch], [errors_switch], [beam])
+    maybe_switch_signs(Optics(beam=beam, twiss=twiss_switch, errors=errors_switch))
 
     if beam != 2:
-        assert_frame_equal(optics, optics_switch)
+        assert_frame_equal(twiss, twiss_switch)
         assert_frame_equal(errors, errors_switch)
     else:
-        switch_col_optics_mask = optics.columns.isin(["X"])
-        assert_frame_equal(optics.loc[:, switch_col_optics_mask], -optics_switch.loc[:, switch_col_optics_mask])
-        assert_frame_equal(optics.loc[:, ~switch_col_optics_mask], optics_switch.loc[:, ~switch_col_optics_mask])
+        switch_col_optics_mask = twiss.columns.isin(["X"])
+        assert_frame_equal(twiss.loc[:, switch_col_optics_mask], -twiss_switch.loc[:, switch_col_optics_mask])
+        assert_frame_equal(twiss.loc[:, ~switch_col_optics_mask], twiss_switch.loc[:, ~switch_col_optics_mask])
 
         switch_col_errors_mask = errors.columns.isin(["DX"] + get_opposite_sign_beam4_kl_columns(range(MAX_N)))
         assert_frame_equal(errors.loc[:, switch_col_errors_mask], -errors_switch.loc[:, switch_col_errors_mask])

@@ -13,15 +13,29 @@ import tfs
 from pandas import DataFrame
 from tfs import TfsDataFrame
 
-from irnl_rdt_correction.constants import PLANES, DELTA, EXT_MADX, EXT_TFS
-from irnl_rdt_correction.utilities import is_anti_mirror_symmetric, idx2str, list2str
+from irnl_rdt_correction.constants import PLANES, DELTA, EXT_MADX, EXT_TFS, StrOrDataFrame
+from irnl_rdt_correction.utilities import is_anti_mirror_symmetric, idx2str, list2str, Optics
 
 LOG = logging.getLogger(__name__)
 X, Y = PLANES
 
+
 # Input ------------------------------------------------------------------------
 
-def get_tfs(paths: Sequence) -> Sequence[tfs.TfsDataFrame]:
+
+def get_optics(beams: Sequence[int],
+               optics: Sequence[StrOrDataFrame], errors: Sequence[StrOrDataFrame],
+               orders: Sequence[int], ignore_missing_columns: bool):
+    optics_dfs = get_tfs(optics)
+    errors_dfs = get_tfs(errors)
+
+    optics_seq = check_dfs(beams, optics_dfs, errors_dfs, orders, ignore_missing_columns)
+    for optics in optics_seq:
+        maybe_switch_signs(optics)
+    return optics_seq
+
+
+def get_tfs(paths: Sequence) -> Sequence[TfsDataFrame]:
     if isinstance(paths[0], str) or isinstance(paths[0], Path):
         return tuple(tfs.read_tfs(path, index="NAME") for path in paths)
     return paths
@@ -109,8 +123,8 @@ def write_tfs(out_path: Path, correction_df: DataFrame):
 
 # Utils ------------------------------------------------------------------------
 
-def check_dfs(optics_dfs: Sequence[DataFrame], errors_dfs: Sequence[DataFrame],
-              beams: Sequence[int], orders: Sequence[int], ignore_missing_columns: bool):
+def check_dfs(beams: Sequence[int], optics_dfs: Sequence[DataFrame], errors_dfs: Sequence[DataFrame],
+              orders: Sequence[int], ignore_missing_columns: bool) -> Sequence[Optics]:
     """ Check the read optics and error dataframes for validity. """
     if len(optics_dfs) > 2 or len(errors_dfs) > 2:
         raise NotImplementedError("A maximum of two optics can be corrected "
@@ -159,10 +173,10 @@ def check_dfs(optics_dfs: Sequence[DataFrame], errors_dfs: Sequence[DataFrame],
                 LOG.warning(text + " They are assumed to be zero.")
                 for kl in not_found_strengths:
                     df[kl] = 0
+    return [Optics(beam=b, twiss=o, errors=e) for b, o, e in zip(beams, optics_dfs, errors_dfs)]
 
 
-def switch_signs_for_beams(optics_dfs: Iterable[tfs.TfsDataFrame],
-                           error_dfs: Iterable[tfs.TfsDataFrame], beams: Iterable[int]):
+def maybe_switch_signs(optics: Optics):
     """ Switch the signs for Beam optics.
      This is due to the switch in direction between beam and
      (anti-) symmetry after a rotation of 180deg around the y-axis of magnets.
@@ -170,15 +184,14 @@ def switch_signs_for_beams(optics_dfs: Iterable[tfs.TfsDataFrame],
 
      This brings the Beam 2 KNL and x values to Beam 4 definition.
      """
-    for idx, (optics_df, error_df, beam) in enumerate(zip(optics_dfs, error_dfs, beams)):
-        if beam == 2:
-            LOG.debug(f"Beam 2 input found. Switching signs for X and K(S)L values when needed.")
-            optics_df[X] = -optics_df[X]
-            error_df[f"{DELTA}{X}"] = -error_df[f"{DELTA}{X}"]
+    if optics.beam == 2:
+        LOG.debug(f"Beam 2 input found. Switching signs for X and K(S)L values when needed.")
+        optics.twiss[X] = -optics.twiss[X]
+        optics.errors[f"{DELTA}{X}"] = -optics.errors[f"{DELTA}{X}"]
 
-            # optics_df is already switched by MAD-X due to bv-flag.
-            columns = error_df.columns[error_df.columns.map(is_anti_mirror_symmetric)]
-            error_df[columns] = -error_df[columns]
+        columns = optics.errors.columns[optics.errors.columns.map(is_anti_mirror_symmetric)]
+        optics.errors[columns] = -optics.errors[columns]
 
-            # Now Beam 2 optics and errors have the same values as Beam 4
-            # i.e. the beam is now going "forward".
+        # in twiss the signs are already switched by MAD-X due to bv-flag.
+        # Now Beam 2 optics and errors have the same values as Beam 4
+        # i.e. the beam is now going "forward".

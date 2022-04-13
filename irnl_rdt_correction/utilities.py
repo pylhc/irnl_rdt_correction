@@ -7,9 +7,11 @@ Additional utilities used throughout the correction.
 import logging
 import re
 import sys
+from dataclasses import dataclass
 from time import time
 from typing import Callable, Tuple
 
+from pandas import DataFrame
 from tfs import TfsDataFrame
 
 from irnl_rdt_correction.constants import SKEW_NAME_MAP, SKEW_FIELD_MAP, FIELD_SKEW_MAP
@@ -80,6 +82,14 @@ class Timer:
                     step=step, dtime=step_time-last_time, ttime=step_time-start_time)
                 )
             last_time = step_time
+
+
+@dataclass
+class Optics:
+    """ Store Optics Data. """
+    beam: int
+    twiss: DataFrame
+    errors: DataFrame
 
 
 # KNL-Checks -------------------------------------------------------------------

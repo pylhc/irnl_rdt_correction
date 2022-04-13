@@ -8,6 +8,10 @@ in the Insertion Regions (IRs) based on the principle described in
 feed-down and using feed-down to correct lower order RDTs.
 Details can be found in [#DillyNonlinearIRCorrections2022]_ .
 
+TODO:
+ - Allow not giving errors (need to be `None` in list)
+ - Sort RDTs by highest corrector instead of highest RDT order (possibly)
+
 
 .. rubric:: References
 
@@ -31,7 +35,7 @@ import tfs
 
 from irnl_rdt_correction.equation_system import solve
 from irnl_rdt_correction.input_options import check_opt
-from irnl_rdt_correction.io_handling import get_tfs, check_dfs, switch_signs_for_beams, get_and_write_output
+from irnl_rdt_correction.io_handling import get_and_write_output, get_optics
 from irnl_rdt_correction.rdt_handling import sort_rdts, check_corrector_order, get_needed_orders
 from irnl_rdt_correction.utilities import Timer, log_setup
 
@@ -43,7 +47,7 @@ def main(**opt) -> Tuple[str, tfs.TfsDataFrame]:
 
     Keyword Args:
 
-        optics (list[str/Path/DataFrame]): Path(s) to optics file(s) or DataFrame(s) of optics.
+        twiss (list[str/Path/DataFrame]): Path(s) to twiss file(s) or DataFrame(s) of optics.
                                            Needs to contain only the elements to be corrected
                                            (e.g. only the ones in the IRs).
                                            All elements from the error-files need to be present.
@@ -111,22 +115,20 @@ def main(**opt) -> Tuple[str, tfs.TfsDataFrame]:
     LOG.info("Starting IRNL Correction.")
     timer = Timer("Start", print_fun=LOG.debug)
     opt = check_opt(opt)
-    timer.step("Opt Parsed")
+    timer.step("Opt Parsed.")
 
     rdt_maps = sort_rdts(opt.rdts, opt.rdts2)
     check_corrector_order(rdt_maps, opt.update_optics, opt.feeddown)
     needed_orders = get_needed_orders(rdt_maps, opt.feeddown)
-    timer.step("RDT Sorted")
+    timer.step("RDT Sorted.")
 
-    optics_dfs = get_tfs(opt.optics)
-    errors_dfs = get_tfs(opt.errors)
-    timer.step("Optics Loaded")
+    optics = get_optics(opt.beams, opt.twiss, opt.errors,
+                        needed_orders, opt.ignore_missing_columns)
+    timer.step("Optics Loaded.")
 
-    check_dfs(optics_dfs, errors_dfs, opt.beams, needed_orders, opt.ignore_missing_columns)
-    switch_signs_for_beams(optics_dfs, errors_dfs, opt.beams)
-    timer.step("Optics Checked")
-
-    correctors = solve(rdt_maps, optics_dfs, errors_dfs, opt)
+    correctors = solve(rdt_maps, optics,
+                       opt.accel, opt.ips, opt.update_optics, opt.ignore_corrector_settings,
+                       opt.feeddown, opt.iterations, opt.solver)
     timer.step("Done")
 
     timer.summary()

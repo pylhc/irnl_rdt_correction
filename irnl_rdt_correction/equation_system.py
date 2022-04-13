@@ -14,7 +14,7 @@ from pandas import DataFrame, Series
 from irnl_rdt_correction.constants import BETA, SIDES, PLANES, DELTA, KEYWORD, MULTIPOLE
 from irnl_rdt_correction.rdt_handling import IRCorrector, RDT
 from irnl_rdt_correction.utilities import (
-    list2str, i_pow, is_even, is_odd, is_anti_mirror_symmetric, idx2str
+    list2str, i_pow, is_even, is_odd, is_anti_mirror_symmetric, idx2str, DotDict, Optics
 )
 
 LOG = logging.getLogger(__name__)
@@ -24,44 +24,46 @@ X, Y = PLANES
 
 # Main Solving Function --------------------------------------------------------
 
-def solve(rdt_maps, optics_dfs, errors_dfs, opt):
+def solve(rdt_maps, optics_seq: Sequence[Optics],
+          accel: str, ips: Sequence[int], update_optics: bool, ignore_corrector_settings: bool,
+          feeddown: int, iterations: int, solver: str):
     """ Calculate corrections.
-    They are grouped into rdt's with common correctors. If possible, these are
-    ordered from highest order to lowest, to be able to update optics and include
-    their feed-down. """
+    They are grouped into rdt's with common correctors.
+    If possible, these are ordered from the highest order to lowest,
+    to be able to update optics and include their feed-down.
+    """
     all_correctors = []
     remaining_rdt_maps = rdt_maps
     while remaining_rdt_maps:
         current_rdt_maps, remaining_rdt_maps, corrector_names = get_current_rdt_maps(remaining_rdt_maps)
 
-        for ip in opt.ips:
-            correctors = get_available_correctors(corrector_names, opt.accel, ip, optics_dfs)
+        for ip in ips:
+            correctors = get_available_correctors(corrector_names, accel, ip, optics_seq)
             all_correctors += correctors
             if not len(correctors):
                 continue  # warnings are logged in get_available_correctors
 
-            saved_corrector_values = init_corrector_and_optics_values(correctors, optics_dfs,
-                                                                      opt.update_optics,
-                                                                      opt.ignore_corrector_settings)
+            saved_corrector_values = init_corrector_and_optics_values(correctors, optics_seq, update_optics,
+                                                                      ignore_corrector_settings)
 
             beta_matrix, integral = build_equation_system(
                 current_rdt_maps, correctors,
-                ip, optics_dfs, errors_dfs, opt.beams, opt.feeddown,
+                ip, optics_seq, feeddown,
             )
-            for iteration in range(opt.iterations):
-                solve_equation_system(correctors, beta_matrix, integral, opt.solver)  # changes corrector values
-                update_optics(correctors, optics_dfs, opt.beams)  # update corrector values in optics
+            for iteration in range(iterations):
+                solve_equation_system(correctors, beta_matrix, integral, solver)  # changes corrector values
+                optics_update(correctors, optics_seq)  # update corrector values in optics
 
                 # update integral values after iteration:
                 integral_before = integral
                 _, integral = build_equation_system(
                     current_rdt_maps, [],  # empty correctors list skips beta-matrix calculation
-                    ip, optics_dfs, errors_dfs, opt.beams, opt.feeddown
+                    ip, optics_seq, feeddown
                 )
-                _log_correction(integral_before, integral, current_rdt_maps, optics_dfs, iteration, ip)
+                _log_correction(integral_before, integral, current_rdt_maps, optics_seq, iteration, ip)
 
             LOG.info(f"Correction of IP{ip:d} complete.")
-            restore_optics_values(saved_corrector_values, optics_dfs)  # hint: nothing saved if update_optics is True
+            restore_optics_values(saved_corrector_values, optics_seq)  # hint: nothing saved if update_optics is True
     return sorted(all_correctors)
 
 
@@ -107,7 +109,7 @@ def get_current_rdt_maps(rdt_maps):
 
 
 def get_available_correctors(field_components: Set[str], accel: str, ip: int,
-                             optics_dfs: Sequence[DataFrame]) -> Sequence[IRCorrector]:
+                             optics_seq: Sequence[Optics]) -> Sequence[IRCorrector]:
     """ Gets the available correctors by checking for their presence in the optics.
     If the corrector is not found in this ip, the ip is skipped.
     If only one corrector (left or right) is present a warning is issued.
@@ -119,7 +121,7 @@ def get_available_correctors(field_components: Set[str], accel: str, ip: int,
         corrector_names = []
         for side in SIDES:
             corrector = IRCorrector(field_component, accel, ip, side)
-            corr_in_optics = [_corrector_in_optics(corrector.name, df) for df in optics_dfs]
+            corr_in_optics = [_corrector_in_dataframe(corrector.name, optics.twiss) for optics in optics_seq]
             if all(corr_in_optics):
                 correctors.append(corrector)
                 corrector_names.append(corrector.name)
@@ -146,22 +148,22 @@ def get_available_correctors(field_components: Set[str], accel: str, ip: int,
     return list(sorted(correctors))  # do not have to be sorted, but looks nicer
 
 
-def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_dfs: Sequence[DataFrame],
+def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_seq: Sequence[Optics],
                                      update_optics: bool, ignore_settings: bool):
     """ If wished save original corrector values from optics (for later restoration)
     and sync corrector values in list and optics. """
     saved_values = {}
 
     for corrector in correctors:
-        values = [df.loc[corrector.name, corrector.strength_component] for df in optics_dfs]
+        values = [optic.twiss.loc[corrector.name, corrector.strength_component] for optic in optics_seq]
 
         if not update_optics:
             saved_values[corrector] = values
 
         if ignore_settings:
             # set corrector value in optics to zero
-            for df in optics_dfs:
-                df.loc[corrector.name, corrector.strength_component] = 0
+            for optics in optics_seq:
+                optics.twiss.loc[corrector.name, corrector.strength_component] = 0
         else:
             if any(np.diff(values)):
                 raise ValueError(f"Initial value for corrector {corrector.name} differs "
@@ -174,8 +176,7 @@ def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_d
 # Build Equation System --------------------------------------------------------
 
 def build_equation_system(rdt_maps: Sequence[dict], correctors: Sequence[IRCorrector], ip: int,
-                          optics_dfs: Sequence, errors_dfs: Sequence, beams: Sequence,
-                          feeddown: int) -> Tuple[np.ndarray, np.ndarray]:
+                          optics_seq: Sequence[Optics], feeddown: int) -> Tuple[np.ndarray, np.ndarray]:
     """ Builds equation system as in Eq. (43) in [#DillyNonlinearIRCorrections2022]_
     for a given ip for all given optics and error files (i.e. beams) and rdts.
 
@@ -183,39 +184,40 @@ def build_equation_system(rdt_maps: Sequence[dict], correctors: Sequence[IRCorre
         b_matrix: np.array N_rdts x  N_correctors
         integral: np.array N_rdts x 1
      """
-    n_rdts = sum(len(rdt_map.keys()) for rdt_map, _ in zip(rdt_maps, optics_dfs))
+    n_rdts = sum(len(rdt_map.keys()) for rdt_map, _ in zip(rdt_maps, optics_seq))
     b_matrix = np.zeros([n_rdts, len(correctors)])
     integral = np.zeros([n_rdts, 1])
 
     idx_row = 0  # row in equation system
-    for idx_file, rdts, optics_df, errors_df, beam in zip(range(1, 3), rdt_maps, optics_dfs, errors_dfs, beams):
+    for idx_file, rdts, optics in zip(range(1, 3), rdt_maps, optics_seq):
         for rdt, rdt_correctors in rdts.items():
-            LOG.info(f"Calculating {rdt}, optics {idx_file}/{len(optics_dfs)}, IP{ip:d}")
-            integral[idx_row] = get_elements_integral(rdt, ip, optics_df, errors_df, feeddown)
+            LOG.info(f"Calculating {rdt}, optics {idx_file}/{len(optics_seq)}, IP{ip:d}")
+            integral[idx_row] = get_elements_integral(rdt, ip, optics, feeddown)
 
             for idx_corrector, corrector in enumerate(correctors):
                 if corrector.field_component not in rdt_correctors:
                     continue
-                b_matrix[idx_row][idx_corrector] = get_corrector_coefficient(rdt, corrector, optics_df, errors_df, beam)
+                b_matrix[idx_row][idx_corrector] = get_corrector_coefficient(rdt, corrector, optics)
             idx_row += 1
 
     return b_matrix, integral
 
 
-def get_elements_integral(rdt, ip, optics_df, errors_df, feeddown):
+def get_elements_integral(rdt: RDT, ip: int, optics: Optics, feeddown: int):
     """ Calculate the RDT integral for all elements of the IP. """
     integral = 0
     lm, jk = rdt.l + rdt.m, rdt.j + rdt.k
+    twiss_df, errors_df = optics.twiss, optics.errors
     # Integral on side ---
     for side in SIDES:
         LOG.debug(f" - Integral on side {side}.")
         side_sign = get_integral_sign(rdt.order, side)
 
         # get IP elements, errors and twiss have same elements because of check_dfs
-        elements = optics_df.index[optics_df.index.str.match(fr".*{side}{ip:d}(\.B[12])?")]
+        elements = twiss_df.index[twiss_df.index.str.match(fr".*{side}{ip:d}(\.B[12])?")]
 
-        betax = optics_df.loc[elements, f"{BETA}{X}"]
-        betay = optics_df.loc[elements, f"{BETA}{Y}"]
+        betax = twiss_df.loc[elements, f"{BETA}{X}"]
+        betay = twiss_df.loc[elements, f"{BETA}{Y}"]
         if rdt.swap_beta_exp:
             # in case of beta-symmetry, this corrects for the same RDT in the opposite beam.
             betax = betax**(lm/2.)
@@ -224,17 +226,17 @@ def get_elements_integral(rdt, ip, optics_df, errors_df, feeddown):
             betax = betax**(jk/2.)
             betay = betay**(lm/2.)
 
-        dx = optics_df.loc[elements, X] + errors_df.loc[elements, f"{DELTA}{X}"]
-        dy = optics_df.loc[elements, Y] + errors_df.loc[elements, f"{DELTA}{Y}"]
+        dx = twiss_df.loc[elements, X] + errors_df.loc[elements, f"{DELTA}{X}"]
+        dy = twiss_df.loc[elements, Y] + errors_df.loc[elements, f"{DELTA}{Y}"]
         dx_idy = dx + 1j*dy
 
         k_sum = Series(0j, index=elements)  # Complex sum of strengths (from K_n + iJ_n) and feed-down to them
 
         for q in range(feeddown+1):
             n_mad = rdt.order+q-1
-            kl_opt = optics_df.loc[elements, f"K{n_mad:d}L"]
+            kl_opt = twiss_df.loc[elements, f"K{n_mad:d}L"]
             kl_err = errors_df.loc[elements, f"K{n_mad:d}L"]
-            iksl_opt = 1j*optics_df.loc[elements, f"K{n_mad:d}SL"]
+            iksl_opt = 1j*twiss_df.loc[elements, f"K{n_mad:d}SL"]
             iksl_err = 1j*errors_df.loc[elements, f"K{n_mad:d}SL"]
 
             k_sum += ((kl_opt + kl_err + iksl_opt + iksl_err) *
@@ -245,16 +247,17 @@ def get_elements_integral(rdt, ip, optics_df, errors_df, feeddown):
     return integral
 
 
-def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics_df: DataFrame, errors_df: DataFrame, beam: int):
+def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics):
     """ Calculate B-Matrix Element for Corrector. """
     LOG.debug(f" - Corrector {corrector.name}.")
     lm, jk = rdt.l + rdt.m, rdt.j + rdt.k
+    twiss_df, errors_df = optics.twiss, optics.errors
 
     sign_i = np.real(i_pow(lm + (lm % 2)))  # i_pow is always real
     sign_corrector = sign_i * get_integral_sign(rdt.order, corrector.side)
 
-    betax = optics_df.loc[corrector.name, f"{BETA}{X}"]
-    betay = optics_df.loc[corrector.name, f"{BETA}{Y}"]
+    betax = twiss_df.loc[corrector.name, f"{BETA}{X}"]
+    betay = twiss_df.loc[corrector.name, f"{BETA}{Y}"]
     if rdt.swap_beta_exp:
         # in case of beta-symmetry, this corrects for the same RDT in the opposite beam.
         betax = betax**(lm/2.)
@@ -267,8 +270,8 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics_df: DataF
     p = corrector.order - rdt.order
     if p:
         # Corrector contributes via feed-down
-        dx = optics_df.loc[corrector.name, X] + errors_df.loc[corrector.name, f"{DELTA}{X}"]
-        dy = optics_df.loc[corrector.name, Y] + errors_df.loc[corrector.name, f"{DELTA}{Y}"]
+        dx = twiss_df.loc[corrector.name, X] + errors_df.loc[corrector.name, f"{DELTA}{X}"]
+        dy = twiss_df.loc[corrector.name, Y] + errors_df.loc[corrector.name, f"{DELTA}{Y}"]
         dx_idy = dx + 1j*dy
         z_cmplx = (dx_idy**p) / np.math.factorial(p)
         if (corrector.skew and is_odd(lm)) or (not corrector.skew and is_even(lm)):
@@ -284,7 +287,7 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics_df: DataF
     # for in Beam 2 and Beam 4. The correct sign in MAD-X is then assured by the
     # lattice setup, where these correctors have a minus sign in Beam 4.
     sign_beam = 1
-    if is_even(beam) and is_anti_mirror_symmetric(corrector.strength_component):
+    if is_even(optics.beam) and is_anti_mirror_symmetric(corrector.strength_component):
         sign_beam = -1
 
     return sign_beam * sign_corrector * z * betax * betay
@@ -367,36 +370,39 @@ def _assign_corrector_values(correctors: Sequence[IRCorrector], values: Sequence
 # Update Optics ----------------------------------------------------------------
 
 
-def update_optics(correctors: Sequence[IRCorrector], optics_dfs: Sequence[DataFrame], beams: Sequence[int]):
+def optics_update(correctors: Sequence[IRCorrector], optics_seq: Sequence[Optics]):
     """ Updates the corrector strength values in the current optics. """
-    for beam, optics in zip(beams, optics_dfs):
+    for optics in optics_seq:
         for corrector in correctors:
-            sign = -1 if is_even(beam) and is_anti_mirror_symmetric(corrector.strength_component) else 1
-            optics.loc[corrector.name, corrector.strength_component] = sign * corrector.value
+            sign = -1 if is_even(optics.beam) and is_anti_mirror_symmetric(corrector.strength_component) else 1
+            optics.twiss.loc[corrector.name, corrector.strength_component] = sign * corrector.value
 
 
-def restore_optics_values(saved_values: dict, optics_dfs: Sequence[DataFrame]):
+def restore_optics_values(saved_values: dict, optics_seq: Sequence[Optics]):
     """ Restore saved initial corrector values (if any) to optics. """
     for corrector, values in saved_values.items():
-        for df, val in zip(optics_dfs, values):
-            df.loc[corrector.name, corrector.strength_component] = val
+        for optics, val in zip(optics_seq, values):
+            optics.twiss.loc[corrector.name, corrector.strength_component] = val
 
 
 # Helper -----------------------------------------------------------------------
 
 def _log_correction(integral_before: np.array, integral_after: np.array, rdt_maps: Sequence[dict],
-                    optics_dfs: Sequence[DataFrame], iteration: int, ip: int):
+                    optics_seq: Sequence[Optics], iteration: int, ip: int):
     """ Log the correction initial and final value of this iteration. """
     LOG.info(f"RDT change in IP{ip:d}, iteration {iteration+1:d}:")
     integral_iter = zip(integral_before, integral_after)
-    for idx_optics, rdts, _ in zip(range(1, 3), rdt_maps, optics_dfs):
+    for idx_optics, rdts, optics in zip(range(1, 3), rdt_maps, optics_seq):
         for rdt in rdts.keys():
             val_before, val_after = next(integral_iter)
             delta = val_after - val_before
-            LOG.info(f"Optics {idx_optics}, {rdt.name}: {val_before[0]:.2e} -> {val_after[0]:.2e} ({delta[0]:+.2e})")
+            LOG.info(
+                f"Optics {idx_optics} (Beam {optics.beam}), {rdt.name}: "
+                f"{val_before[0]:.2e} -> {val_after[0]:.2e} ({delta[0]:+.2e})"
+            )
 
 
-def _corrector_in_optics(name: str, df: DataFrame) -> bool:
+def _corrector_in_dataframe(name: str, df: DataFrame) -> bool:
     """ Checks if corrector is present in optics and has the KEYWORD MULTIPOLE. """
     if name not in df.index:
         LOG.debug(f'{name} not found in optics.')

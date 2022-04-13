@@ -54,10 +54,10 @@ DEFAULT_RDTS = {
 def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--optics",
-        dest="optics",
+        "--twiss",
+        dest="twiss",
         nargs="+",
-        help="Path(s) to optics file(s). Defines which elements to correct for!",
+        help="Path(s) to twiss file(s). Defines which elements to correct for!",
         required=True,
     )
     parser.add_argument(
@@ -197,7 +197,7 @@ def check_opt(opt: Union[dict, DotDict]) -> DotDict:
         opt.rdts = DEFAULT_RDTS[opt.accel]
 
     # Check required and rdts:
-    for name in ('optics', 'errors', 'beams', 'rdts'):
+    for name in ('twiss', 'errors', 'beams', 'rdts'):
         inputs = opt.get(name)
         if inputs is None or isinstance(inputs, str) or not isinstance(inputs, (Iterable, Sized)):
             raise ValueError(f"Parameter '{name}' is required and needs to be "
@@ -205,7 +205,7 @@ def check_opt(opt: Union[dict, DotDict]) -> DotDict:
                              f"Instead was '{inputs}'.")
 
     # Copy DataFrames as they might be modified
-    opt.optics = [o.copy() for o in opt.optics]
+    opt.twiss = [o.copy() for o in opt.twiss]
     opt.errors = [e.copy() for e in opt.errors]
 
     if opt.feeddown < 0 or not (opt.feeddown == int(opt.feeddown)):

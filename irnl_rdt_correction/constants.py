@@ -4,6 +4,10 @@ Constants
 
 These constants rely a lot on the HL-LHC/LHC Naming Scheme.
 """
+from typing import Union
+
+from pandas import DataFrame
+from tfs import TfsDataFrame
 
 # Mappings ---
 ORDER_NAME_MAP = {1: "B", 2: "Q", 3: "S", 4: "O", 5: "D", 6: "T"}
@@ -27,3 +31,5 @@ MULTIPOLE = "MULTIPOLE"
 EXT_TFS = ".tfs"  # suffix for dataframe file
 EXT_MADX = ".madx"  # suffix for madx-command file
 
+# Types ---
+StrOrDataFrame = Union[str, DataFrame, TfsDataFrame]

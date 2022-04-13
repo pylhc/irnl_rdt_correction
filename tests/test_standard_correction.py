@@ -42,7 +42,7 @@ def test_basic_correction(tmp_path: Path, order: int, orientation: str, accel: s
     n_orientation = len(["S", ""])
 
     # Setup ----------------------------------------------------------------
-    optics = generate_pseudo_model(accel=accel, n_ips=n_ips, n_magnets=n_magnets)
+    twiss = generate_pseudo_model(accel=accel, n_ips=n_ips, n_magnets=n_magnets)
     errors = generate_errortable(index=get_some_magnet_names(n_ips=n_ips, n_magnets=n_magnets))
     error_component = f"K{order-1}{orientation}L"
     errors[error_component] = error_value
@@ -54,7 +54,7 @@ def test_basic_correction(tmp_path: Path, order: int, orientation: str, accel: s
     # Correction -----------------------------------------------------------
     madx_corrections, df_corrections = irnl_correct(
         accel=accel,
-        optics=[optics],
+        twiss=[twiss],
         errors=[errors],
         beams=[1],
         output=tmp_path / "correct",
@@ -118,14 +118,14 @@ def test_lhc_correction(tmp_path: Path, beam: int):
     """
     # Setup ----------------------------------------------------------------
     np.random.seed(20211108)
-    optics = read_lhc_model(beam)
-    mask_ir = get_ir_magnets_mask(optics.index)
-    optics = optics.loc[mask_ir, :]
-    correctors = optics.index[get_corrector_magnets_mask(optics.index)]
+    twiss = read_lhc_model(beam)
+    mask_ir = get_ir_magnets_mask(twiss.index)
+    twiss = twiss.loc[mask_ir, :]
+    correctors = twiss.index[get_corrector_magnets_mask(twiss.index)]
     correct_ips = (1, 5)
     correctors = [c for c in correctors if int(c[-1]) in correct_ips]
 
-    errors = generate_errortable(index=optics.index)
+    errors = generate_errortable(index=twiss.index)
 
     # here: 2 == sextupole
     errors.loc[:, [f"K{order}{orientation}L"
@@ -137,7 +137,7 @@ def test_lhc_correction(tmp_path: Path, beam: int):
     # Correction -----------------------------------------------------------
     madx_corrections, df_corrections = irnl_correct(
         accel='lhc',
-        optics=[optics],
+        twiss=[twiss],
         errors=[errors],
         beams=[beam],
         output=tmp_path / "correct",
@@ -157,7 +157,7 @@ def test_lhc_correction(tmp_path: Path, beam: int):
 
     found_correctors = df_corrections[NAME].to_numpy()
     for name in correctors:
-        if optics.loc[name, KEYWORD] == PLACEHOLDER:
+        if twiss.loc[name, KEYWORD] == PLACEHOLDER:
             continue
         assert name in found_correctors
 

@@ -23,7 +23,7 @@ def test_general_feeddown(tmp_path: Path, x: float, y: float):
     n_sides = 2
 
     # Setup ----------------------------------------------------------------
-    optics = generate_pseudo_model(
+    twiss = generate_pseudo_model(
         accel=accel, n_ips=n_ips, n_magnets=n_magnets, x=x, y=y)
     errors = generate_errortable(
         index=get_some_magnet_names(n_ips=n_ips, n_magnets=n_magnets),
@@ -34,7 +34,7 @@ def test_general_feeddown(tmp_path: Path, x: float, y: float):
     rdts = "f4000", "f3001"
     _, df_corrections = irnl_correct(
         accel=accel,
-        optics=[optics],
+        twiss=[twiss],
         errors=[errors],
         beams=[1],
         rdts=rdts,
@@ -47,7 +47,7 @@ def test_general_feeddown(tmp_path: Path, x: float, y: float):
 
     _, df_corrections_fd1 = irnl_correct(
         accel=accel,
-        optics=[optics],
+        twiss=[twiss],
         errors=[errors],
         beams=[1],
         rdts=rdts,
@@ -62,7 +62,7 @@ def test_general_feeddown(tmp_path: Path, x: float, y: float):
     errors["K5L"] = error_value  # normal dodecapole errors
     _, df_corrections_fd2 = irnl_correct(
         accel=accel,
-        optics=[optics],
+        twiss=[twiss],
         errors=[errors],
         beams=[1],
         rdts=rdts,
@@ -120,7 +120,7 @@ def test_correct_via_feeddown(tmp_path: Path, x: float, y: float, corrector: str
     n_sides = 2
 
     # Setup ----------------------------------------------------------------
-    optics = generate_pseudo_model(
+    twiss = generate_pseudo_model(
         accel=accel, n_ips=n_ips, n_magnets=n_magnets, x=x, y=y)
     errors = generate_errortable(
         index=get_some_magnet_names(n_ips=n_ips, n_magnets=n_magnets),
@@ -131,7 +131,7 @@ def test_correct_via_feeddown(tmp_path: Path, x: float, y: float, corrector: str
     rdts = {"f4000": [corrector]}
     _, df_corrections = irnl_correct(
         accel=accel,
-        optics=[optics],
+        twiss=[twiss],
         errors=[errors],
         beams=[1],
         rdts=rdts,

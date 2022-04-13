@@ -25,12 +25,12 @@ def test_different_rdts(tmp_path: Path):
     n_ips = 4
 
     # Setup ----------------------------------------------------------------
-    optics = generate_pseudo_model(accel=accel, n_ips=n_ips, n_magnets=n_magnets)
+    twiss = generate_pseudo_model(accel=accel, n_ips=n_ips, n_magnets=n_magnets)
 
     # use different beta for correctors to avoid beta cancellation
     # so that different RDTs give different corrector strengths
-    correctors_mask = get_corrector_magnets_mask(optics.index)
-    optics.loc[correctors_mask, f"{BETA}Y"] = 3
+    correctors_mask = get_corrector_magnets_mask(twiss.index)
+    twiss.loc[correctors_mask, f"{BETA}Y"] = 3
 
     errors = generate_errortable(index=get_some_magnet_names(n_ips=n_ips, n_magnets=n_magnets))
     errors["K3L"] = error_value
@@ -38,7 +38,7 @@ def test_different_rdts(tmp_path: Path):
     # Correction -----------------------------------------------------------
     _, df_corrections_f4000 = irnl_correct(
         accel=accel,
-        optics=[optics],
+        twiss=[twiss],
         errors=[errors],
         beams=[1],
         rdts=["f4000",],
@@ -51,7 +51,7 @@ def test_different_rdts(tmp_path: Path):
 
     _, df_corrections_f2200 = irnl_correct(
         accel=accel,
-        optics=[optics],
+        twiss=[twiss],
         errors=[errors],
         beams=[1],
         rdts=["f2200",],
@@ -64,7 +64,7 @@ def test_different_rdts(tmp_path: Path):
 
     _, df_corrections_f2002 = irnl_correct(
         accel=accel,
-        optics=[optics],
+        twiss=[twiss],
         errors=[errors],
         beams=[1],
         rdts=["f2002", ],
@@ -110,7 +110,7 @@ def test_switched_beta():
     # Setup ----------------------------------------------------------------
     beta = 2
     error_value = 2
-    optics = generate_pseudo_model(
+    twiss = generate_pseudo_model(
         accel=accel, n_ips=n_ips, n_magnets=n_magnets, betax=beta, betay=beta)
     errors = generate_errortable(
         index=get_some_magnet_names(n_ips=n_ips, n_magnets=n_magnets),
@@ -120,7 +120,7 @@ def test_switched_beta():
     # Correction ---------------------------------------------------------------
     _, df_corrections = irnl_correct(
         accel=accel,
-        optics=[optics, ],
+        twiss=[twiss, ],
         errors=[errors, ],
         beams=[1, ],
         rdts=["f4000", ],
@@ -131,7 +131,7 @@ def test_switched_beta():
 
     _, df_corrections_switched = irnl_correct(
         accel=accel,
-        optics=[optics, ],
+        twiss=[twiss, ],
         errors=[errors, ],
         beams=[1, ],
         rdts=["f0004*", ],  # only for testing purposes use this RDT
