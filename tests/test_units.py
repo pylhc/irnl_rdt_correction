@@ -6,7 +6,10 @@ from irnl_rdt_correction.io_handling import maybe_switch_signs
 from irnl_rdt_correction.main import irnl_rdt_correction
 from irnl_rdt_correction.rdt_handling import IRCorrector, RDT
 from irnl_rdt_correction.utilities import list2str, Optics
-from tests.helpers import ABC, generate_pseudo_model, get_opposite_sign_beam4_kl_columns, generate_errortable, MAX_N
+from tests.helpers import (
+    ABC, generate_pseudo_model, get_opposite_sign_beam4_kl_columns, generate_errortable,
+    MAX_N,
+)
 
 
 def test_get_integral_sign():

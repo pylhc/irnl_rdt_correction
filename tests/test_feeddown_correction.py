@@ -4,8 +4,8 @@ import pytest
 
 from irnl_rdt_correction.main import irnl_rdt_correction
 from tests.helpers import (
-    generate_pseudo_model, generate_errortable, get_some_magnet_names, VALUE, STRENGTH, IP, \
-    EPS, FIELD
+    generate_pseudo_model, generate_errortable, get_some_magnet_names,
+    VALUE, STRENGTH, IP, EPS, FIELD
 )
 
 

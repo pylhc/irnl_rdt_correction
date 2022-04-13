@@ -5,7 +5,8 @@ import pytest
 
 from irnl_rdt_correction.main import irnl_rdt_correction
 from tests.helpers import (
-    generate_pseudo_model, generate_errortable, get_some_magnet_names, IP, VALUE, EPS
+    generate_pseudo_model, generate_errortable, get_some_magnet_names,
+    IP, VALUE, EPS
 )
 
 

@@ -6,9 +6,10 @@ import pytest
 from constants import KEYWORD
 from irnl_rdt_correction.main import irnl_rdt_correction
 from tests.helpers import (
-    MAX_N, generate_pseudo_model, generate_errortable, get_some_magnet_names, CIRCUIT, STRENGTH,
-    IP, EPS, VALUE, read_lhc_model, get_ir_magnets_mask, get_corrector_magnets_mask,
-    get_opposite_sign_beam4_kl_columns, NAME, PLACEHOLDER
+    generate_pseudo_model, generate_errortable, get_some_magnet_names,
+    read_lhc_model, get_ir_magnets_mask, get_corrector_magnets_mask,
+    get_opposite_sign_beam4_kl_columns,
+    NAME, PLACEHOLDER, CIRCUIT, STRENGTH, IP, EPS, VALUE, MAX_N,
 )
 
 
