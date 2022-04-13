@@ -175,8 +175,10 @@ def get_available_correctors(field_components: Set[str], accel: str, ip: int,
 
 def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_seq: Sequence[Optics],
                                      update_optics: bool, ignore_settings: bool) -> Dict[IRCorrector, Sequence[float]]:
-    """ If wished save original corrector values from optics (for later restoration)
-    and sync corrector values in list and optics. """
+    """ Save original corrector values from optics (for later restoration, only if ``update_optics`` is ``False``)
+    and if ``ignore_settings`` is ``True``, the corrector values in the optics are set to ``0``.
+    Otherwise, the corrector object value is initialized with the value from the optics.
+    An error is thrown if the optics differ in value."""
     saved_values = {}
 
     for corrector in correctors:
@@ -193,7 +195,7 @@ def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_s
             if any(np.diff(values)):
                 raise ValueError(f"Initial value for corrector {corrector.name} differs "
                                  f"between optics.")
-            # use optics value as initial value
+            # use optics value as initial value (as equation system calculates corrector delta!!)
             corrector.value = values[0]
     return saved_values
 
@@ -383,13 +385,13 @@ APPROXIMATE_SOLVERS = ['lstsq']
 
 def _assign_corrector_values(correctors: Sequence[IRCorrector], values: Sequence):
     """ Assigns calculated values to the correctors. """
-    for corr, val in zip(correctors, values):
+    for corrector, val in zip(correctors, values):
         if len(val) > 1:
-            raise ValueError(f"Multiple Values for corrector {str(corr)} found."
+            raise ValueError(f"Multiple Values for corrector {str(corrector)} found."
                              f" There should be only one.")
-        LOG.debug(f"Updating Corrector: {str(corr)} {val[0]:+.2e}.")
-        corr.value += val[0]
-        LOG.info(str(corr))
+        LOG.debug(f"Updating Corrector: {str(corrector)} {val[0]:+.2e}.")
+        corrector.value += val[0]
+        LOG.info(str(corrector))
 
 
 # Update Optics ----------------------------------------------------------------
