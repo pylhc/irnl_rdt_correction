@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 from pandas.testing import assert_frame_equal, assert_series_equal
 
-from constants import BETA
+from irnl_rdt_correction.constants import BETA
 from irnl_rdt_correction.main import irnl_rdt_correction
 from tests.helpers import (
     generate_pseudo_model, get_corrector_magnets_mask, get_some_magnet_names,

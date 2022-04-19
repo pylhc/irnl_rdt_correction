@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from constants import KEYWORD
+from irnl_rdt_correction.constants import KEYWORD
 from irnl_rdt_correction.main import irnl_rdt_correction
 from tests.helpers import (
     generate_pseudo_model, generate_errortable, get_some_magnet_names,
