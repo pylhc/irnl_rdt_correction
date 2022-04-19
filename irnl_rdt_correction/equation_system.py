@@ -91,7 +91,7 @@ def get_current_rdt_maps(rdt_maps: Sequence[RDTMap]) -> Tuple[Sequence[RDTMap], 
             break  # found an rdt map
     else:
         # Ran through all maps without fining any non-empy ones.
-        # This should have been caught at the end of this function.
+        # This should have been caught in the last call at the end of this function.
         raise ValueError("All rdt_maps are empty. "
                          "This should have triggered an end of the solver loop "
                          "earlier. Please investigate.")
