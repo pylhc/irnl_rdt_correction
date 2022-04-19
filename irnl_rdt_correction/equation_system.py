@@ -84,7 +84,7 @@ def get_current_rdt_maps(rdt_maps: Sequence[RDTMap]) -> Tuple[Sequence[RDTMap], 
     # non-empty rdt_mapping.
     for rdt_map in rdt_maps:
         try:
-            rdt, correctors = next(iter(rdt_map.items()))
+            _, correctors_to_check = next(iter(rdt_map.items()))
         except StopIteration:
             continue  # rdt_map is empty
         else:
@@ -99,28 +99,28 @@ def get_current_rdt_maps(rdt_maps: Sequence[RDTMap]) -> Tuple[Sequence[RDTMap], 
     # Use these as initial set of correctors.
     # Notice that the current rdt has not yet been added to the new mapping.
     # This will happen in the loop, when the rdt to compare is the current rdt.
-    correctors = set(correctors)
+    correctors_to_check = set(correctors_to_check)
     checked_correctors = set()
-    while len(correctors):
+    while len(correctors_to_check):
         # find all RDTs that share correctors
-        checked_correctors |= correctors  # all correctors checked so far or to be checked in this round
+        checked_correctors |= correctors_to_check  # all correctors checked so far or to be checked in this round
         additional_correctors = set()  # new correctors found this round, i.e. correctors to be checked in next round
 
-        for corrector in correctors:
+        for corrector in correctors_to_check:
             for idx in range(n_maps):  # check for all optics
-                for rdt_current, rdt_correctors in rdt_maps[idx].items():
+                for rdt, rdt_correctors in rdt_maps[idx].items():
                     if corrector in rdt_correctors:
                         # this rdt shares one or more correctors with the original rdt
                         # it might have been added already if multiple correctors are shared
                         if rdt not in new_rdt_map[idx]:
                             # new rdt
-                            new_rdt_map[idx][rdt_current] = rdt_correctors
+                            new_rdt_map[idx][rdt] = rdt_correctors
 
                             # any hence unchecked correctors are added and will be checked in
                             # the next round until no new correctors are found.
                             additional_correctors |= (set(rdt_correctors) - checked_correctors)
 
-        correctors = additional_correctors
+        correctors_to_check = additional_correctors
 
     # gather all remaining rdts from the rdt_maps
     remaining_rdt_map = [{k: v for k, v in rdt_maps[idx].items()
