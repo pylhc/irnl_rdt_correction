@@ -145,7 +145,14 @@ def _build_rdt_mapping(rdts: RDTInputTypes) -> RDTMap:
 
         rdt_dict[rdt] = correctors
         LOG.debug(f"Added: {rdt} with correctors: {list2str(correctors)}")
-    rdt_dict = dict(sorted(rdt_dict.items(), reverse=True))  # sorts by highest order and skew first
+
+    # sort RDTs by highest RDT order and skew first:
+    rdt_dict = dict(sorted(rdt_dict.items(), reverse=True))
+
+    # sort RDTs by highest corrector order and skew first (to be tested):
+    # rdt_dict = dict(sorted(rdt_dict.items(),
+    #                        key=lambda x: max(v.replace('a', 'z')[::-1] for v in x[1]),
+    #                        reverse=True))
     return rdt_dict
 
 

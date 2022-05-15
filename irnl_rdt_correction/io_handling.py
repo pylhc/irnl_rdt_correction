@@ -7,14 +7,16 @@ Functions for reading input and writing output.
 """
 import logging
 from pathlib import Path
-from typing import Sequence, Iterable, Tuple
+from typing import Sequence, Iterable, Tuple, Union
 
+import pandas as pd
 import tfs
 from pandas import DataFrame
 from tfs import TfsDataFrame
 
 from irnl_rdt_correction.constants import PLANES, DELTA, EXT_MADX, EXT_TFS, StrOrDataFrame
 from irnl_rdt_correction.utilities import is_anti_mirror_symmetric, idx2str, list2str, Optics
+from irnl_rdt_correction.rdt_handling import IRCorrector
 
 LOG = logging.getLogger(__name__)
 X, Y = PLANES
@@ -25,7 +27,7 @@ X, Y = PLANES
 
 def get_optics(beams: Sequence[int],
                optics: Sequence[StrOrDataFrame], errors: Sequence[StrOrDataFrame],
-               orders: Sequence[int], ignore_missing_columns: bool):
+               orders: Sequence[int], ignore_missing_columns: bool) -> Sequence[Optics]:
     optics_dfs = get_tfs(optics)
     errors_dfs = get_tfs(errors)
 
@@ -43,7 +45,7 @@ def get_tfs(paths: Sequence) -> Sequence[TfsDataFrame]:
 
 # Output -----------------------------------------------------------------------
 
-def get_and_write_output(out_path: str, correctors: Sequence) -> Tuple[str, tfs.TfsDataFrame]:
+def get_and_write_output(out_path: str, correctors: Sequence[IRCorrector]) -> Tuple[str, tfs.TfsDataFrame]:
     correction_text = build_correction_str(correctors)
     correction_df = build_correction_df(correctors)
 
@@ -57,7 +59,7 @@ def get_and_write_output(out_path: str, correctors: Sequence) -> Tuple[str, tfs.
 
 # Build ---
 
-def build_correction_df(correctors: Sequence) -> TfsDataFrame:
+def build_correction_df(correctors: Sequence[IRCorrector]) -> TfsDataFrame:
     """ Build the DataFrame that contains the information for corrector powering."""
     attributes = vars(correctors[0])
     return TfsDataFrame(
@@ -66,7 +68,7 @@ def build_correction_df(correctors: Sequence) -> TfsDataFrame:
     )
 
 
-def build_correction_str(correctors: Sequence) -> str:
+def build_correction_str(correctors: Sequence[IRCorrector]) -> str:
     """ Build the MAD-X command that contains the information for corrector powering."""
     return _build_correction_str(corr for corr in correctors)
 
@@ -77,7 +79,7 @@ def build_correction_str_from_df(correctors_df: DataFrame) -> str:
     return _build_correction_str(row[1] for row in correctors_df.iterrows())
 
 
-def _build_correction_str(iterator: Iterable) -> str:
+def _build_correction_str(iterator: Iterable[Union[IRCorrector, pd.Series]]) -> str:
     """ Creates madx commands (assignments) to run for correction"""
     last_type = ''
     text = ''

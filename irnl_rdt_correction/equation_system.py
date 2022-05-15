@@ -25,7 +25,7 @@ X, Y = PLANES
 
 # Main Solving Function --------------------------------------------------------
 
-def solve(rdt_maps, optics_seq: Sequence[Optics],
+def solve(rdt_maps: Sequence[RDTMap], optics_seq: Sequence[Optics],
           accel: str, ips: Sequence[int], update_optics: bool, ignore_corrector_settings: bool,
           feeddown: int, iterations: int, solver: str):
     """ Calculate corrections.
@@ -33,8 +33,8 @@ def solve(rdt_maps, optics_seq: Sequence[Optics],
     If possible, these are ordered from the highest order to lowest,
     to be able to update optics and include their feed-down.
     """
-    all_correctors = []
-    remaining_rdt_maps = rdt_maps
+    all_correctors: Sequence[IRCorrector] = []
+    remaining_rdt_maps: Sequence[RDTMap] = rdt_maps
     while remaining_rdt_maps:
         current_rdt_maps, remaining_rdt_maps, corrector_names = get_current_rdt_maps(remaining_rdt_maps)
 
@@ -204,7 +204,7 @@ def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_s
 
 def build_equation_system(rdt_maps: Sequence[dict], correctors: Sequence[IRCorrector], ip: int,
                           optics_seq: Sequence[Optics], feeddown: int) -> Tuple[ArrayLike, ArrayLike]:
-    """ Builds equation system as in Eq. (43) in [#DillyNonlinearIRCorrections2022]_
+    """ Builds equation system as in  TODO
     for a given ip for all given optics and error files (i.e. beams) and rdts.
 
     Returns
@@ -238,7 +238,7 @@ def get_elements_integral(rdt: RDT, ip: int, optics: Optics, feeddown: int) -> f
     # Integral on side ---
     for side in SIDES:
         LOG.debug(f" - Integral on side {side}.")
-        side_sign = get_integral_sign(rdt.order, side)
+        side_sign = get_side_sign(rdt.order, side)
 
         # get IP elements, errors and twiss have same elements because of check_dfs
         elements = twiss_df.index[twiss_df.index.str.match(fr".*{side}{ip:d}(\.B[12])?")]
@@ -269,6 +269,7 @@ def get_elements_integral(rdt: RDT, ip: int, optics: Optics, feeddown: int) -> f
             k_sum += ((kl_opt + kl_err + iksl_opt + iksl_err) *
                       (dx_idy**q) / np.math.factorial(q))
 
+        # note the minus sign before the sum!
         integral += -sum(np.real(i_pow(lm) * k_sum.to_numpy()) * (side_sign * betax * betay).to_numpy())
     LOG.debug(f" -> Sum value: {integral}")
     return integral
@@ -280,13 +281,17 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
     lm, jk = rdt.l + rdt.m, rdt.j + rdt.k
     twiss_df, errors_df = optics.twiss, optics.errors
 
-    sign_i = np.real(i_pow(lm + (lm % 2)))  # i_pow is always real
-    sign_corrector = sign_i * get_integral_sign(rdt.order, corrector.side)
+    # bring the possible i from the integral to the corrector side
+    # i.e. multiply both sides of the equation by i, for odd lm.
+    # The integral always has a minus sign then. TODO
+    sign_i = np.real(i_pow(lm + (lm % 2)))  # i_pow(lm + lm%2) is always real
+    sign_corrector = sign_i * get_side_sign(rdt.order, corrector.side)
 
     betax = twiss_df.loc[corrector.name, f"{BETA}{X}"]
     betay = twiss_df.loc[corrector.name, f"{BETA}{Y}"]
     if rdt.swap_beta_exp:
-        # in case of beta-symmetry, this corrects for the same RDT in the opposite beam.
+        # in case of beta-symmetry,
+        # this corrects for the same RDT in the opposite beam. TODO
         betax = betax**(lm/2.)
         betay = betay**(jk/2.)
     else:
@@ -296,21 +301,28 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
     z = 1
     p = corrector.order - rdt.order
     if p:
-        # Corrector contributes via feed-down
+        # Corrector contributes via feed-down TODO
         dx = twiss_df.loc[corrector.name, X] + errors_df.loc[corrector.name, f"{DELTA}{X}"]
         dy = twiss_df.loc[corrector.name, Y] + errors_df.loc[corrector.name, f"{DELTA}{Y}"]
         dx_idy = dx + 1j*dy
         z_cmplx = (dx_idy**p) / np.math.factorial(p)
+
+        # Get the correct part of z_cmplx, see TODO
         if (corrector.skew and is_odd(lm)) or (not corrector.skew and is_even(lm)):
+            # K_n, l+m even
+            # J_n, l+m odd
             z = np.real(z_cmplx)
         else:
+            # K_n, l+m odd
+            # J_n, l+m even
             z = np.imag(z_cmplx)
-            if not corrector.skew:
+            if corrector.skew:
+                # J_n, l+m even
                 z = -z
         if abs(z) < 1e-15:
             LOG.warning(f"Z-coefficient for {corrector.name} in {rdt.name} is very small.")
 
-    # Account for possible anti-symmetry of the correctors field component
+    # Account for possible anti-symmetry of the corrector's field component
     # for in Beam 2 and Beam 4. The correct sign in MAD-X is then assured by the
     # lattice setup, where these correctors have a minus sign in Beam 4.
     sign_beam = 1
@@ -320,11 +332,10 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
     return sign_beam * sign_corrector * z * betax * betay
 
 
-def get_integral_sign(n: int, side: str) -> int:
+def get_side_sign(n: int, side: str) -> int:
     """ Sign of the integral and corrector for this side.
 
-    This is the exp(iπnθ(s_w−s_IP)) part of Eq. (40) in
-    [#DillyNonlinearIRCorrections2022]_,
+    This is the exp(iπnθ(s_w−s_IP)) part of TODO.
     """
     if side == "R":
         # return (-1)**n

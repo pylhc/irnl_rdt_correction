@@ -1,7 +1,7 @@
 import pytest
 from pandas.testing import assert_frame_equal
 
-from irnl_rdt_correction.equation_system import get_integral_sign
+from irnl_rdt_correction.equation_system import get_side_sign
 from irnl_rdt_correction.io_handling import maybe_switch_signs
 from irnl_rdt_correction.main import irnl_rdt_correction
 from irnl_rdt_correction.rdt_handling import IRCorrector, RDT
@@ -14,8 +14,8 @@ from tests.helpers import (
 
 def test_get_integral_sign():
     for n in range(10):
-        assert get_integral_sign(n, "R") == (-1)**n
-        assert get_integral_sign(n, "L") == 1
+        assert get_side_sign(n, "R") == (-1) ** n
+        assert get_side_sign(n, "L") == 1
 
 
 def test_list_to_str():

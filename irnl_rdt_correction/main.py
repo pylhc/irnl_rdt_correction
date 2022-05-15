@@ -19,6 +19,13 @@ TODO:
    This should allow for correctors that correct via feed-down
    to be assigned before lower order RDTs are calculated.
    Might cause other problems, though. To be thought about.
+ - [hard] Consider switching the signs all into the reference frame of Beam 1.
+   That means X, DX and anti-mirror-KN(S)L twiss and errors from Beam 4,
+   and the anti-mirror-KN(S)L twiss from Beam 2.
+   That should in principle allow to ignore all other beam-related sign switches.
+   BUT: does this really work with all the feed-down options implemented
+   (i.e. feed-down to RDT, feed-down from correctors)?
+   It should, but needs to be checked and tested.
  - [hard] Take phase advance into account.
    That would mean correct the RDT at the position of the correctors.
    Might be problematic, as we have two correctors (one on each side)
@@ -114,8 +121,9 @@ def irnl_rdt_correction(**opt) -> Tuple[str, tfs.TfsDataFrame]:
                                        of the input files are assumed to be
                                        zero, instead of raising an error.
                                        Default: ``False``.
-        iterations (int): Reiterate correction, starting with the previously
-                          calculated values.
+        iterations (int): (Re-)iterate correction, starting with the previously
+                          calculated values. Needs to be > 0, as the first calculation
+                          counts as an iteration.
                           Default: ``1``.
 
 
