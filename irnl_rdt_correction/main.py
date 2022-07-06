@@ -19,18 +19,21 @@ TODO:
    This should allow for correctors that correct via feed-down
    to be assigned before lower order RDTs are calculated.
    Might cause other problems, though. To be thought about.
- - [hard] Consider switching the signs all into the reference frame of Beam 1.
+ - [medium] Consider switching the signs all into the reference frame of Beam 1.
    That means X, DX and anti-mirror-KN(S)L twiss and errors from Beam 4,
    and the anti-mirror-KN(S)L twiss from Beam 2.
    That should in principle allow to ignore all other beam-related sign switches.
    BUT: does this really work with all the feed-down options implemented
    (i.e. feed-down to RDT, feed-down from correctors)?
    It should, but needs to be checked and tested.
- - [hard] Take phase advance into account.
-   That would mean correct the RDT at the position of the correctors.
-   Might be problematic, as we have two correctors (one on each side)
-   per order, so that might become a non-linear problem (as now there
-   are two equations, one per corrector, which are non-linearly dependend.)
+ - [medium] Take phase advance between the elements and to the correction point 
+   at the entrance of the IR into account. 
+   That would mean correct the numerator of the actual RDT.
+ - [hard] Additionally to taking the phase-advance into account, one might try to optimize
+   the actual RDTs at the position of the correctors. This might be very problematic,
+   as we have two correctors (one on each side) per order, so that might become a
+   non-linear problem (as now there are now two equations, one per corrector, which
+   are non-linearly dependent.)
 
 
 .. rubric:: References
@@ -41,8 +44,9 @@ TODO:
     https://cds.cern.ch/record/742967
 
 ..  [#DillyNonlinearIRCorrections2022]
-    J. Dilly et al.,
-    Corrections of high-order nonlinear errors in the LHC and HL-LHC insertion regions. (2022)
+    J. Dilly et R. Tomás,
+    A flexible nonlinear Resonance Driving Term based Correction Algorithm with feed-down. (2022)
+    https://github.com/pylhc/irnl_rdt_correction/blob/master/latex/note.pdf
 
 
 author: Joschua Dilly

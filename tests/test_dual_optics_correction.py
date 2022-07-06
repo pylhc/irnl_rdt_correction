@@ -11,7 +11,7 @@ from tests.helpers import (
 
 
 def test_dual_optics(tmp_path: Path):
-    """Test that given two different optics, an approximative solution
+    """Test that given two different optics, an approximate solution
     will be found."""
     # Parameters -----------------------------------------------------------
     accel = 'hllhc'

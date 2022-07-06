@@ -34,6 +34,8 @@ def test_wrong_arguments():
 
 @pytest.mark.parametrize('beam', (1, 2, 4))
 def test_switch_signs(beam: int):
+    """ Test the sign-switching function between Beam 2 to Beam 4 
+    (and no switch given Beam 1 or Beam 4) """
     all_k = [f"K{order}{orientation}L" for order in range(2, MAX_N) for orientation in ("S", "")]
     twiss = generate_pseudo_model(n_ips=1, n_magnets=10, accel='lhc', x=10, y=5)
     twiss[all_k] = 1
@@ -59,6 +61,7 @@ def test_switch_signs(beam: int):
 
 
 def test_ircorrector_class():
+    """ Test the class representing IR Correctors. """
     # Test Corrector
     a5_corrector_L1 = IRCorrector(field_component="a5", accel="lhc", ip=1, side="L")
 
@@ -81,6 +84,7 @@ def test_ircorrector_class():
 
 
 def test_ircorrector_accel():
+    """Test the \ttt{IRCorrector}-class for different accelerators."""
     a4_corrector_L1 = IRCorrector(field_component="a4", accel="lhc", ip=1, side="L")
     assert "F" not in a4_corrector_L1.name
 
