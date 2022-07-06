@@ -4,9 +4,9 @@ Nonlinear Correction calculation in the IRs
 
 Performs local correction of the Resonance Driving Terms (RDTs)
 in the Insertion Regions (IRs) based on the principle described in
-[#BruningDynamicApertureStudies2004]_ with the addition of correcting
+[BruningDynamicApertureStudies2004]_ with the addition of correcting
 feed-down and using feed-down to correct lower order RDTs.
-Details can be found in [#DillyNonlinearIRCorrections2022]_ .
+Details can be found in [DillyNonlinearIRCorrections2022]_ .
 
 TODO:
  - [easy] Allow not giving errors (need to be `None` in list,
@@ -38,12 +38,12 @@ TODO:
 
 .. rubric:: References
 
-..  [#BruningDynamicApertureStudies2004]
+..  [BruningDynamicApertureStudies2004]
     O. Bruening et al.,
     Dynamic aperture studies for the LHC separation dipoles. (2004)
     https://cds.cern.ch/record/742967
 
-..  [#DillyNonlinearIRCorrections2022]
+..  [DillyNonlinearIRCorrections2022]
     J. Dilly et R. Tomás,
     A flexible nonlinear Resonance Driving Term based Correction Algorithm with feed-down. (2022)
     https://github.com/pylhc/irnl_rdt_correction/blob/master/latex/note.pdf

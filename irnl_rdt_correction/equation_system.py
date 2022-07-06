@@ -88,7 +88,7 @@ def get_current_rdt_maps(rdt_maps: Sequence[RDTMap]) -> Tuple[Sequence[RDTMap], 
         except StopIteration:
             continue  # rdt_map is empty
         else:
-            break  # found an rdt map
+            break  # found a rdt map
     else:
         # Ran through all maps without fining any non-empy ones.
         # This should have been caught in the last call at the end of this function.
@@ -204,7 +204,7 @@ def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_s
 
 def build_equation_system(rdt_maps: Sequence[dict], correctors: Sequence[IRCorrector], ip: int,
                           optics_seq: Sequence[Optics], feeddown: int) -> Tuple[ArrayLike, ArrayLike]:
-    """ Builds equation system as in  TODO
+    """ Builds equation system as in  Eq. (30) of [DillyNonlinearIRCorrections2022]_
     for a given ip for all given optics and error files (i.e. beams) and rdts.
 
     Returns
@@ -283,7 +283,8 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
 
     # bring the possible i from the integral to the corrector side
     # i.e. multiply both sides of the equation by i, for odd lm.
-    # The integral always has a minus sign then. TODO
+    # The integral always has a minus sign then.
+    # (As in [#DillyNonlinearIRCorrections2022]_ already, e.g. Eq. (13) )
     sign_i = np.real(i_pow(lm + (lm % 2)))  # i_pow(lm + lm%2) is always real
     sign_corrector = sign_i * get_side_sign(rdt.order, corrector.side)
 
@@ -291,7 +292,7 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
     betay = twiss_df.loc[corrector.name, f"{BETA}{Y}"]
     if rdt.swap_beta_exp:
         # in case of beta-symmetry,
-        # this corrects for the same RDT in the opposite beam. TODO
+        # this corrects for the same RDT in the opposite beam. (see Eq. (16))
         betax = betax**(lm/2.)
         betay = betay**(jk/2.)
     else:
@@ -301,13 +302,13 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
     z = 1
     p = corrector.order - rdt.order
     if p:
-        # Corrector contributes via feed-down TODO
+        # Corrector contributes via feed-down, Eq. (20)
         dx = twiss_df.loc[corrector.name, X] + errors_df.loc[corrector.name, f"{DELTA}{X}"]
         dy = twiss_df.loc[corrector.name, Y] + errors_df.loc[corrector.name, f"{DELTA}{Y}"]
         dx_idy = dx + 1j*dy
         z_cmplx = (dx_idy**p) / np.math.factorial(p)
 
-        # Get the correct part of z_cmplx, see TODO
+        # Get the correct part of z_cmplx, see Eq. (22)
         if (corrector.skew and is_odd(lm)) or (not corrector.skew and is_even(lm)):
             # K_n, l+m even
             # J_n, l+m odd
@@ -335,7 +336,7 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
 def get_side_sign(n: int, side: str) -> int:
     """ Sign of the integral and corrector for this side.
 
-    This is the exp(iπnθ(s_w−s_IP)) part of TODO.
+    This is the exp(iπnθ(s_w−s_IP)) part of e.g. Eq (11) in [#DillyNonlinearIRCorrections2022]_.
     """
     if side == "R":
         # return (-1)**n
