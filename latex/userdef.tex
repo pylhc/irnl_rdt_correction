@@ -1,0 +1,221 @@
+% Contains user definitions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\makeatletter
+\newcommand{\inlineparagraph}{\@startsection{paragraph}{4}{\z@}%
+  {-3.25ex \@plus -1ex \@minus -0.2ex}%
+  {-1.2pt}%
+  {}%
+}
+
+\newcommand{\noskipparagraph}{\@startsection{paragraph}{4}{\z@}%
+  {-3.25ex \@plus -1ex \@minus -0.2ex}%
+  {0.0001px}%
+  {\scshape}%
+}
+
+\newcommand{\smallskipparagraph}{\@startsection{paragraph}{4}{\z@}%
+  {-3.25ex \@plus -1ex \@minus -0.2ex}%
+  {5px}%
+  {\scshape}%
+}
+\makeatother
+
+\newcommand{\ilparagraph}[1]{\inlineparagraph{\bfseries #1\textcolor{cern}{.}}}
+% \newcommand{\myparagraph}[1]{\noskipparagraph{#1}}
+% \newcommand{\myparagraph}[1]{\smallskipparagraph{\bfseries #1}}
+
+% As the paragraphs don't have numbers, cref can't 
+% refer to them. This makes cref use their name instead:
+% \crefname{page}{page}{page}  % probably not needed
+\crefformat{myparagraphlink}{#2\textsc{\textbf{#1}}#3}
+
+\newcounter{myparagraphlink}
+\makeatletter
+\newcommand{\myparagraph}[1]{%
+  \smallskipparagraph{\bfseries #1}%
+  \refstepcounter{myparagraphlink}%
+  \def\cref@currentlabel{[myparagraphlink][\arabic{myparagraphlink}][]#1}%
+  \def\@currentlabelname{#1}%
+}
+\makeatother
+
+% lengths
+\newlength{\figurewidth}
+\setlength{\figurewidth}{\linewidth}
+
+\newlength{\subfigurewidth}
+\setlength{\subfigurewidth}{0.5\textwidth}
+
+% text arrangement
+\newcommand{\tstack}[2]{$\substack{\text{\normalsize #1}\\\text{\tiny #2}}$} % stack two lines
+
+% borders
+\newcommand{\mytopmargin}[1]{\newgeometry{top=3cm}#1\restoregeometry}
+\newcommand{\tinytopmargin}[1]{\newgeometry{top=1cm}#1\restoregeometry}
+
+\newcommand{\tmpcapskip}[1]{
+    \setlength{\abovecaptionskip}{5pt}
+    \setlength{\belowcaptionskip}{5pt}
+    #1
+    \setlength{\abovecaptionskip}{10pt}
+    \setlength{\belowcaptionskip}{0pt}
+}
+
+
+
+% Flowcharts
+\usetikzlibrary{arrows, shapes, calc, positioning}
+\tikzstyle{base} = [text=white, text centered, minimum width=1em, minimum height=1em]
+\tikzstyle{startstop} = [base, ellipse, fill=CernRed!90, draw=CernRed!200]
+\tikzstyle{io} = [base, trapezium, trapezium left angle=70, trapezium right angle=110, fill=CernNiceBlue, draw=CernBlue!200]
+\tikzstyle{process} = [base, rectangle, rounded corners, fill=AtlasOrange!90, draw=AtlasOrange!200]
+% \tikzstyle{process} = [base, rectangle, rounded corners, fill=CernYellow!90, draw=CernYellow!200]
+\tikzstyle{test} = [base, signal, signal to=east and west, fill=GreenBellPepper!90, draw=GreenBellPepper!200]
+% \tikzstyle{test} = [base, signal, signal to=east and west, fill=CernLightGreen!90, draw=CernLightGreen!200]
+\tikzstyle{arrow} = [->, >=latex]
+
+% Other
+\newcommand\drawRect[5]{%
+    \def\top{#1}
+    \def\left{#2}
+    \def\right{#3}
+    \def\bottom{#4}
+    \begin{tikzpicture}[remember picture, overlay]
+        \draw[#5, thick] (\left,\top) -- (\right,\top) -- (\right,\bottom) -- (\left,\bottom) -- cycle;    
+    \end{tikzpicture}
+}
+
+% Own commands and environments ---
+
+% labels
+
+
+% shortcuts
+\newcommand{\ttt}[1]{\texttt{#1}}
+
+\newcommand{\todo}[1]{{\color[RGB]{190, 130, 130} \textbf{TODO }\textit{#1}}}
+\newcommand{\bone}{\textcolor{blue}{Beam 1}}
+\newcommand{\btwo}{\textcolor{red}{Beam 2}}
+\newcommand{\tcern}[1]{\textcolor{cern}{#1}}
+\newcommand{\bfcern}[1]{\tcern{\bf#1}}
+\newcommand{\beamone}{\textcolor{blue}{Beam 1}}
+\newcommand{\beamtwo}{\textcolor{red}{Beam 2}}
+
+\newcommand{\pro}[1]{\\\hspace{1em}{\color{GreenBellPepper}\textbf{+} #1}}
+\newcommand{\con}[1]{\\\hspace{1em}{\color{CernRed}\hspace{.1em}\textbf{--}\hspace{.2em} #1}}
+\newcommand{\sep}{\\\hspace{1em}{- - -}}
+
+\newcommand{\textAD}[2]{$\partial$Q$_{#1}$/$\partial$2J$_{#2}$}
+
+% maths
+
+
+
+\newcommand{\of}[1]{\left(#1\right)}    % 'function of', i.e. (x) with proper parenthesis
+\newcommand{\ReOf}[1]{\Re\left[#1\right]}    % 'function of', i.e. (x) with proper parenthesis
+\newcommand{\ImOf}[1]{\Im\left[#1\right]}    % 'function of', i.e. (x) with proper parenthesis
+\newcommand{\E}[1]{\cdot 10^{#1}}
+
+\newcommand{\fof}[1]{\left(#1\right)}
+
+\newcommand{\overeq}[1]{\overset{\mathmakebox[\widthof{=}]{#1}}{=}}
+\newcommand{\myover}[2]{\overset{\mathmakebox[\widthof{#2}]{#1}}{#2}}
+\newcommand{\myunder}[2]{\underset{\mathmakebox[\widthof{#2}]{#1}}{#2}}
+\newcommand{\myoverunder}[3]{\overset{\mathmakebox[\widthof{#2}]{#1}}{\underset{\mathmakebox[\widthof{#2}]{#3}}{#2}}}
+
+% Environments
+
+\newenvironment{wider}[1][10pt]{
+    \begin{columns}
+        \column{\dimexpr\paperwidth-#1}
+    }{
+      \end{columns}%
+}
+
+\newlist{mytemize}{itemize}{1}
+\setlist[mytemize,1]{topsep=2pt, itemsep=-0.5ex, partopsep=1ex, parsep=1ex, label=\smallbullet, rightmargin=\leftmargin}
+
+
+\newcommand{\textimportant}[1]{\textbf{\textsc{#1}}}
+\newlist{important}{description}{1}
+\setlist[important,1]{itemindent=-10pt, leftmargin=10pt-\itemindent, parsep=2pt, font=\textimportant, rightmargin=\leftmargin}
+
+
+% Underlines https://tex.stackexchange.com/a/27260/213738
+\newcommand{\udot}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[dotted] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+\newcommand{\udensdot}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[densely dotted] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+\newcommand{\uloosdot}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[loosely dotted] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+\newcommand{\udash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+\newcommand{\udensdash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[densely dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+\newcommand{\uloosdash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[loosely dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+
+% Create linkable options
+\newcommand{\raisedtaget}[1]{\raisebox{\ht\strutbox}{\hypertarget{#1}{}}}
+
+% replace \_ with _ and assign to \temp.
+% this way options with underscores can be used
+\newcommand{\subforlink}[1]{%
+  \saveexpandmode\noexpandarg
+  \StrSubstitute{#1}{\_}{_}[\tttemp]%
+  \StrSubstitute{\tttemp}{-}{_}[\temp]%
+  \restoreexpandmode
+}
+
+% make all options linkable via \opt command below. raisebox is needed, as target is at the base of the line
+\newcommand{\defopt}[1]{\subforlink{#1}\raisebox{\ht\strutbox}{\hypertarget{\temp}{}}\texttt{#1}}
+\newcommand{\opttarget}[2]{\subforlink{#1}\hypersetup{hidelinks}{\hyperlink{\temp}{\dashuline{#2}}}}
+\newcommand{\opt}[1]{\opttarget{#1}{\texttt{#1}}}
+\newcommand{\textttu}[1]{\defopt{#1}\texttt{:}}
+\newlist{options}{description}{1}
+\setlist[options,1]{itemindent=-20pt, leftmargin=20pt-\itemindent, parsep=2pt, font=\textttu, rightmargin=\leftmargin}
+% \newlist{options}{itemize}{1}
+% \setlist[options,1]{itemindent=0pt, leftmargin=80pt, parsep=2pt, font=\texttt}
+
+% \newcommand{\subdescriptionitem}[1]{\normalfont\textit{#1:}}
+\newcommand{\subdescriptionitem}[1]{\textcolor{gray}{\textsc{\small #1}}}
+\setlist[description,2]{itemindent=-20pt, leftmargin=-\itemindent, parsep=2pt, font=\subdescriptionitem, rightmargin=\leftmargin}
+ 
+\newcommand{\subtestlistitem}[1]{\textcolor{gray}{\text{\small #1}}}
+\newlist{testlist}{description}{2}
+\setlist[testlist,1]{itemindent=-10pt, leftmargin=10pt-\itemindent, parsep=2pt, font=\textimportant, rightmargin=\leftmargin}
+\setlist[testlist,2]{itemindent=-20pt, leftmargin=-\itemindent, parsep=2pt, font=\subtestlistitem, rightmargin=\leftmargin}
+
+
+% \setlength{\abovecaptionskip}{-5em}
+% \setlength{\belowcaptionskip}{-5em}
+
