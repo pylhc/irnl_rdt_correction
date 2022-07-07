@@ -302,13 +302,13 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
     z = 1
     p = corrector.order - rdt.order
     if p:
-        # Corrector contributes via feed-down, Eq. (20)
+        # Corrector contributes via feed-down, Eq. (19) in [DillyNonlinearIRCorrections2022]_
         dx = twiss_df.loc[corrector.name, X] + errors_df.loc[corrector.name, f"{DELTA}{X}"]
         dy = twiss_df.loc[corrector.name, Y] + errors_df.loc[corrector.name, f"{DELTA}{Y}"]
         dx_idy = dx + 1j*dy
-        z_cmplx = (dx_idy**p) / np.math.factorial(p)
+        z_cmplx = (dx_idy**p) / np.math.factorial(p)  # Eq. (20)
 
-        # Get the correct part of z_cmplx, see Eq. (22)
+        # Get the correct part of z_cmplx, see Eq. (26) in [DillyNonlinearIRCorrections2022]_
         if (corrector.skew and is_odd(lm)) or (not corrector.skew and is_even(lm)):
             # K_n, l+m even
             # J_n, l+m odd
@@ -324,8 +324,9 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
             LOG.warning(f"Z-coefficient for {corrector.name} in {rdt.name} is very small.")
 
     # Account for possible anti-symmetry of the corrector's field component
-    # for in Beam 2 and Beam 4. The correct sign in MAD-X is then assured by the
+    # in Beam 2 and Beam 4. The correct sign in MAD-X is then assured by the
     # lattice setup, where these correctors have a minus sign in Beam 4.
+    # See Chapter 3.1 Beam Directions in [DillyNonlinearIRCorrections2022]_
     sign_beam = 1
     if is_even(optics.beam) and is_anti_mirror_symmetric(corrector.strength_component):
         sign_beam = -1
@@ -336,7 +337,7 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
 def get_side_sign(n: int, side: str) -> int:
     """ Sign of the integral and corrector for this side.
 
-    This is the exp(iπnθ(s_w−s_IP)) part of e.g. Eq (11) in [#DillyNonlinearIRCorrections2022]_.
+    This is the exp(iπnθ(s_w−s_IP)) part of e.g. Eq (11) in [DillyNonlinearIRCorrections2022]_.
     """
     if side == "R":
         # return (-1)**n

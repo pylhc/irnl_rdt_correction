@@ -352,9 +352,13 @@ for the current IP, e.g.
 %
 is now build.
 In contrast to \cref{eq:equationSum}, the integrals $I_{jkml}$ on the rhs of \cref{eq:linearEqSystemFull} 
-contains also the corrector settings as currently in the \ttt{Optics}. 
+contain also the corrector settings as currently in the \ttt{Optics}. 
 For this reason, the $\Delta K_nL$ values are introduced here, which allow to solve and update this equation system
 as often as given in \opt{iterations} to improve upon in a next step.
+
+Special care is taken to swap the $\beta$-exponent in the integral as well as in the coefficients $b_{jklm}$, in case $f_{jklm*}$ is given.
+In accordance with the implementation of the LHC and HL-LHC Sequences in \ttt{MAD-X}, also the sign of $b_{jklm}$ might be inversed for Beam~2 
+and Beam~4, depending on the symmetry of the magnet (see \cref{sec:BeamDirection}). 
  
 
 \myparagraph{Solve Equation System and update Values}
@@ -441,7 +445,7 @@ Currently running are tests for the following scenarios:
     \begin{testlist}
         \item[General] Test feed-down functionality from decapoles to octupoles and sextupoles.
         \item[Correct via Feed-Down] Test correct RDT via feed-down from higher order corrector: 
-        Use normal and skew deca- and dodecapole correctors to correct for normal octupole errors.
+        Use normal and skew deca- and dodecapole correctors to correct for octupole errors.
     \end{testlist}
 \item[Unit-Tests] Test individual functions and classes.
     \begin{testlist}

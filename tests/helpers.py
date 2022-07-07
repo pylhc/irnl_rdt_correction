@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import Union, List, Iterable
+from typing import Union, List, Iterable, Sequence
 
 import h5py
 import pandas as pd
@@ -75,7 +75,7 @@ def generate_pseudo_model(n_ips: int, n_magnets: int, accel: str,
     return df
 
 
-def generate_errortable(index: pd.Series, value: float = 0) -> pd.DataFrame:
+def generate_errortable(index: Sequence, value: float = 0) -> pd.DataFrame:
     """Return DataFrame from index and KN(S)L + D[XY] columns."""
     return pd.DataFrame(value,
                         index=index,
@@ -83,14 +83,14 @@ def generate_errortable(index: pd.Series, value: float = 0) -> pd.DataFrame:
                         )
 
 
-def get_some_magnet_names(n_ips: int, n_magnets: int) -> List[str]:
+def get_some_magnet_names(n_ips: int, n_magnets: int, sides: Iterable = "LR") -> List[str]:
     r"""More or less random magnet names, ending in ``[LR]\d``.
     n_magnets < 26 because their names come from alphabet.
     """
     return [
         f"M{name}.{number+1}{side}{ip}"
         for ip in range(1, n_ips+1)
-        for side in "LR"
+        for side in sides
         for number, name in enumerate(ABC[:n_magnets])
     ]
 

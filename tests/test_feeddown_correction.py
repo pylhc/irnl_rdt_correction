@@ -104,13 +104,16 @@ def test_general_feeddown(tmp_path: Path, x: float, y: float):
 @pytest.mark.parametrize('corrector', ("a5", "b5", "a6", "b6"))
 @pytest.mark.parametrize('x', (2, 0))
 @pytest.mark.parametrize('y', (2, 1.5, 0))
-def test_correct_via_feeddown(tmp_path: Path, x: float, y: float, corrector: str):
+@pytest.mark.parametrize('rdt', ("f4000", "f3001", "f2002"))
+def test_correct_via_feeddown_to_octupoles(tmp_path: Path, x: float, y: float,
+                                           corrector: str, rdt: str):
     """Test correct RDT via feeddown from higher order corrector.
     In this example: Use normal and skew deca- and dodecapole correctors
     to correct for normal octupole errors (which make it easy to
     just sum up over both sides).
     """
     # Parameters -----------------------------------------------------------
+    skew_rdt = bool((int(rdt[3]) + int(rdt[4])) % 2)
     accel = 'hllhc'
 
     correct_ips = (1, 3)
@@ -118,17 +121,19 @@ def test_correct_via_feeddown(tmp_path: Path, x: float, y: float, corrector: str
     n_magnets = 4
     n_ips = 4
     n_sides = 2
+    field = "K3SL" if skew_rdt else "K3L"  # skew/normal octupole errors
 
     # Setup ----------------------------------------------------------------
     twiss = generate_pseudo_model(
         accel=accel, n_ips=n_ips, n_magnets=n_magnets, x=x, y=y)
     errors = generate_errortable(
         index=get_some_magnet_names(n_ips=n_ips, n_magnets=n_magnets),
-    )
-    errors["K3L"] = error_value  # octupole errors
+    )  # empty
+
+    errors[field] = error_value  # set errors
 
     # Correction ---------------------------------------------------------------
-    rdts = {"f4000": [corrector]}
+    rdts = {rdt: [corrector]}
     _, df_corrections = irnl_rdt_correction(
         accel=accel,
         twiss=[twiss],
@@ -145,12 +150,18 @@ def test_correct_via_feeddown(tmp_path: Path, x: float, y: float, corrector: str
     assert len(df_corrections.index) == len(correct_ips) * n_sides
     assert all(df_corrections[FIELD] == corrector)
 
-    coeff = {"a5": y, "b5": x, "a6": y*x, "b6": 0.5*(x**2 - y**2)}[corrector]
+    if skew_rdt:
+        # feed down coefficients from `corrector` to a4
+        coeff = {"a5": x, "b5": y, "a6": 0.5*(x**2 - y**2), "b6": y*x}[corrector]
+    else:
+        # feed down coefficients from `corrector` to b4
+        coeff = {"a5": -y, "b5": x, "a6": -y*x, "b6": 0.5*(x**2 - y**2)}[corrector]
+
     if coeff == 0:
         # No Feed-down possible
         assert all(df_corrections[VALUE] < EPS)
     else:
-        # as beta cancels out (and is 1 anyway)
+        # just sum up all errors, as beta cancels out (and is 1 anyway)
         error_strengths = n_sides * n_magnets * error_value
         for ip in correct_ips:
             mask = df_corrections[IP] == ip

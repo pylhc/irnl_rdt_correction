@@ -168,12 +168,14 @@ def get_parser() -> argparse.ArgumentParser:
 # Checks -----------------------------------------------------------------------
 
 def check_opt(opt: Union[dict, DotDict]) -> DotDict:
-    """ Asserts that the input parameters make sense and adds what's missing. """
+    """ Asserts that the input parameters make sense and adds what's missing.
+    TODO: Replace DotDict with dataclass and have class check most of this...
+    """
     # check for unkown input
-    opt = DotDict(opt)
     parser = get_parser()
     if not len(opt):
         opt = vars(parser.parse_args())
+    opt = DotDict(opt)
     known_opts = [a.dest for a in parser._actions if not isinstance(a, argparse._HelpAction)]  # best way I could figure out
     unknown_opts = [k for k in opt.keys() if k not in known_opts]
     if len(unknown_opts):

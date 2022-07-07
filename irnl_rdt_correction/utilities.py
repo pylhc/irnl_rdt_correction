@@ -20,7 +20,9 @@ from irnl_rdt_correction.constants import SKEW_NAME_MAP, SKEW_FIELD_MAP, FIELD_S
 # Classes ----------------------------------------------------------------------
 
 class DotDict(dict):
-    """ Make dict fields accessible by attributes."""
+    """ Make dict fields accessible by attributes.
+    TODO: Replace with dataclass.
+    """
     def __init__(self, *args, **kwargs):
         super(DotDict, self).__init__(*args, **kwargs)
 
