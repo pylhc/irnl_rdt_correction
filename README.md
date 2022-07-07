@@ -51,7 +51,7 @@ Dynamic aperture studies for the LHC separation dipoles. (2004)
 https://cds.cern.ch/record/742967
 
 <a id="2">[2]</a> :
-J. Dilly et R. Tomás,
+J. Dilly and R. Tomás,
 A flexible nonlinear Resonance Driving Term based Correction Algorithm with feed-down. (2022)
 [note.pdf](latex/note.pdf)
 

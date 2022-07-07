@@ -111,8 +111,17 @@ RDTMap = Dict[RDT, Sequence[str]]
 
 # RDT Sorting ------------------------------------------------------------------
 
-def sort_rdts(rdts: Sequence, rdts2: Sequence) -> Tuple[RDTMap, RDTMap]:
-    """ Sorts RDTs by reversed-order and orientation (skew, normal). """
+def sort_rdts(rdts: RDTInputTypes, rdts2: RDTInputTypes) -> Tuple[RDTMap, RDTMap]:
+    """ Sorts RDTs by reversed-order (i.e. high-to-low) and orientation (skew, normal).
+
+    Args:
+        rdts (RDTInputTypes): RDTs for first optics
+        rdts2 (RDTInputTypes): RDTs for second optics.
+                               If not given first optics RDTs are assumed.
+
+    Returns:
+        Tuple[RDTMap, RDTMap]: RDT mapping (RDT to corrector fields) for both optics.
+    """
     LOG.debug("Sorting RDTs")
     LOG.debug(" - First Optics:")
     rdt_dict = _build_rdt_mapping(rdts)
@@ -160,7 +169,15 @@ def get_needed_orders(rdt_maps: Sequence[RDTMap], feed_down: int) -> Sequence[in
     """Returns the sorted orders needed for correction, based on the order
     of the RDTs to correct plus the feed-down involved and the order of the
     corrector, which can be higher than the RDTs in case one wants to correct
-    via feed-down."""
+    via feed-down.
+
+    Args:
+        rdt_maps (Sequence[RDTMap]): RDTMaps to check
+        feed_down (int): Order of maximum feed-down to include
+
+    Returns:
+        Sequence[int]: Needed field orders to calculate all corrections including feed-down
+                       (sorted low-to-high)."""
     needed_orders = set()
     for rdt_map in rdt_maps:
         for rdt, correctors in rdt_map.items():
@@ -176,7 +193,13 @@ def get_needed_orders(rdt_maps: Sequence[RDTMap], feed_down: int) -> Sequence[in
 
 # Order Checks ----
 def check_corrector_order(rdt_maps: Sequence[RDTMap], update_optics: bool, feed_down: int):
-    """ Perform checks on corrector orders compared to RDT orders and feed-down. """
+    """ Perform checks on corrector orders compared to RDT orders and feed-down.
+
+    Args:
+        rdt_maps (Sequence[RDTMap]): RDTMaps to check.
+        update_optics (bool): True if optics should be updated after each iteration.
+        feed_down (int): Order of feed-down to include.
+    """
     for rdt_map in rdt_maps:
         for rdt, correctors in rdt_map.items():
             _check_corrector_order_not_lower(rdt, correctors)
@@ -200,12 +223,19 @@ def _check_update_optics(rdt: RDT, correctors: Sequence[str], rdt_map: RDTMap, u
     It should be possible to mitigate this by sorting the RDTs by their
     highest corrector order instead of their own order.
     (one could make a new field `sort_order`. To be tested.)
+
+    Args:
+        rdt (RDT): Current RDT to correct/check
+        correctors (str): Corrector fields to correct RDT with (e.g. "b6", "a3" etc.)
+        rdt_map (RDTMap): All RDT-mappings (i.e. RDT to corrector field)
+        update_optics (bool): True if optics should be updated after each iteration.
+        feed_down (int): Order of feed-down to include.
     """
     if not update_optics:
         return
 
     for corrector in correctors:
-        corrector_order = int(corrector[1])
+        corrector_order = int(corrector[1:])
         for rdt_comp in rdt_map.keys():  # compare with all rdts
             if rdt_comp is rdt:
                 # rdts are sorted high -> low

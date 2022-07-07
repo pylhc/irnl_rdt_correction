@@ -3,10 +3,11 @@ Equation System
 ---------------
 
 Builds and solves the equation system from the rdt-to-corrector-maps given.
+This is Eq. (30) of [DillyNonlinearIRCorrections2022]_.
 
 """
 import logging
-from typing import Sequence, Tuple, Set, Dict
+from typing import Sequence, Tuple, Set, Dict, List
 
 import numpy as np
 from numpy.typing import ArrayLike
@@ -27,11 +28,39 @@ X, Y = PLANES
 
 def solve(rdt_maps: Sequence[RDTMap], optics_seq: Sequence[Optics],
           accel: str, ips: Sequence[int], update_optics: bool, ignore_corrector_settings: bool,
-          feeddown: int, iterations: int, solver: str):
-    """ Calculate corrections.
-    They are grouped into rdt's with common correctors.
+          feeddown: int, iterations: int, solver: str) -> Sequence[IRCorrector]:
+    """ Calculate corrections, i.e. build and solve Eq. (30) of [DillyNonlinearIRCorrections2022]_.
+    Corrections are performed by grouping RDTs with common correctors.
     If possible, these are ordered from the highest order to lowest,
     to be able to update optics and include their feed-down.
+
+    Args:
+        rdt_maps (Sequence[RDTMap]): Sequence of RDTMap objects,
+                                     i.e. a dict mapping the RDT to the used correctors.
+        optics_seq (Sequence[Optics]): Sequence of Optics objects containing twiss and errors.
+        accel (str): Accelerator to use (implemented 'lhc' and 'hllhc').
+        ips (Sequence[int]): Sequence of IPs to correct. Elements will split by IP,
+                             assuming their name ends with "L" or "R" for
+                             left and right followed by the IP number.
+        update_optics (bool): Sorts the RDTs to start with the highest order
+                              and updates the corrector strengths in the optics
+                              after calculation, so the feeddown to lower order
+                              correctors is included.
+        ignore_corrector_settings (bool): Ignore the current settings of the correctors.
+                                          If this is not set the corrector values of the
+                                          optics are used as initial conditions.
+        feeddown (int): Orders of feed-down to include calculating the integral on the rhs of
+                        Eq. (30) of [DillyNonlinearIRCorrections2022]_
+        iterations (int): (Re-)iterate correction, starting with the previously
+                          calculated values. Needs to be > 0, as the first calculation
+                          counts as an iteration.
+        solver (str): Solver to use: 'inv', 'lstq' or 'linear'
+
+    Returns:
+        Sequence[IRCorrector]: Sequence of IRCorrector objects, which define the
+                               IR corrector and its value and contain additional
+                               information about the corrector.
+
     """
     all_correctors: Sequence[IRCorrector] = []
     remaining_rdt_maps: Sequence[RDTMap] = rdt_maps
@@ -76,6 +105,14 @@ def get_current_rdt_maps(rdt_maps: Sequence[RDTMap]) -> Tuple[Sequence[RDTMap], 
     This function is called in a while-loop, `so rdt_maps` is the
     `remaining_rdt_maps` from the last loop.
     The while-loop is interrupted when no remaining rdts are left.
+
+    Args:
+        rdt_maps (Sequence[RDTMap]): (Still) available RDTMaps to be checked.
+
+    Returns:
+        Tuple[Sequence[RDTMap], Sequence[RDTMap], Set[str]]: 3-Tuple consisting of
+        the sequence of current RDTMaps to use, the remaining RDT maps and
+        the checked (i.e. to be used) correctors in this loop.
     """
     n_maps = len(rdt_maps)  # should be number of optics given
     new_rdt_map = [{} for _ in range(n_maps)]  # don't use [{}] * n_maps!!
@@ -134,12 +171,24 @@ def get_current_rdt_maps(rdt_maps: Sequence[RDTMap]) -> Tuple[Sequence[RDTMap], 
 
 
 def get_available_correctors(field_components: Set[str], accel: str, ip: int,
-                             optics_seq: Sequence[Optics]) -> Sequence[IRCorrector]:
+                             optics_seq: Sequence[Optics]) -> List[IRCorrector]:
     """ Gets the available correctors by checking for their presence in the optics.
     If the corrector is not found in this ip, the ip is skipped.
     If only one corrector (left or right) is present a warning is issued.
     If one corrector is present in only one optics (and not in the other)
-    an Environment Error is raised. """
+    an Environment Error is raised.
+
+    Args:
+        field_components (Set[str]): Set of field components to be corrected
+                                     (i.e. correctors to be found for).
+                                     Field components are e.g. "a3", "b4" etc.
+        accel (str): Which accelerator to use.
+        ip (int): Which IP we are currently working on.
+        optics_seq (Sequence[Optics]):  Sequence of Optics (twiss and errors).
+
+    Returns:
+        List[IRCorrector]: List of IRCorrectors to use to correct given field components.
+    """
     correctors = []
     for field_component in field_components:
         corrector_not_found = []
@@ -178,7 +227,18 @@ def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_s
     """ Save original corrector values from optics (for later restoration, only if ``update_optics`` is ``False``)
     and if ``ignore_settings`` is ``True``, the corrector values in the optics are set to ``0``.
     Otherwise, the corrector object value is initialized with the value from the optics.
-    An error is thrown if the optics differ in value."""
+    An error is thrown if the optics differ in value.
+
+    Args:
+        correctors (Sequence[IRCorrector]): Sequence of IRCorrectors to initialize.
+        optics_seq (Sequence[Optics]): Optics to get values from.
+        update_optics (bool): If not set, saves initial data for later recovery.
+        ignore_settings (bool): If set, values in Optics will be set to zero for given correctors.
+
+    Returns:
+        Dict[IRCorrector, Sequence[float]]: The saved values per corrector (per Optics).
+                                            If the optics are updated anyway, this is an empty dict.
+    """
     saved_values = {}
 
     for corrector in correctors:
@@ -202,15 +262,28 @@ def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_s
 
 # Build Equation System --------------------------------------------------------
 
-def build_equation_system(rdt_maps: Sequence[dict], correctors: Sequence[IRCorrector], ip: int,
+def build_equation_system(rdt_maps: Sequence[RDTMap], correctors: Sequence[IRCorrector], ip: int,
                           optics_seq: Sequence[Optics], feeddown: int) -> Tuple[ArrayLike, ArrayLike]:
     """ Builds equation system as in  Eq. (30) of [DillyNonlinearIRCorrections2022]_
-    for a given ip for all given optics and error files (i.e. beams) and rdts.
+    for a given ip for all given optics and error files (i.e. beams) and grouped RDTs,
+    i.e. RDTs that share correctors.
 
-    Returns
-        b_matrix: np.array N_rdts x  N_correctors
-        integral: np.array N_rdts x 1
-     """
+    Args:
+        rdt_maps (Sequence[RDTMap]): Sequence of RDTMap objects,
+                                     i.e. a dict mapping the RDT to the used correctors.
+                                     This is a subset of all RDTs, as they have been grouped
+                                     by common correctors before.
+        correctors (Sequence[IRCorrector]): IRCorrectors to be used.
+        ip (int): Current IP to correct.
+        optics_seq (Sequence[Optics]): Sequence of given Optics (twiss and errors)
+        feeddown (int): Orders of feed-down to include calculating the integral on the rhs
+
+    Returns:
+        tuple of
+            b_matrix: np.array N_rdts x  N_correctors
+            integral: np.array N_rdts x 1
+
+    """
     n_rdts = sum(len(rdt_map.keys()) for rdt_map, _ in zip(rdt_maps, optics_seq))
     b_matrix = np.zeros([n_rdts, len(correctors)])
     integral = np.zeros([n_rdts, 1])
@@ -231,7 +304,19 @@ def build_equation_system(rdt_maps: Sequence[dict], correctors: Sequence[IRCorre
 
 
 def get_elements_integral(rdt: RDT, ip: int, optics: Optics, feeddown: int) -> float:
-    """ Calculate the RDT integral for all elements of the IP. """
+    """ Calculate the RDT integral for all elements of the IP.
+    These are the entries on the rhs of Eq. (30) of [DillyNonlinearIRCorrections2022]_,
+    including sign.
+
+    Args:
+        rdt (RDT): Current RDT
+        ip (int): Current IP
+        optics (Optics): Current optics
+        feeddown (int): Orders of feed-down to include
+
+    Returns:
+        float: Calculated Integral value.
+    """
     integral = 0
     lm, jk = rdt.l + rdt.m, rdt.j + rdt.k
     twiss_df, errors_df = optics.twiss, optics.errors
@@ -276,7 +361,20 @@ def get_elements_integral(rdt: RDT, ip: int, optics: Optics, feeddown: int) -> f
 
 
 def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) -> float:
-    """ Calculate B-Matrix Element for Corrector. """
+    """ Calculate B-Matrix Element for Corrector.
+    These are the entries on the lhs of Eq. (30) of [DillyNonlinearIRCorrections2022]_
+    including feed-down coefficient z and signs.
+    Any imaginary i coefficient  is also included, making all values real.
+
+    Args:
+        rdt (RDT): Current RDT
+        corrector (IRCorrector): IRCorrector at which the coefficient is to be calculated.
+        optics (Optics): Current optics
+
+    Returns:
+        float: Calculated matrix value.
+
+    """
     LOG.debug(f" - Corrector {corrector.name}.")
     lm, jk = rdt.l + rdt.m, rdt.j + rdt.k
     twiss_df, errors_df = optics.twiss, optics.errors
@@ -338,6 +436,13 @@ def get_side_sign(n: int, side: str) -> int:
     """ Sign of the integral and corrector for this side.
 
     This is the exp(iπnθ(s_w−s_IP)) part of e.g. Eq (11) in [DillyNonlinearIRCorrections2022]_.
+
+    Args:
+        n (int): order of the RDT
+        side (str): side of the IP
+
+    Returns:
+        int: Either -1 or 1
     """
     if side == "R":
         # return (-1)**n
@@ -350,7 +455,16 @@ def get_side_sign(n: int, side: str) -> int:
 def solve_equation_system(correctors: Sequence[IRCorrector], lhs: np.array, rhs: np.array, solver: str):
     """ Solves the system with the given solver.
 
-    The result is transferred to the corrector values internally. """
+    The result is transferred to the corrector values internally.
+
+    Args:
+        correctors (Sequence[IRCorrector]): Sequence of IRCorrectors this equation system was build for.
+                                            Stores the resulting values.
+        lhs (np.array): Left hand side of the Eqs to solve.
+        rhs (np.array): Right hand side of the Eqs to solve.
+        solver (str): Solver to use (see SOLVER_MAP below).
+
+    """
     if len(rhs) > len(correctors) and solver not in APPROXIMATE_SOLVERS:
         raise ValueError("Overdetermined equation systems can only be solved "
                          "by one of the approximate solvers"
@@ -410,16 +524,26 @@ def _assign_corrector_values(correctors: Sequence[IRCorrector], values: Sequence
 # Update Optics ----------------------------------------------------------------
 
 
-def optics_update(correctors: Sequence[IRCorrector], optics_seq: Sequence[Optics]):
-    """ Updates the corrector strength values in the current optics. """
+def optics_update(correctors: Sequence[IRCorrector], optics_seq: Sequence[Optics]) -> None:
+    """ Updates the corrector strength values in the current optics.
+
+    Args:
+        correctors (Sequence[IRCorrector]): IRCorrectors containing the new values.
+        optics_seq (Sequence[Optics]): Optics to update.
+    """
     for optics in optics_seq:
         for corrector in correctors:
             sign = -1 if is_even(optics.beam) and is_anti_mirror_symmetric(corrector.strength_component) else 1
             optics.twiss.loc[corrector.name, corrector.strength_component] = sign * corrector.value
 
 
-def restore_optics_values(saved_values: dict, optics_seq: Sequence[Optics]):
-    """ Restore saved initial corrector values (if any) to optics. """
+def restore_optics_values(saved_values: Dict[str, Sequence[float]], optics_seq: Sequence[Optics]) -> None:
+    """ Restore saved initial corrector values (if any) to optics.
+
+    Args:
+        saved_values (Dict): Saved initial values (key: entry in optics, values: value per optics)
+        optics_seq (Sequence[Optics]): Optics to update.
+    """
     for corrector, values in saved_values.items():
         for optics, val in zip(optics_seq, values):
             optics.twiss.loc[corrector.name, corrector.strength_component] = val
