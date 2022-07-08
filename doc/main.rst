@@ -1,3 +1,3 @@
 
-.. automodule:: irnl_rdt_correction.irnl_rdt_correction
+.. automodule:: irnl_rdt_correction.main
    :members:

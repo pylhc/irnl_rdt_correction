@@ -1,0 +1,67 @@
+\section{Motivation}
+
+% General Correction in the IRs ---
+
+The sensitivity of accelerator beam optics to magnetic errors depends directly on the $\beta$-function, which 
+is highest in the Insertion Regions (IR) around the Interaction Points (IP) 
+with the lowest $\beta^*$ (the value of the $\beta$-function at the location of the IP).
+Hence, correcting the non-linear magnetic errors in these regions
+has been of significant importance in optimizing the LHC machine 
+performance~\cite{MacleanCommissioningNonlinearOptics2016,MacleanNewMethodsMeasurement2017,MacleanNewLHCOptics2017,
+MacleanDetailedReviewLHC2019,MacleanNewApproachLHC2019,MacleanProspectsBeambasedStudy2022}.
+
+During the design phase of the LHC, it was envisaged to make use of 
+the magnetic measurement data of the LHC 
+magnets~\cite{SammutMathematicalFormulationPredict2006,SammutMathematicalFormulationPredict2007,SammutMathematicalFormulationPredict2009} to
+simulate the machine in MAD-X~\cite{DeniauMADXUserGuide} and calculate the errors~\cite{BruningDynamicApertureStudies2004}.
+While it became clear that the accuracy of the magnetic model was not sufficient to
+calculate corrections to be implemented in the LHC~\cite{MacleanFirstMeasurementCorrection2015},
+it has nevertheless been a useful tool for the estimation of linear and non-linear 
+effects~\cite{MacleanNewApproachLHC2019,MacleanFirstMeasurementCorrection2015,
+TomasCERNLargeHadron2010,PerssonChromaticCouplingCorrection2013,
+DillyAmplitudeDetuningMisaligned2020}.
+
+Installation of stronger magnets in the IR and the decrease of $\beta^*$ in operation in the High Luminosity upgrade of the 
+LHC~(HL-LHC)~\cite{FartoukhHLLHCAcceleratorPhysics2015,BejarAlonsoHighLuminosityLargeHadron2020},
+is foreseen to result in even tighter constraints on residual errors. 
+
+
+At the same time, the influence of feed-down has been observed and investigated in the IRs 
+of the LHC as well, where the crossing-angle scheme of the collision optics creates a large orbit bump.
+For both, LHC and HL-LHC the need for corrections of this feed-down has been established
+~\cite{MacleanNewMethodsMeasurement2017,
+MacleanDetailedReviewLHC2019, 
+MacleanNewApproachLHC2019,
+MacleanProspectsBeambasedStudy2022,
+MacleanFirstMeasurementCorrection2015,
+MacleanNonlinearOpticsCommissioning2016,
+MacleanLHCMD21712018, 
+BuffatOpticsMeasurementCorrection2022}.
+
+% Introduction of correction scheme ---
+
+To estimate the powering of the corrector magnets, a local correction scheme
+based on the Resonance Driving Terms (RDTs) in the IRs has been 
+utilized~\cite{BruningDynamicApertureStudies2004}. 
+Up to now, the implementation of this scheme calculated the correction based on a single input optics, 
+for either Beam~1 or Beam~2, and made use of symmetries between the beams to optimize the correction for both. 
+Cases will occur in which this symmetry does not hold, e.g. through the introduction of feed-down, or the use of inherently asymmetric optics.
+An example for the latter are flat optics~\cite{FartoukhAchromaticTelescopicSqueezing2013,FartoukhFlatTelescopicOptics2018},
+in which $\beta^*$ in the two transversal planes no longer has identical values. 
+These optics allow for a more distributed radiation deposition in the LHC magnets as well as an increase 
+in luminosity~\cite{FartoukhFlatTelescopicOptics2018}.
+Their feasibility has been studied during machine developments in the LHC~\cite{FartoukhFirstHighIntensityBeam2019}
+and preliminary analysis regarding their influence on corrections and amplitude detuning has been conducted~\cite{DillyCorrectionAmpDet2018}.
+A new and flexible version of the correction principle has been implemented~\cite{OMC-TeamIRNLRDTCorrection}, 
+taking up to two optics into account and hence not relying on symmetry assumptions, allowing to target RDTs freely,
+as well as including feed-down into the calculations. 
+The implementation allows for the feed-down from higher orders to the RDT to be corrected, 
+as well as using the feed-down from higher order corrector magnets to correct for lower order errors.
+Theoretical background and the implementation details of this algorithm are presented in this report.
+
+% The new correction script has since been used for extensive tracking studies, 
+% investigating the influence of feed-down~\cite{DillyCorrectionsFeedDownNonLinear2021},
+%  the correctability of asymmetric optics~\cite{DillyCorrectionsAsymmetricNonLinear2021}
+% and the feasibility to correct systematic normal decapole errors in the separation and 
+% recombination dipoles of the HL-LHC~\cite{DillyFeasibilityCorrectingSystematic2021,DillyCorrenctionsSystematicNormal2022}.
+% Further studies are still ongoing and will be published in the near future.
