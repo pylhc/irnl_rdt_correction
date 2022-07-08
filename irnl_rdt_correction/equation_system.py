@@ -319,7 +319,7 @@ def get_elements_integral(rdt: RDT, ip: int, optics: Optics, feeddown: int) -> f
     """
     integral = 0
     lm, jk = rdt.l + rdt.m, rdt.j + rdt.k
-    twiss_df, errors_df = optics.twiss, optics.errors
+    twiss_df, errors_df = optics.twiss.copy(), optics.errors.copy()  # copy just to be safe
     # Integral on side ---
     for side in SIDES:
         LOG.debug(f" - Integral on side {side}.")
@@ -377,7 +377,7 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
     """
     LOG.debug(f" - Corrector {corrector.name}.")
     lm, jk = rdt.l + rdt.m, rdt.j + rdt.k
-    twiss_df, errors_df = optics.twiss, optics.errors
+    twiss_df, errors_df = optics.twiss.copy(), optics.errors.copy()  # copy just to be safe
 
     # bring the possible i from the integral to the corrector side
     # i.e. multiply both sides of the equation by i, for odd lm.
