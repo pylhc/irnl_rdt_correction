@@ -143,17 +143,28 @@ def irnl_rdt_correction(**opt) -> Tuple[str, tfs.TfsDataFrame]:
     timer.step("Opt Parsed.")
 
     rdt_maps = sort_rdts(opt.rdts, opt.rdts2)
-    check_corrector_order(rdt_maps, opt.update_optics, opt.feeddown)
+    check_corrector_order(rdt_maps, update_optics=opt.update_optics, feed_down=opt.feeddown)
     needed_orders = get_needed_orders(rdt_maps, opt.feeddown)
     timer.step("RDT Sorted.")
 
-    optics = get_optics(opt.beams, opt.twiss, opt.errors,
-                        needed_orders, opt.ignore_missing_columns)
+    optics = get_optics(
+        beams=opt.beams, twiss=opt.twiss, errors=opt.errors,
+        orders=needed_orders,
+        ignore_missing_columns=opt.ignore_missing_columns
+    )
     timer.step("Optics Loaded.")
 
-    correctors = solve(rdt_maps, optics,
-                       opt.accel, opt.ips, opt.update_optics, opt.ignore_corrector_settings,
-                       opt.feeddown, opt.iterations, opt.solver)
+    correctors = solve(
+        rdt_maps=rdt_maps,
+        optics_seq=optics,
+        accel=opt.accel,
+        ips=opt.ips,
+        update_optics=opt.update_optics,
+        ignore_corrector_settings=opt.ignore_corrector_settings,
+        feeddown=opt.feeddown,
+        iterations=opt.iterations,
+        solver=opt.solver
+    )
     timer.step("Done")
 
     timer.summary()

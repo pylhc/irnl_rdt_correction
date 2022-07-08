@@ -7,7 +7,11 @@ and checks for their validity.
 """
 import argparse
 import logging
+from pathlib import Path
 from typing import Iterable, Sized, Union
+
+import pandas as pd
+import tfs
 
 from irnl_rdt_correction.constants import EXT_TFS, EXT_MADX
 from irnl_rdt_correction.equation_system import SOLVER_MAP
@@ -57,14 +61,16 @@ def get_parser() -> argparse.ArgumentParser:
         "--twiss",
         dest="twiss",
         nargs="+",
-        help="Path(s) to twiss file(s). Defines which elements to correct for!",
+        help="Path(s) to twiss file(s), in the format of MAD-X `twiss` output. "
+             "Defines which elements to correct for,"
+             "meaning all given elements contribute to the correction!",
         required=True,
     )
     parser.add_argument(
         "--errors",
         dest="errors",
         nargs="+",
-        help="Path(s) to error file(s).",
+        help="Path(s) to error file(s), in the format of MAD-X `esave` output.",
         required=True,
     )
     parser.add_argument(
@@ -169,7 +175,24 @@ def get_parser() -> argparse.ArgumentParser:
 
 def check_opt(opt: Union[dict, DotDict]) -> DotDict:
     """ Asserts that the input parameters make sense and adds what's missing.
+    If the input is empty, arguments will be parsed from commandline.
+    Checks include:
+        - Set defaults (see ``DEFAULTS``) if option not given.
+        - Check accelerator name is valid
+        - Set default RDTs if not given (see ``DEFAULT_RDTS``)
+        - Check required parameters are present (twiss, errors, beams, rdts)
+        - Check feeddown and iterations
+
     TODO: Replace DotDict with dataclass and have class check most of this...
+
+    Args:
+        opt (Union[dict, DotDict]): Function options in dictionary format.
+                                Description of the arguments are given in
+                                :func:`irnl_rdt_correction.main.irnl_rdt_correction`.
+
+    Returns:
+        DotDict: (Parsed and) checked options.
+
     """
     # check for unkown input
     parser = get_parser()
@@ -206,9 +229,12 @@ def check_opt(opt: Union[dict, DotDict]) -> DotDict:
                              "iterable, even if only of length 1. "
                              f"Instead was '{inputs}'.")
 
-    # Copy DataFrames as they might be modified
-    opt.twiss = [o.copy() for o in opt.twiss]
-    opt.errors = [e.copy() for e in opt.errors]
+    # Check twiss and errors input type
+    for name in ('twiss', 'errors'):
+        inputs = opt.get(name)
+        for element in inputs:
+            if not isinstance(element, (str, Path, pd.DataFrame, tfs.TfsDataFrame)):
+                raise TypeError(f"Not all elements of '{name}' are DataFrames or paths to DataFrames!")
 
     if opt.feeddown < 0 or not (opt.feeddown == int(opt.feeddown)):
         raise ValueError("'feeddown' needs to be a positive integer.")

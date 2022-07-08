@@ -4,6 +4,7 @@ Constants
 
 These constants rely a lot on the HL-LHC/LHC Naming Scheme.
 """
+from pathlib import Path
 from typing import Union, Dict, Sequence
 
 from pandas import DataFrame
@@ -32,5 +33,5 @@ EXT_TFS = ".tfs"  # suffix for dataframe file
 EXT_MADX = ".madx"  # suffix for madx-command file
 
 # Types ---
-StrOrDataFrame = Union[str, DataFrame, TfsDataFrame]
+StrOrPathOrDataFrame = Union[str, Path, DataFrame, TfsDataFrame]
 RDTInputTypes = Union[Sequence[str], Dict[str, Sequence[str]]]
