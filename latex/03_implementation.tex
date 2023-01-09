@@ -2,7 +2,7 @@
 This chapter describes the implementation of the correction algorithm as 
 realized in Version 1.0.0 of \cite{OMC-TeamIRNLRDTCorrection}.
 Direct links to lines of the code as well as usage of \ttt{python} is avoided,
-yet the structure and naming of the sections in this chapter follows is kept close to the names in the actual code,
+yet the structure and naming of the sections in this chapter is kept close to the names in the actual code,
 which can be found on
 \href{https://github.com/pylhc/irnl_rdt_correction}{https://github.com/pylhc/irnl\_rdt\_correction}.
 The API is documented in  
@@ -51,11 +51,11 @@ The package is mostly self-contained and depends only on:
 \end{figure}
 
 Because of the opposite traveling direction of Beam~2, magnetic fields in the reference frame of this beam look as if rotated
-by $\qty{180}{\degree}$ around the y-axis at the center of the magnet, compared to the reference frame of Beam~1.
-Hence magnets with y-axis symmetry will have the same effect on the beams, 
-while magnets that do not have this symmetry will look like they have opposite-sign fields,
+by \qty{180}{\degree} around the y-axis at the center of the magnet, compared to the reference frame of Beam~1.
+Hence magnets that are symmetric upon this rotation will have the same effect on the beams, 
+while magnets that are not symmetric will look like they have opposite-sign field gradients,
 e.g. a focusing quadrupole magnet with strength $K_2$ in Beam~1 is seen as a defocusing magnet with $-K_2$ in Beam~2 
-(see \cref{fig:BeamDirection}).
+(as they are anti-symmetric upon the \qty{180}{\degree} rotation around the y-axis with respect to their polarity, see \cref{fig:BeamDirection}).
 %
 In general:
 %
@@ -68,21 +68,24 @@ In general:
 \end{cases}
 \end{equation}
 %
-This does not need to be taken into account as long as one stays within the reference frame of a single beam, 
-as the physics (e.g. feed-down and RDTs) is symmetrical.
-It becomes problematic when both beams are involved, especially as there are two different definitions for Beam~2 in \ttt{MAD-X}: 
-One called is ``Beam~2'', for which all elements are defined in the reference frame of Beam~1 
+This becomes important as soon as both beams need to be corrected by the same (i.e. single aperture) correctors, 
+especially as there are two different definitions for Beam~2 in \ttt{MAD-X}: 
+One called is ``Beam~2'', 
+for which all elements are defined in the reference frame of Beam~1 
 and the beam direction is handled via a negative beam velocity (\ttt{BV=-1}); 
 the other one is called ``Beam~4'' and here the whole lattice is inverted and the beam travels in forward direction (\ttt{BV=1}),
 which means the field strengths follow the relation in \cref{eq:B1toB2}.
-Of further confusion is the fact, that the beam direction is already taken into account in the field strength data of \ttt{TWISS} 
+Quotes are kept in the following, to indicate that this is not Beam~2 as in the machine, 
+but ``Beam~2'' or ``Beam~4''as defined in \ttt{MAD-X}.
+The lattice for ``Beam~1'' in \ttt{MAD-X} follows the beam direction of Beam~1 in the actual machine.
+One should note, that the beam direction is already taken into account in the field strength data of \ttt{TWISS} 
 in \ttt{MAD-X}, but not in the \opt{errors} output of \ttt{ESAVE} and not in the horizontal orbit, the \ttt{X} and \ttt{DX} data respectively.
 To assure consistent behaviour, the optics of ``Beam~2'' are brought into the reference frame of ``Beam~4'' upon loading.
 
 When building an equation system as in \cref{eq:linearEqSystemDoubleOptics}, the reference frame needs again to be taken into account:
 \Cref{eq:linearEqSystemDoubleOptics} is only correct, when all values are calculated in the same reference frame.  
-Yet they are not.
-Each line  of  is correct in its own reference frame, but the $K_nL$ and $J_nL$ values are shared in between them. 
+As they are not, each line in \cref{eq:linearEqSystemDoubleOptics} is correct in its own reference frame, 
+but the $K_nL$ and $J_nL$ values are shared between the two frames. 
 To account for the appropriate signs, the signs of the coefficients are inverted according to \cref{eq:B1toB2} where needed for Beam~2: 
 %
 \begin{equation}    
@@ -120,24 +123,30 @@ To account for the appropriate signs, the signs of the coefficients are inverted
     \end{split}
 \end{equation}
 %
-Calculating the corrector strengths in this way also allows for easy setting of the \ttt{MAD-X} knobs
-to set the corrector strengths, as these are defined with positive sign in the lattice sequence of Beam~1 (and ``Beam~2'')
+Calculating the corrector strengths in this way also allows for a 
+straightforward assignment of the values to the \ttt{MAD-X} knobs (variables) setting the corrector strengths, 
+as these are defined with positive sign in the lattice sequences of ``Beam~1'' and ``Beam~2''
 and negative sign in the lattice sequence of ``Beam~4''.
 On the other hand, when updating the optics tables itself, e.g. to correct feed-down from the correctors, 
-the original signs need to be recovered for ``Beam~2'' and ``Beam~4''.
+the original signs need to be recovered.
 
-This is the way the beam direction is currently implemented in the code.
-Where this sign change is applied, it will be explicitly mentioned again in the following chapters.
+Following the beam direction in the machine and taking care of the different sign conventions
+as described in this chapter is the currently implemented way beam direction is taken care of.
 
 \begin{important}
-        \item[\raisedtaget{Hint:SwitchBeamSigns}\color{AtlasGreen} Hint]
-        Another option would be to bring everything into the reference frame of Beam~1 in the first place, 
+        \item[\raisedtaget{Alternative:SwitchBeamSigns}\color{AtlasGreen} Alternative]
+        Instead of converting ``Beam~2'' parameters into ``Beam~4'' conventions,  
+        another option would be to bring everything into the reference frame of Beam~1 in the first place, 
         i.e. switching the signs of the ``Beam~4'' $K_nL$ and $J_nL$ according to \cref{eq:B1toB2}, 
         in \opt{twiss} and \opt{errors}, as well as the same $K_nL, J_nL$ in the \opt{twiss} of ``Beam~2''.
-        It still needs to be shown, that in this case feed-down is correctly calculated, 
-        as the direction of the beam is no longer taken into consideration.
-        If this is shown, all beam related sign changes in the code, but the initial one to bring 
-        as described just now upon loading \opt{twiss} and \opt{errors}, could be removed.
+        This would allow some simplifications of the implementation, 
+        as any following switching of signs is already taken care of in \ttt{MAD-X} via the 
+        signs of the corrector knobs.
+        Yet, it has not been examined, whether feed-down is correctly calculated in this case, 
+        as the direction of the beam is then no longer taken into consideration.
+        If it is shown, that the sign of the feed-down strengths are still correct,
+        all beam related sign changes in the code, 
+        that follow the initial transformation into Beam~1 reference frame, could be removed.
         See also \cref{sec:Todo}.
 \end{important}
 
@@ -491,7 +500,7 @@ Currently running are tests for the following scenarios:
    BUT: does this really work with all the feed-down options implemented
    (i.e. feed-down to RDT, feed-down from correctors)?
    It should, but needs to be checked and tested.
-   See \hyperlink{Hint:SwitchBeamSigns}{\textcolor{AtlasGreen}{\textsc{\bfseries Hint}}} in \cref{sec:BeamDirection}.
+   See the \hyperlink{Alternative:SwitchBeamSigns}{\textcolor{AtlasGreen}{\textsc{\bfseries Alternative}}} in \cref{sec:BeamDirection}.
  \item[\color{AtlasOrange}medium]
    Take phase advance between the elements and to the correction point at the entrance of the IR into account.
    That would mean correct the numerator of the \textit{actual} RDT (\cref{eq:RDTHamiltonianRelation}) instead 
