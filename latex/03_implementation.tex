@@ -383,9 +383,9 @@ and works on under-, well-, or over-determined equation systems.
 
 As explained above the resulting values are the changes to the current corrector values, 
 which are now applied and used to update the optics and the integrals on the rhs of \cref{eq:linearEqSystemFull} are
-recalculated, informing about the change in the effective RDTs and to be used in the next \opt{iteration}, if there will be one. 
+recalculated, informing about the change in the effective RDTs and to be used in the next \opttarget{iterations}{iteration}, if there will be one. 
 
-After the \opt{iteration}s for the current IP have been run,
+After the \opt{iterations} for the current IP have been run,
 the original corrector values will be restored, if they had been saved (see~\cref{par:GetAvailableCorrectors}) 
 and the corrections for the \opttarget{ips}{next given IP} is calculated.
 

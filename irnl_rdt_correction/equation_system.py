@@ -3,7 +3,7 @@ Equation System
 ---------------
 
 Builds and solves the equation system from the rdt-to-corrector-maps given.
-This is Eq. (37) of [DillyNonlinearIRCorrections2023]_.
+This is Eq. (40) of [DillyNonlinearIRCorrections2023]_.
 
 """
 import logging
@@ -29,7 +29,7 @@ X, Y = PLANES
 def solve(rdt_maps: Sequence[RDTMap], optics_seq: Sequence[Optics],
           accel: str, ips: Sequence[int], update_optics: bool, ignore_corrector_settings: bool,
           feeddown: int, iterations: int, solver: str) -> Sequence[IRCorrector]:
-    """ Calculate corrections, i.e. build and solve Eq. (37) of [DillyNonlinearIRCorrections2023]_.
+    """ Calculate corrections, i.e. build and solve Eq. (40) of [DillyNonlinearIRCorrections2023]_.
     Corrections are performed by grouping RDTs with common correctors.
     If possible, these are ordered from the highest order to lowest,
     to be able to update optics and include their feed-down.
@@ -50,7 +50,7 @@ def solve(rdt_maps: Sequence[RDTMap], optics_seq: Sequence[Optics],
                                           If this is not set the corrector values of the
                                           optics are used as initial conditions.
         feeddown (int): Orders of feed-down to include calculating the integral on the rhs of
-                        Eq. (37) of [DillyNonlinearIRCorrections2023]_
+                        Eq. (40) of [DillyNonlinearIRCorrections2023]_
         iterations (int): (Re-)iterate correction, starting with the previously
                           calculated values. Needs to be > 0, as the first calculation
                           counts as an iteration.
@@ -264,7 +264,7 @@ def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_s
 
 def build_equation_system(rdt_maps: Sequence[RDTMap], correctors: Sequence[IRCorrector], ip: int,
                           optics_seq: Sequence[Optics], feeddown: int) -> Tuple[ArrayLike, ArrayLike]:
-    """ Builds equation system as in  Eq. (37) of [DillyNonlinearIRCorrections2023]_
+    """ Builds equation system as in  Eq. (40) of [DillyNonlinearIRCorrections2023]_
     for a given ip for all given optics and error files (i.e. beams) and grouped RDTs,
     i.e. RDTs that share correctors.
 
@@ -305,7 +305,7 @@ def build_equation_system(rdt_maps: Sequence[RDTMap], correctors: Sequence[IRCor
 
 def get_elements_integral(rdt: RDT, ip: int, optics: Optics, feeddown: int) -> float:
     """ Calculate the RDT integral for all elements of the IP.
-    These are the entries on the rhs of Eq. (37) of [DillyNonlinearIRCorrections2023]_,
+    These are the entries on the rhs of Eq. (40) of [DillyNonlinearIRCorrections2023]_,
     including sign.
 
     Args:
@@ -362,7 +362,7 @@ def get_elements_integral(rdt: RDT, ip: int, optics: Optics, feeddown: int) -> f
 
 def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) -> float:
     """ Calculate B-Matrix Element for Corrector.
-    These are the entries on the lhs of Eq. (37) of [DillyNonlinearIRCorrections2023]_
+    These are the entries on the lhs of Eq. (40) of [DillyNonlinearIRCorrections2023]_
     including feed-down coefficient z and signs.
     Any imaginary i coefficient  is also included, making all values real.
 
@@ -382,7 +382,7 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
     # bring the possible i from the integral to the corrector side
     # i.e. multiply both sides of the equation by i, for odd lm.
     # The integral always has a minus sign then.
-    # (As in [#DillyNonlinearIRCorrections2023]_ already, e.g. Eq. (17) )
+    # (As in [#DillyNonlinearIRCorrections2023]_ already, e.g. Eq. (20) )
     sign_i = np.real(i_pow(lm + (lm % 2)))  # i_pow(lm + lm%2) is always real
     sign_corrector = sign_i * get_side_sign(rdt.order, corrector.side)
 
@@ -390,7 +390,7 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
     betay = twiss_df.loc[corrector.name, f"{BETA}{Y}"]
     if rdt.swap_beta_exp:
         # in case of beta-symmetry,
-        # this corrects for the same RDT in the opposite beam. (see Eq. (20))
+        # this corrects for the same RDT in the opposite beam. (see Eq. (23))
         betax = betax**(lm/2.)
         betay = betay**(jk/2.)
     else:
@@ -400,13 +400,13 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
     z = 1
     p = corrector.order - rdt.order
     if p:
-        # Corrector contributes via feed-down, Eq. (28) in [DillyNonlinearIRCorrections2023]_
+        # Corrector contributes via feed-down, Eq. (31) in [DillyNonlinearIRCorrections2023]_
         dx = twiss_df.loc[corrector.name, X] + errors_df.loc[corrector.name, f"{DELTA}{X}"]
         dy = twiss_df.loc[corrector.name, Y] + errors_df.loc[corrector.name, f"{DELTA}{Y}"]
         dx_idy = dx + 1j*dy
-        z_cmplx = (dx_idy**p) / np.math.factorial(p)  # Eq. (29)
+        z_cmplx = (dx_idy**p) / np.math.factorial(p)  # Eq. (32)
 
-        # Get the correct part of z_cmplx, see Eq. (33) in [DillyNonlinearIRCorrections2023]_
+        # Get the correct part of z_cmplx, see Eq. (36) in [DillyNonlinearIRCorrections2023]_
         if (corrector.skew and is_odd(lm)) or (not corrector.skew and is_even(lm)):
             # K_n, l+m even
             # J_n, l+m odd
@@ -435,8 +435,8 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
 def get_side_sign(n: int, side: str) -> int:
     """ Sign of the integral and corrector for this side.
 
-    This is the exp(iπnθ(s_w−s_IP)) part of Eq. (13)
-    or (-1)^(θ(s_w−s_IP)) of later equations, e.g. Eq. (14)
+    This is the exp(iπnθ(s_w−s_IP)) part of Eq. (16)
+    or (-1)^(θ(s_w−s_IP)) of later equations, e.g. Eq. (17)
     in [DillyNonlinearIRCorrections2023]_.
 
     Args:
