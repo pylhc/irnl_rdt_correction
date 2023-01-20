@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>irnl_rdt_correction.equation_system &mdash; irnl-rdt-correction 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> irnl-rdt-correction
+            <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Main</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../main.html">Nonlinear Correction calculation in the IRs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../main.html#irnl_rdt_correction.main.irnl_rdt_correction"><code class="docutils literal notranslate"><span class="pre">irnl_rdt_correction()</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html">Constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#equation-system">Equation System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.build_equation_system"><code class="docutils literal notranslate"><span class="pre">build_equation_system()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_available_correctors"><code class="docutils literal notranslate"><span class="pre">get_available_correctors()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_corrector_coefficient"><code class="docutils literal notranslate"><span class="pre">get_corrector_coefficient()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_current_rdt_maps"><code class="docutils literal notranslate"><span class="pre">get_current_rdt_maps()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_elements_integral"><code class="docutils literal notranslate"><span class="pre">get_elements_integral()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_side_sign"><code class="docutils literal notranslate"><span class="pre">get_side_sign()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.init_corrector_and_optics_values"><code class="docutils literal notranslate"><span class="pre">init_corrector_and_optics_values()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.optics_update"><code class="docutils literal notranslate"><span class="pre">optics_update()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.restore_optics_values"><code class="docutils literal notranslate"><span class="pre">restore_optics_values()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.solve"><code class="docutils literal notranslate"><span class="pre">solve()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.solve_equation_system"><code class="docutils literal notranslate"><span class="pre">solve_equation_system()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#input-options">Input Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.input_options.check_opt"><code class="docutils literal notranslate"><span class="pre">check_opt()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#io-handling">IO Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_df"><code class="docutils literal notranslate"><span class="pre">build_correction_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_str"><code class="docutils literal notranslate"><span class="pre">build_correction_str()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_str_from_df"><code class="docutils literal notranslate"><span class="pre">build_correction_str_from_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.get_and_write_output"><code class="docutils literal notranslate"><span class="pre">get_and_write_output()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.get_optics"><code class="docutils literal notranslate"><span class="pre">get_optics()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.get_tfs"><code class="docutils literal notranslate"><span class="pre">get_tfs()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.maybe_switch_signs"><code class="docutils literal notranslate"><span class="pre">maybe_switch_signs()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#rdt-handling">RDT Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.IRCorrector"><code class="docutils literal notranslate"><span class="pre">IRCorrector</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.RDT"><code class="docutils literal notranslate"><span class="pre">RDT</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.check_corrector_order"><code class="docutils literal notranslate"><span class="pre">check_corrector_order()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.get_needed_orders"><code class="docutils literal notranslate"><span class="pre">get_needed_orders()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.sort_rdts"><code class="docutils literal notranslate"><span class="pre">sort_rdts()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#utilities">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.DotDict"><code class="docutils literal notranslate"><span class="pre">DotDict</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Optics"><code class="docutils literal notranslate"><span class="pre">Optics</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Timer"><code class="docutils literal notranslate"><span class="pre">Timer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.get_max_knl_order"><code class="docutils literal notranslate"><span class="pre">get_max_knl_order()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.i_pow"><code class="docutils literal notranslate"><span class="pre">i_pow()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.is_anti_mirror_symmetric"><code class="docutils literal notranslate"><span class="pre">is_anti_mirror_symmetric()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.log_setup"><code class="docutils literal notranslate"><span class="pre">log_setup()</span></code></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">irnl-rdt-correction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">irnl_rdt_correction.equation_system</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+  
+  
+           <div itemprop="articleBody">
+             
+  <h1>Source code for irnl_rdt_correction.equation_system</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Equation System</span>
+<span class="sd">---------------</span>
+
+<span class="sd">Builds and solves the equation system from the rdt-to-corrector-maps given.</span>
+<span class="sd">This is Eq. (40) of [DillyNonlinearIRCorrections2023]_.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">ArrayLike</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span>
+
+<span class="kn">from</span> <span class="nn">irnl_rdt_correction.constants</span> <span class="kn">import</span> <span class="n">BETA</span><span class="p">,</span> <span class="n">SIDES</span><span class="p">,</span> <span class="n">PLANES</span><span class="p">,</span> <span class="n">DELTA</span><span class="p">,</span> <span class="n">KEYWORD</span><span class="p">,</span> <span class="n">MULTIPOLE</span>
+<span class="kn">from</span> <span class="nn">irnl_rdt_correction.rdt_handling</span> <span class="kn">import</span> <span class="n">IRCorrector</span><span class="p">,</span> <span class="n">RDT</span><span class="p">,</span> <span class="n">RDTMap</span>
+<span class="kn">from</span> <span class="nn">irnl_rdt_correction.utilities</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">list2str</span><span class="p">,</span> <span class="n">i_pow</span><span class="p">,</span> <span class="n">is_even</span><span class="p">,</span> <span class="n">is_odd</span><span class="p">,</span> <span class="n">is_anti_mirror_symmetric</span><span class="p">,</span> <span class="n">idx2str</span><span class="p">,</span> <span class="n">Optics</span>
+<span class="p">)</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">PLANES</span>
+
+
+<span class="c1"># Main Solving Function --------------------------------------------------------</span>
+
+<div class="viewcode-block" id="solve"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.equation_system.solve">[docs]</a><span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="n">rdt_maps</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">RDTMap</span><span class="p">],</span> <span class="n">optics_seq</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Optics</span><span class="p">],</span>
+          <span class="n">accel</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ips</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">update_optics</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">ignore_corrector_settings</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+          <span class="n">feeddown</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Calculate corrections, i.e. build and solve Eq. (40) of [DillyNonlinearIRCorrections2023]_.</span>
+<span class="sd">    Corrections are performed by grouping RDTs with common correctors.</span>
+<span class="sd">    If possible, these are ordered from the highest order to lowest,</span>
+<span class="sd">    to be able to update optics and include their feed-down.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rdt_maps (Sequence[RDTMap]): Sequence of RDTMap objects,</span>
+<span class="sd">                                     i.e. a dict mapping the RDT to the used correctors.</span>
+<span class="sd">        optics_seq (Sequence[Optics]): Sequence of Optics objects containing twiss and errors.</span>
+<span class="sd">        accel (str): Accelerator to use (implemented &#39;lhc&#39; and &#39;hllhc&#39;).</span>
+<span class="sd">        ips (Sequence[int]): Sequence of IPs to correct. Elements will split by IP,</span>
+<span class="sd">                             assuming their name ends with &quot;L&quot; or &quot;R&quot; for</span>
+<span class="sd">                             left and right followed by the IP number.</span>
+<span class="sd">        update_optics (bool): Sorts the RDTs to start with the highest order</span>
+<span class="sd">                              and updates the corrector strengths in the optics</span>
+<span class="sd">                              after calculation, so the feeddown to lower order</span>
+<span class="sd">                              correctors is included.</span>
+<span class="sd">        ignore_corrector_settings (bool): Ignore the current settings of the correctors.</span>
+<span class="sd">                                          If this is not set the corrector values of the</span>
+<span class="sd">                                          optics are used as initial conditions.</span>
+<span class="sd">        feeddown (int): Orders of feed-down to include calculating the integral on the rhs of</span>
+<span class="sd">                        Eq. (40) of [DillyNonlinearIRCorrections2023]_</span>
+<span class="sd">        iterations (int): (Re-)iterate correction, starting with the previously</span>
+<span class="sd">                          calculated values. Needs to be &gt; 0, as the first calculation</span>
+<span class="sd">                          counts as an iteration.</span>
+<span class="sd">        solver (str): Solver to use: &#39;inv&#39;, &#39;lstq&#39; or &#39;linear&#39;</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Sequence[IRCorrector]: Sequence of IRCorrector objects, which define the</span>
+<span class="sd">                               IR corrector and its value and contain additional</span>
+<span class="sd">                               information about the corrector.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">all_correctors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">remaining_rdt_maps</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">RDTMap</span><span class="p">]</span> <span class="o">=</span> <span class="n">rdt_maps</span>
+    <span class="k">while</span> <span class="n">remaining_rdt_maps</span><span class="p">:</span>
+        <span class="n">current_rdt_maps</span><span class="p">,</span> <span class="n">remaining_rdt_maps</span><span class="p">,</span> <span class="n">corrector_names</span> <span class="o">=</span> <span class="n">get_current_rdt_maps</span><span class="p">(</span><span class="n">remaining_rdt_maps</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">ip</span> <span class="ow">in</span> <span class="n">ips</span><span class="p">:</span>
+            <span class="n">correctors</span> <span class="o">=</span> <span class="n">get_available_correctors</span><span class="p">(</span><span class="n">corrector_names</span><span class="p">,</span> <span class="n">accel</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="n">optics_seq</span><span class="p">)</span>
+            <span class="n">all_correctors</span> <span class="o">+=</span> <span class="n">correctors</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">correctors</span><span class="p">):</span>
+                <span class="k">continue</span>  <span class="c1"># warnings are logged in get_available_correctors</span>
+
+            <span class="n">saved_corrector_values</span> <span class="o">=</span> <span class="n">init_corrector_and_optics_values</span><span class="p">(</span><span class="n">correctors</span><span class="p">,</span> <span class="n">optics_seq</span><span class="p">,</span> <span class="n">update_optics</span><span class="p">,</span>
+                                                                      <span class="n">ignore_corrector_settings</span><span class="p">)</span>
+
+            <span class="n">beta_matrix</span><span class="p">,</span> <span class="n">integral</span> <span class="o">=</span> <span class="n">build_equation_system</span><span class="p">(</span>
+                <span class="n">current_rdt_maps</span><span class="p">,</span> <span class="n">correctors</span><span class="p">,</span>
+                <span class="n">ip</span><span class="p">,</span> <span class="n">optics_seq</span><span class="p">,</span> <span class="n">feeddown</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">iteration</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+                <span class="n">solve_equation_system</span><span class="p">(</span><span class="n">correctors</span><span class="p">,</span> <span class="n">beta_matrix</span><span class="p">,</span> <span class="n">integral</span><span class="p">,</span> <span class="n">solver</span><span class="p">)</span>  <span class="c1"># changes corrector values</span>
+                <span class="n">optics_update</span><span class="p">(</span><span class="n">correctors</span><span class="p">,</span> <span class="n">optics_seq</span><span class="p">)</span>  <span class="c1"># update corrector values in optics</span>
+
+                <span class="c1"># update integral values after iteration:</span>
+                <span class="n">integral_before</span> <span class="o">=</span> <span class="n">integral</span>
+                <span class="n">_</span><span class="p">,</span> <span class="n">integral</span> <span class="o">=</span> <span class="n">build_equation_system</span><span class="p">(</span>
+                    <span class="n">current_rdt_maps</span><span class="p">,</span> <span class="p">[],</span>  <span class="c1"># empty correctors list skips beta-matrix calculation</span>
+                    <span class="n">ip</span><span class="p">,</span> <span class="n">optics_seq</span><span class="p">,</span> <span class="n">feeddown</span>
+                <span class="p">)</span>
+                <span class="n">_log_correction</span><span class="p">(</span><span class="n">integral_before</span><span class="p">,</span> <span class="n">integral</span><span class="p">,</span> <span class="n">current_rdt_maps</span><span class="p">,</span> <span class="n">optics_seq</span><span class="p">,</span> <span class="n">iteration</span><span class="p">,</span> <span class="n">ip</span><span class="p">)</span>
+
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Correction of IP</span><span class="si">{</span><span class="n">ip</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"> complete.&quot;</span><span class="p">)</span>
+            <span class="n">restore_optics_values</span><span class="p">(</span><span class="n">saved_corrector_values</span><span class="p">,</span> <span class="n">optics_seq</span><span class="p">)</span>  <span class="c1"># hint: nothing saved if update_optics is True</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">all_correctors</span><span class="p">)</span></div>
+
+
+<span class="c1"># Preparation ------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="get_current_rdt_maps"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.equation_system.get_current_rdt_maps">[docs]</a><span class="k">def</span> <span class="nf">get_current_rdt_maps</span><span class="p">(</span><span class="n">rdt_maps</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">RDTMap</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">RDTMap</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">RDTMap</span><span class="p">],</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates a new rdt_map with all rdt&#39;s that share correctors.</span>
+
+<span class="sd">    This function is called in a while-loop, `so rdt_maps` is the</span>
+<span class="sd">    `remaining_rdt_maps` from the last loop.</span>
+<span class="sd">    The while-loop is interrupted when no remaining rdts are left.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rdt_maps (Sequence[RDTMap]): (Still) available RDTMaps to be checked.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple[Sequence[RDTMap], Sequence[RDTMap], Set[str]]: 3-Tuple consisting of</span>
+<span class="sd">        the sequence of current RDTMaps to use, the remaining RDT maps and</span>
+<span class="sd">        the checked (i.e. to be used) correctors in this loop.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_maps</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rdt_maps</span><span class="p">)</span>  <span class="c1"># should be number of optics given</span>
+    <span class="n">new_rdt_map</span> <span class="o">=</span> <span class="p">[{}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_maps</span><span class="p">)]</span>  <span class="c1"># don&#39;t use [{}] * n_maps!!</span>
+
+    <span class="c1"># get the next set of correctors from the first rdt in the first</span>
+    <span class="c1"># non-empty rdt_mapping.</span>
+    <span class="k">for</span> <span class="n">rdt_map</span> <span class="ow">in</span> <span class="n">rdt_maps</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">correctors_to_check</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">rdt_map</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+            <span class="k">continue</span>  <span class="c1"># rdt_map is empty</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">break</span>  <span class="c1"># found a rdt map</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Ran through all maps without fining any non-empy ones.</span>
+        <span class="c1"># This should have been caught in the last call at the end of this function.</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All rdt_maps are empty. &quot;</span>
+                         <span class="s2">&quot;This should have triggered an end of the solver loop &quot;</span>
+                         <span class="s2">&quot;earlier. Please investigate.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Use these as initial set of correctors.</span>
+    <span class="c1"># Notice that the current rdt has not yet been added to the new mapping.</span>
+    <span class="c1"># This will happen in the loop, when the rdt to compare is the current rdt.</span>
+    <span class="n">correctors_to_check</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">correctors_to_check</span><span class="p">)</span>
+    <span class="n">checked_correctors</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">correctors_to_check</span><span class="p">):</span>
+        <span class="c1"># find all RDTs that share correctors</span>
+        <span class="n">checked_correctors</span> <span class="o">|=</span> <span class="n">correctors_to_check</span>  <span class="c1"># all correctors checked so far or to be checked in this round</span>
+        <span class="n">additional_correctors</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c1"># new correctors found this round, i.e. correctors to be checked in next round</span>
+
+        <span class="k">for</span> <span class="n">corrector</span> <span class="ow">in</span> <span class="n">correctors_to_check</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_maps</span><span class="p">):</span>  <span class="c1"># check for all optics</span>
+                <span class="k">for</span> <span class="n">rdt</span><span class="p">,</span> <span class="n">rdt_correctors</span> <span class="ow">in</span> <span class="n">rdt_maps</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">corrector</span> <span class="ow">in</span> <span class="n">rdt_correctors</span><span class="p">:</span>
+                        <span class="c1"># this rdt shares one or more correctors with the original rdt</span>
+                        <span class="c1"># it might have been added already if multiple correctors are shared</span>
+                        <span class="k">if</span> <span class="n">rdt</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">new_rdt_map</span><span class="p">[</span><span class="n">idx</span><span class="p">]:</span>
+                            <span class="c1"># new rdt</span>
+                            <span class="n">new_rdt_map</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="n">rdt</span><span class="p">]</span> <span class="o">=</span> <span class="n">rdt_correctors</span>
+
+                            <span class="c1"># any hence unchecked correctors are added and will be checked in</span>
+                            <span class="c1"># the next round until no new correctors are found.</span>
+                            <span class="n">additional_correctors</span> <span class="o">|=</span> <span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">rdt_correctors</span><span class="p">)</span> <span class="o">-</span> <span class="n">checked_correctors</span><span class="p">)</span>
+
+        <span class="n">correctors_to_check</span> <span class="o">=</span> <span class="n">additional_correctors</span>
+
+    <span class="c1"># gather all remaining rdts from the rdt_maps</span>
+    <span class="n">remaining_rdt_map</span> <span class="o">=</span> <span class="p">[{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">rdt_maps</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                          <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">new_rdt_map</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_maps</span><span class="p">)]</span>
+
+    <span class="c1"># check if there are any rdts left. `None` should interrupt the outer loop.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rrm</span><span class="p">)</span> <span class="k">for</span> <span class="n">rrm</span> <span class="ow">in</span> <span class="n">remaining_rdt_map</span><span class="p">):</span>
+        <span class="n">remaining_rdt_map</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">new_rdt_map</span><span class="p">,</span> <span class="n">remaining_rdt_map</span><span class="p">,</span> <span class="n">checked_correctors</span></div>
+
+
+<div class="viewcode-block" id="get_available_correctors"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.equation_system.get_available_correctors">[docs]</a><span class="k">def</span> <span class="nf">get_available_correctors</span><span class="p">(</span><span class="n">field_components</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">accel</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                             <span class="n">optics_seq</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Optics</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Gets the available correctors by checking for their presence in the optics.</span>
+<span class="sd">    If the corrector is not found in this ip, the ip is skipped.</span>
+<span class="sd">    If only one corrector (left or right) is present a warning is issued.</span>
+<span class="sd">    If one corrector is present in only one optics (and not in the other)</span>
+<span class="sd">    an Environment Error is raised.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        field_components (Set[str]): Set of field components to be corrected</span>
+<span class="sd">                                     (i.e. correctors to be found for).</span>
+<span class="sd">                                     Field components are e.g. &quot;a3&quot;, &quot;b4&quot; etc.</span>
+<span class="sd">        accel (str): Which accelerator to use.</span>
+<span class="sd">        ip (int): Which IP we are currently working on.</span>
+<span class="sd">        optics_seq (Sequence[Optics]):  Sequence of Optics (twiss and errors).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List[IRCorrector]: List of IRCorrectors to use to correct given field components.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">correctors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">field_component</span> <span class="ow">in</span> <span class="n">field_components</span><span class="p">:</span>
+        <span class="n">corrector_not_found</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">corrector_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="n">SIDES</span><span class="p">:</span>
+            <span class="n">corrector</span> <span class="o">=</span> <span class="n">IRCorrector</span><span class="p">(</span><span class="n">field_component</span><span class="p">,</span> <span class="n">accel</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="n">side</span><span class="p">)</span>
+            <span class="n">corr_in_optics</span> <span class="o">=</span> <span class="p">[</span><span class="n">_corrector_in_dataframe</span><span class="p">(</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">optics</span><span class="o">.</span><span class="n">twiss</span><span class="p">)</span> <span class="k">for</span> <span class="n">optics</span> <span class="ow">in</span> <span class="n">optics_seq</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">corr_in_optics</span><span class="p">):</span>
+                <span class="n">correctors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">corrector</span><span class="p">)</span>
+                <span class="n">corrector_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">corr_in_optics</span><span class="p">):</span>
+                <span class="c1"># Raise informative Error</span>
+                <span class="n">idx_true</span> <span class="o">=</span> <span class="n">corr_in_optics</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">idx_false</span> <span class="o">=</span> <span class="p">(</span><span class="n">idx_true</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+                <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Corrector </span><span class="si">{</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> was found&#39;</span>
+                                       <span class="sa">f</span><span class="s1">&#39;in the </span><span class="si">{</span><span class="n">idx2str</span><span class="p">(</span><span class="n">idx_true</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s1"> optics&#39;</span>
+                                       <span class="sa">f</span><span class="s1">&#39;but not in the </span><span class="si">{</span><span class="n">idx2str</span><span class="p">(</span><span class="n">idx_false</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+                                       <span class="sa">f</span><span class="s1">&#39;optics.&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Ignore Corrector</span>
+                <span class="n">corrector_not_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">corrector_not_found</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Corrector </span><span class="si">{</span><span class="n">corrector_not_found</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> could not be found in &#39;</span>
+                        <span class="sa">f</span><span class="s1">&#39;optics, yet </span><span class="si">{</span><span class="n">corrector_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> was present. &#39;</span>
+                        <span class="sa">f</span><span class="s1">&#39;Correction will be performed with available corrector(s) only.&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">corrector_not_found</span><span class="p">):</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Correctors </span><span class="si">{</span><span class="n">list2str</span><span class="p">(</span><span class="n">corrector_not_found</span><span class="p">)</span><span class="si">}</span><span class="s1"> were not found in&#39;</span>
+                     <span class="sa">f</span><span class="s1">&#39; optics. Skipping IP</span><span class="si">{</span><span class="n">ip</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">correctors</span><span class="p">))</span>  <span class="c1"># do not have to be sorted, but looks nicer</span></div>
+
+
+<div class="viewcode-block" id="init_corrector_and_optics_values"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.equation_system.init_corrector_and_optics_values">[docs]</a><span class="k">def</span> <span class="nf">init_corrector_and_optics_values</span><span class="p">(</span><span class="n">correctors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">],</span> <span class="n">optics_seq</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Optics</span><span class="p">],</span>
+                                     <span class="n">update_optics</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">ignore_settings</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Save original corrector values from optics (for later restoration, only if ``update_optics`` is ``False``)</span>
+<span class="sd">    and if ``ignore_settings`` is ``True``, the corrector values in the optics are set to ``0``.</span>
+<span class="sd">    Otherwise, the corrector object value is initialized with the value from the optics.</span>
+<span class="sd">    An error is thrown if the optics differ in value.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        correctors (Sequence[IRCorrector]): Sequence of IRCorrectors to initialize.</span>
+<span class="sd">        optics_seq (Sequence[Optics]): Optics to get values from.</span>
+<span class="sd">        update_optics (bool): If not set, saves initial data for later recovery.</span>
+<span class="sd">        ignore_settings (bool): If set, values in Optics will be set to zero for given correctors.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dict[IRCorrector, Sequence[float]]: The saved values per corrector (per Optics).</span>
+<span class="sd">                                            If the optics are updated anyway, this is an empty dict.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">saved_values</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">corrector</span> <span class="ow">in</span> <span class="n">correctors</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">optic</span><span class="o">.</span><span class="n">twiss</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">corrector</span><span class="o">.</span><span class="n">strength_component</span><span class="p">]</span> <span class="k">for</span> <span class="n">optic</span> <span class="ow">in</span> <span class="n">optics_seq</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">update_optics</span><span class="p">:</span>
+            <span class="n">saved_values</span><span class="p">[</span><span class="n">corrector</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+
+        <span class="k">if</span> <span class="n">ignore_settings</span><span class="p">:</span>
+            <span class="c1"># set corrector value in optics to zero</span>
+            <span class="k">for</span> <span class="n">optics</span> <span class="ow">in</span> <span class="n">optics_seq</span><span class="p">:</span>
+                <span class="n">optics</span><span class="o">.</span><span class="n">twiss</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">corrector</span><span class="o">.</span><span class="n">strength_component</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">values</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial value for corrector </span><span class="si">{</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> differs &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;between optics.&quot;</span><span class="p">)</span>
+            <span class="c1"># use optics value as initial value (as equation system calculates corrector delta!!)</span>
+            <span class="n">corrector</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">saved_values</span></div>
+
+
+<span class="c1"># Build Equation System --------------------------------------------------------</span>
+
+<div class="viewcode-block" id="build_equation_system"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.equation_system.build_equation_system">[docs]</a><span class="k">def</span> <span class="nf">build_equation_system</span><span class="p">(</span><span class="n">rdt_maps</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">RDTMap</span><span class="p">],</span> <span class="n">correctors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">],</span> <span class="n">ip</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                          <span class="n">optics_seq</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Optics</span><span class="p">],</span> <span class="n">feeddown</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">ArrayLike</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Builds equation system as in  Eq. (40) of [DillyNonlinearIRCorrections2023]_</span>
+<span class="sd">    for a given ip for all given optics and error files (i.e. beams) and grouped RDTs,</span>
+<span class="sd">    i.e. RDTs that share correctors.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rdt_maps (Sequence[RDTMap]): Sequence of RDTMap objects,</span>
+<span class="sd">                                     i.e. a dict mapping the RDT to the used correctors.</span>
+<span class="sd">                                     This is a subset of all RDTs, as they have been grouped</span>
+<span class="sd">                                     by common correctors before.</span>
+<span class="sd">        correctors (Sequence[IRCorrector]): IRCorrectors to be used.</span>
+<span class="sd">        ip (int): Current IP to correct.</span>
+<span class="sd">        optics_seq (Sequence[Optics]): Sequence of given Optics (twiss and errors)</span>
+<span class="sd">        feeddown (int): Orders of feed-down to include calculating the integral on the rhs</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple of</span>
+<span class="sd">            b_matrix: np.array N_rdts x  N_correctors</span>
+<span class="sd">            integral: np.array N_rdts x 1</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_rdts</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rdt_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">for</span> <span class="n">rdt_map</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">rdt_maps</span><span class="p">,</span> <span class="n">optics_seq</span><span class="p">))</span>
+    <span class="n">b_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_rdts</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">correctors</span><span class="p">)])</span>
+    <span class="n">integral</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_rdts</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">idx_row</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># row in equation system</span>
+    <span class="k">for</span> <span class="n">idx_file</span><span class="p">,</span> <span class="n">rdts</span><span class="p">,</span> <span class="n">optics</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">rdt_maps</span><span class="p">,</span> <span class="n">optics_seq</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">rdt</span><span class="p">,</span> <span class="n">rdt_correctors</span> <span class="ow">in</span> <span class="n">rdts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Calculating </span><span class="si">{</span><span class="n">rdt</span><span class="si">}</span><span class="s2">, optics </span><span class="si">{</span><span class="n">idx_file</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">optics_seq</span><span class="p">)</span><span class="si">}</span><span class="s2">, IP</span><span class="si">{</span><span class="n">ip</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">integral</span><span class="p">[</span><span class="n">idx_row</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_elements_integral</span><span class="p">(</span><span class="n">rdt</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="n">optics</span><span class="p">,</span> <span class="n">feeddown</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">idx_corrector</span><span class="p">,</span> <span class="n">corrector</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">correctors</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">corrector</span><span class="o">.</span><span class="n">field_component</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">rdt_correctors</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">b_matrix</span><span class="p">[</span><span class="n">idx_row</span><span class="p">][</span><span class="n">idx_corrector</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_corrector_coefficient</span><span class="p">(</span><span class="n">rdt</span><span class="p">,</span> <span class="n">corrector</span><span class="p">,</span> <span class="n">optics</span><span class="p">)</span>
+            <span class="n">idx_row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">b_matrix</span><span class="p">,</span> <span class="n">integral</span></div>
+
+
+<div class="viewcode-block" id="get_elements_integral"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.equation_system.get_elements_integral">[docs]</a><span class="k">def</span> <span class="nf">get_elements_integral</span><span class="p">(</span><span class="n">rdt</span><span class="p">:</span> <span class="n">RDT</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">optics</span><span class="p">:</span> <span class="n">Optics</span><span class="p">,</span> <span class="n">feeddown</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Calculate the RDT integral for all elements of the IP.</span>
+<span class="sd">    These are the entries on the rhs of Eq. (40) of [DillyNonlinearIRCorrections2023]_,</span>
+<span class="sd">    including sign.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rdt (RDT): Current RDT</span>
+<span class="sd">        ip (int): Current IP</span>
+<span class="sd">        optics (Optics): Current optics</span>
+<span class="sd">        feeddown (int): Orders of feed-down to include</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: Calculated Integral value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">integral</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">lm</span><span class="p">,</span> <span class="n">jk</span> <span class="o">=</span> <span class="n">rdt</span><span class="o">.</span><span class="n">l</span> <span class="o">+</span> <span class="n">rdt</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">rdt</span><span class="o">.</span><span class="n">j</span> <span class="o">+</span> <span class="n">rdt</span><span class="o">.</span><span class="n">k</span>
+    <span class="n">twiss_df</span><span class="p">,</span> <span class="n">errors_df</span> <span class="o">=</span> <span class="n">optics</span><span class="o">.</span><span class="n">twiss</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">optics</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># copy just to be safe</span>
+    <span class="c1"># Integral on side ---</span>
+    <span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="n">SIDES</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - Integral on side </span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="n">side_sign</span> <span class="o">=</span> <span class="n">get_side_sign</span><span class="p">(</span><span class="n">rdt</span><span class="o">.</span><span class="n">order</span><span class="p">,</span> <span class="n">side</span><span class="p">)</span>
+
+        <span class="c1"># get IP elements, errors and twiss have same elements because of check_dfs</span>
+        <span class="n">elements</span> <span class="o">=</span> <span class="n">twiss_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">twiss_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">fr</span><span class="s2">&quot;.*</span><span class="si">{</span><span class="n">side</span><span class="si">}{</span><span class="n">ip</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">(\.B[12])?&quot;</span><span class="p">)]</span>
+
+        <span class="n">betax</span> <span class="o">=</span> <span class="n">twiss_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">elements</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BETA</span><span class="si">}{</span><span class="n">X</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="n">betay</span> <span class="o">=</span> <span class="n">twiss_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">elements</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BETA</span><span class="si">}{</span><span class="n">Y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">rdt</span><span class="o">.</span><span class="n">swap_beta_exp</span><span class="p">:</span>
+            <span class="c1"># in case of beta-symmetry, this corrects for the same RDT in the opposite beam.</span>
+            <span class="n">betax</span> <span class="o">=</span> <span class="n">betax</span><span class="o">**</span><span class="p">(</span><span class="n">lm</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+            <span class="n">betay</span> <span class="o">=</span> <span class="n">betay</span><span class="o">**</span><span class="p">(</span><span class="n">jk</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">betax</span> <span class="o">=</span> <span class="n">betax</span><span class="o">**</span><span class="p">(</span><span class="n">jk</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+            <span class="n">betay</span> <span class="o">=</span> <span class="n">betay</span><span class="o">**</span><span class="p">(</span><span class="n">lm</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">twiss_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">elements</span><span class="p">,</span> <span class="n">X</span><span class="p">]</span> <span class="o">+</span> <span class="n">errors_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">elements</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DELTA</span><span class="si">}{</span><span class="n">X</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="n">twiss_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">elements</span><span class="p">,</span> <span class="n">Y</span><span class="p">]</span> <span class="o">+</span> <span class="n">errors_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">elements</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DELTA</span><span class="si">}{</span><span class="n">Y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="n">dx_idy</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">dy</span>
+
+        <span class="n">k_sum</span> <span class="o">=</span> <span class="n">Series</span><span class="p">(</span><span class="mi">0</span><span class="n">j</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">elements</span><span class="p">)</span>  <span class="c1"># Complex sum of strengths (from K_n + iJ_n) and feed-down to them</span>
+
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">feeddown</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">n_mad</span> <span class="o">=</span> <span class="n">rdt</span><span class="o">.</span><span class="n">order</span><span class="o">+</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span>
+            <span class="n">kl_opt</span> <span class="o">=</span> <span class="n">twiss_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">elements</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;K</span><span class="si">{</span><span class="n">n_mad</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">L&quot;</span><span class="p">]</span>
+            <span class="n">kl_err</span> <span class="o">=</span> <span class="n">errors_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">elements</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;K</span><span class="si">{</span><span class="n">n_mad</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">L&quot;</span><span class="p">]</span>
+            <span class="n">iksl_opt</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">twiss_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">elements</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;K</span><span class="si">{</span><span class="n">n_mad</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">SL&quot;</span><span class="p">]</span>
+            <span class="n">iksl_err</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">errors_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">elements</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;K</span><span class="si">{</span><span class="n">n_mad</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">SL&quot;</span><span class="p">]</span>
+
+            <span class="n">k_sum</span> <span class="o">+=</span> <span class="p">((</span><span class="n">kl_opt</span> <span class="o">+</span> <span class="n">kl_err</span> <span class="o">+</span> <span class="n">iksl_opt</span> <span class="o">+</span> <span class="n">iksl_err</span><span class="p">)</span> <span class="o">*</span>
+                      <span class="p">(</span><span class="n">dx_idy</span><span class="o">**</span><span class="n">q</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+
+        <span class="c1"># note the minus sign before the sum!</span>
+        <span class="n">integral</span> <span class="o">+=</span> <span class="o">-</span><span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">i_pow</span><span class="p">(</span><span class="n">lm</span><span class="p">)</span> <span class="o">*</span> <span class="n">k_sum</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span> <span class="o">*</span> <span class="p">(</span><span class="n">side_sign</span> <span class="o">*</span> <span class="n">betax</span> <span class="o">*</span> <span class="n">betay</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; -&gt; Sum value: </span><span class="si">{</span><span class="n">integral</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">integral</span></div>
+
+
+<div class="viewcode-block" id="get_corrector_coefficient"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.equation_system.get_corrector_coefficient">[docs]</a><span class="k">def</span> <span class="nf">get_corrector_coefficient</span><span class="p">(</span><span class="n">rdt</span><span class="p">:</span> <span class="n">RDT</span><span class="p">,</span> <span class="n">corrector</span><span class="p">:</span> <span class="n">IRCorrector</span><span class="p">,</span> <span class="n">optics</span><span class="p">:</span> <span class="n">Optics</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Calculate B-Matrix Element for Corrector.</span>
+<span class="sd">    These are the entries on the lhs of Eq. (40) of [DillyNonlinearIRCorrections2023]_</span>
+<span class="sd">    including feed-down coefficient z and signs.</span>
+<span class="sd">    Any imaginary i coefficient  is also included, making all values real.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rdt (RDT): Current RDT</span>
+<span class="sd">        corrector (IRCorrector): IRCorrector at which the coefficient is to be calculated.</span>
+<span class="sd">        optics (Optics): Current optics</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: Calculated matrix value.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - Corrector </span><span class="si">{</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="n">lm</span><span class="p">,</span> <span class="n">jk</span> <span class="o">=</span> <span class="n">rdt</span><span class="o">.</span><span class="n">l</span> <span class="o">+</span> <span class="n">rdt</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">rdt</span><span class="o">.</span><span class="n">j</span> <span class="o">+</span> <span class="n">rdt</span><span class="o">.</span><span class="n">k</span>
+    <span class="n">twiss_df</span><span class="p">,</span> <span class="n">errors_df</span> <span class="o">=</span> <span class="n">optics</span><span class="o">.</span><span class="n">twiss</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">optics</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># copy just to be safe</span>
+
+    <span class="c1"># bring the possible i from the integral to the corrector side</span>
+    <span class="c1"># i.e. multiply both sides of the equation by i, for odd lm.</span>
+    <span class="c1"># The integral always has a minus sign then.</span>
+    <span class="c1"># (As in [#DillyNonlinearIRCorrections2023]_ already, e.g. Eq. (20) )</span>
+    <span class="n">sign_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">i_pow</span><span class="p">(</span><span class="n">lm</span> <span class="o">+</span> <span class="p">(</span><span class="n">lm</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)))</span>  <span class="c1"># i_pow(lm + lm%2) is always real</span>
+    <span class="n">sign_corrector</span> <span class="o">=</span> <span class="n">sign_i</span> <span class="o">*</span> <span class="n">get_side_sign</span><span class="p">(</span><span class="n">rdt</span><span class="o">.</span><span class="n">order</span><span class="p">,</span> <span class="n">corrector</span><span class="o">.</span><span class="n">side</span><span class="p">)</span>
+
+    <span class="n">betax</span> <span class="o">=</span> <span class="n">twiss_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BETA</span><span class="si">}{</span><span class="n">X</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+    <span class="n">betay</span> <span class="o">=</span> <span class="n">twiss_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BETA</span><span class="si">}{</span><span class="n">Y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">rdt</span><span class="o">.</span><span class="n">swap_beta_exp</span><span class="p">:</span>
+        <span class="c1"># in case of beta-symmetry,</span>
+        <span class="c1"># this corrects for the same RDT in the opposite beam. (see Eq. (23))</span>
+        <span class="n">betax</span> <span class="o">=</span> <span class="n">betax</span><span class="o">**</span><span class="p">(</span><span class="n">lm</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+        <span class="n">betay</span> <span class="o">=</span> <span class="n">betay</span><span class="o">**</span><span class="p">(</span><span class="n">jk</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">betax</span> <span class="o">=</span> <span class="n">betax</span><span class="o">**</span><span class="p">(</span><span class="n">jk</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+        <span class="n">betay</span> <span class="o">=</span> <span class="n">betay</span><span class="o">**</span><span class="p">(</span><span class="n">lm</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+
+    <span class="n">z</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">corrector</span><span class="o">.</span><span class="n">order</span> <span class="o">-</span> <span class="n">rdt</span><span class="o">.</span><span class="n">order</span>
+    <span class="k">if</span> <span class="n">p</span><span class="p">:</span>
+        <span class="c1"># Corrector contributes via feed-down, Eq. (31) in [DillyNonlinearIRCorrections2023]_</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">twiss_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">X</span><span class="p">]</span> <span class="o">+</span> <span class="n">errors_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DELTA</span><span class="si">}{</span><span class="n">X</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="n">twiss_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">Y</span><span class="p">]</span> <span class="o">+</span> <span class="n">errors_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DELTA</span><span class="si">}{</span><span class="n">Y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="n">dx_idy</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">dy</span>
+        <span class="n">z_cmplx</span> <span class="o">=</span> <span class="p">(</span><span class="n">dx_idy</span><span class="o">**</span><span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>  <span class="c1"># Eq. (32)</span>
+
+        <span class="c1"># Get the correct part of z_cmplx, see Eq. (36) in [DillyNonlinearIRCorrections2023]_</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">corrector</span><span class="o">.</span><span class="n">skew</span> <span class="ow">and</span> <span class="n">is_odd</span><span class="p">(</span><span class="n">lm</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">corrector</span><span class="o">.</span><span class="n">skew</span> <span class="ow">and</span> <span class="n">is_even</span><span class="p">(</span><span class="n">lm</span><span class="p">)):</span>
+            <span class="c1"># K_n, l+m even</span>
+            <span class="c1"># J_n, l+m odd</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">z_cmplx</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># K_n, l+m odd</span>
+            <span class="c1"># J_n, l+m even</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">z_cmplx</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">corrector</span><span class="o">.</span><span class="n">skew</span><span class="p">:</span>
+                <span class="c1"># J_n, l+m even</span>
+                <span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="n">z</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Z-coefficient for </span><span class="si">{</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">rdt</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is very small.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Account for possible anti-symmetry of the corrector&#39;s field component</span>
+    <span class="c1"># in Beam 2 and Beam 4. The correct sign in MAD-X is then assured by the</span>
+    <span class="c1"># lattice setup, where these correctors have a minus sign in Beam 4.</span>
+    <span class="c1"># See Chapter 3.1 Beam Directions in [DillyNonlinearIRCorrections2023]_</span>
+    <span class="n">sign_beam</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">is_even</span><span class="p">(</span><span class="n">optics</span><span class="o">.</span><span class="n">beam</span><span class="p">)</span> <span class="ow">and</span> <span class="n">is_anti_mirror_symmetric</span><span class="p">(</span><span class="n">corrector</span><span class="o">.</span><span class="n">strength_component</span><span class="p">):</span>
+        <span class="n">sign_beam</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">sign_beam</span> <span class="o">*</span> <span class="n">sign_corrector</span> <span class="o">*</span> <span class="n">z</span> <span class="o">*</span> <span class="n">betax</span> <span class="o">*</span> <span class="n">betay</span></div>
+
+
+<div class="viewcode-block" id="get_side_sign"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.equation_system.get_side_sign">[docs]</a><span class="k">def</span> <span class="nf">get_side_sign</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">side</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Sign of the integral and corrector for this side.</span>
+
+<span class="sd">    This is the exp(iπnθ(s_w−s_IP)) part of Eq. (16)</span>
+<span class="sd">    or (-1)^(θ(s_w−s_IP)) of later equations, e.g. Eq. (17)</span>
+<span class="sd">    in [DillyNonlinearIRCorrections2023]_.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n (int): order of the RDT</span>
+<span class="sd">        side (str): side of the IP</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: Either -1 or 1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;R&quot;</span><span class="p">:</span>
+        <span class="c1"># return (-1)**n</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="k">else</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="mi">1</span></div>
+
+
+<span class="c1"># Solve ------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="solve_equation_system"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.equation_system.solve_equation_system">[docs]</a><span class="k">def</span> <span class="nf">solve_equation_system</span><span class="p">(</span><span class="n">correctors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">],</span> <span class="n">lhs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">rhs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Solves the system with the given solver.</span>
+
+<span class="sd">    The result is transferred to the corrector values internally.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        correctors (Sequence[IRCorrector]): Sequence of IRCorrectors this equation system was build for.</span>
+<span class="sd">                                            Stores the resulting values.</span>
+<span class="sd">        lhs (np.array): Left hand side of the Eqs to solve.</span>
+<span class="sd">        rhs (np.array): Right hand side of the Eqs to solve.</span>
+<span class="sd">        solver (str): Solver to use (see SOLVER_MAP below).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">correctors</span><span class="p">)</span> <span class="ow">and</span> <span class="n">solver</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">APPROXIMATE_SOLVERS</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Overdetermined equation systems can only be solved &quot;</span>
+                         <span class="s2">&quot;by one of the approximate solvers&quot;</span>
+                         <span class="sa">f</span><span class="s2">&quot; &#39;</span><span class="si">{</span><span class="n">list2str</span><span class="p">(</span><span class="n">APPROXIMATE_SOLVERS</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+                         <span class="sa">f</span><span class="s2">&quot;Instead &#39;</span><span class="si">{</span><span class="n">solver</span><span class="si">}</span><span class="s2">&#39; was chosen.&quot;</span><span class="p">)</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Solving Equation system via </span><span class="si">{</span><span class="n">solver</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="c1"># lhs x corrector = rhs &lt;=&gt; correctors = lhs\rhs</span>
+    <span class="c1"># results are assigned to correctors directly</span>
+    <span class="n">SOLVER_MAP</span><span class="p">[</span><span class="n">solver</span><span class="p">](</span><span class="n">correctors</span><span class="p">,</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span></div>
+
+
+<span class="c1"># Solvers ---</span>
+
+<span class="k">def</span> <span class="nf">_solve_linear</span><span class="p">(</span><span class="n">correctors</span><span class="p">,</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Numpy solve. &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span>
+    <span class="n">_assign_corrector_values</span><span class="p">(</span><span class="n">correctors</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_solve_invert</span><span class="p">(</span><span class="n">correctors</span><span class="p">,</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Inverts the matrix. For test purposes only! &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">lhs</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span>
+    <span class="n">_assign_corrector_values</span><span class="p">(</span><span class="n">correctors</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_solve_lstsq</span><span class="p">(</span><span class="n">correctors</span><span class="p">,</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Uses numpy&#39;s linear least squares. &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">_assign_corrector_values</span><span class="p">(</span><span class="n">correctors</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Residuals ||I - Bx||_2: </span><span class="si">{</span><span class="n">list2str</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rank of Beta-Matrix: </span><span class="si">{</span><span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="n">SOLVER_MAP</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;inv&#39;</span><span class="p">:</span> <span class="n">_solve_invert</span><span class="p">,</span>
+              <span class="s1">&#39;lstsq&#39;</span><span class="p">:</span> <span class="n">_solve_lstsq</span><span class="p">,</span>
+              <span class="s1">&#39;linear&#39;</span><span class="p">:</span> <span class="n">_solve_linear</span><span class="p">,}</span>
+
+
+<span class="n">APPROXIMATE_SOLVERS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;lstsq&#39;</span><span class="p">]</span>
+
+
+<span class="c1"># Assign Results ---</span>
+
+<span class="k">def</span> <span class="nf">_assign_corrector_values</span><span class="p">(</span><span class="n">correctors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">],</span> <span class="n">values</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Assigns calculated values to the correctors. &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">corrector</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">correctors</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Multiple Values for corrector </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">corrector</span><span class="p">)</span><span class="si">}</span><span class="s2"> found.&quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot; There should be only one.&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Updating Corrector: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">corrector</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">+.2e</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="n">corrector</span><span class="o">.</span><span class="n">value</span> <span class="o">+=</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">corrector</span><span class="p">))</span>
+
+
+<span class="c1"># Update Optics ----------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="optics_update"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.equation_system.optics_update">[docs]</a><span class="k">def</span> <span class="nf">optics_update</span><span class="p">(</span><span class="n">correctors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">],</span> <span class="n">optics_seq</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Optics</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Updates the corrector strength values in the current optics.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        correctors (Sequence[IRCorrector]): IRCorrectors containing the new values.</span>
+<span class="sd">        optics_seq (Sequence[Optics]): Optics to update.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">optics</span> <span class="ow">in</span> <span class="n">optics_seq</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">corrector</span> <span class="ow">in</span> <span class="n">correctors</span><span class="p">:</span>
+            <span class="n">sign</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">is_even</span><span class="p">(</span><span class="n">optics</span><span class="o">.</span><span class="n">beam</span><span class="p">)</span> <span class="ow">and</span> <span class="n">is_anti_mirror_symmetric</span><span class="p">(</span><span class="n">corrector</span><span class="o">.</span><span class="n">strength_component</span><span class="p">)</span> <span class="k">else</span> <span class="mi">1</span>
+            <span class="n">optics</span><span class="o">.</span><span class="n">twiss</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">corrector</span><span class="o">.</span><span class="n">strength_component</span><span class="p">]</span> <span class="o">=</span> <span class="n">sign</span> <span class="o">*</span> <span class="n">corrector</span><span class="o">.</span><span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="restore_optics_values"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.equation_system.restore_optics_values">[docs]</a><span class="k">def</span> <span class="nf">restore_optics_values</span><span class="p">(</span><span class="n">saved_values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span> <span class="n">optics_seq</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Optics</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Restore saved initial corrector values (if any) to optics.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        saved_values (Dict): Saved initial values (key: entry in optics, values: value per optics)</span>
+<span class="sd">        optics_seq (Sequence[Optics]): Optics to update.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">corrector</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">saved_values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">optics</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">optics_seq</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+            <span class="n">optics</span><span class="o">.</span><span class="n">twiss</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">corrector</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">corrector</span><span class="o">.</span><span class="n">strength_component</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span></div>
+
+
+<span class="c1"># Helper -----------------------------------------------------------------------</span>
+
+<span class="k">def</span> <span class="nf">_log_correction</span><span class="p">(</span><span class="n">integral_before</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">integral_after</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">rdt_maps</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
+                    <span class="n">optics_seq</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Optics</span><span class="p">],</span> <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Log the correction initial and final value of this iteration. &quot;&quot;&quot;</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;RDT change in IP</span><span class="si">{</span><span class="n">ip</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">, iteration </span><span class="si">{</span><span class="n">iteration</span><span class="o">+</span><span class="mi">1</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+    <span class="n">integral_iter</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">integral_before</span><span class="p">,</span> <span class="n">integral_after</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx_optics</span><span class="p">,</span> <span class="n">rdts</span><span class="p">,</span> <span class="n">optics</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">rdt_maps</span><span class="p">,</span> <span class="n">optics_seq</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">rdt</span> <span class="ow">in</span> <span class="n">rdts</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">val_before</span><span class="p">,</span> <span class="n">val_after</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">integral_iter</span><span class="p">)</span>
+            <span class="n">delta</span> <span class="o">=</span> <span class="n">val_after</span> <span class="o">-</span> <span class="n">val_before</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Optics </span><span class="si">{</span><span class="n">idx_optics</span><span class="si">}</span><span class="s2"> (Beam </span><span class="si">{</span><span class="n">optics</span><span class="o">.</span><span class="n">beam</span><span class="si">}</span><span class="s2">), </span><span class="si">{</span><span class="n">rdt</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val_before</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">val_after</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">delta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">+.2e</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_corrector_in_dataframe</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Checks if corrector is present in optics and has the KEYWORD MULTIPOLE. &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> not found in optics.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">KEYWORD</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="n">KEYWORD</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">!=</span> <span class="n">MULTIPOLE</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> found in optics, yet the Keyword was </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">KEYWORD</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot; (should be &#39;</span><span class="si">{</span><span class="n">MULTIPOLE</span><span class="si">}</span><span class="s2">&#39;).&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">KEYWORD</span><span class="si">}</span><span class="s2">&#39; column not found in optics.&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot; Assumes you have filtered </span><span class="si">{</span><span class="n">MULTIPOLE</span><span class="si">}</span><span class="s2">s beforehand!&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">True</span>
+
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

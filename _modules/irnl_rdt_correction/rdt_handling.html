@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>irnl_rdt_correction.rdt_handling &mdash; irnl-rdt-correction 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> irnl-rdt-correction
+            <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Main</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../main.html">Nonlinear Correction calculation in the IRs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../main.html#irnl_rdt_correction.main.irnl_rdt_correction"><code class="docutils literal notranslate"><span class="pre">irnl_rdt_correction()</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html">Constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#equation-system">Equation System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.build_equation_system"><code class="docutils literal notranslate"><span class="pre">build_equation_system()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_available_correctors"><code class="docutils literal notranslate"><span class="pre">get_available_correctors()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_corrector_coefficient"><code class="docutils literal notranslate"><span class="pre">get_corrector_coefficient()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_current_rdt_maps"><code class="docutils literal notranslate"><span class="pre">get_current_rdt_maps()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_elements_integral"><code class="docutils literal notranslate"><span class="pre">get_elements_integral()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_side_sign"><code class="docutils literal notranslate"><span class="pre">get_side_sign()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.init_corrector_and_optics_values"><code class="docutils literal notranslate"><span class="pre">init_corrector_and_optics_values()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.optics_update"><code class="docutils literal notranslate"><span class="pre">optics_update()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.restore_optics_values"><code class="docutils literal notranslate"><span class="pre">restore_optics_values()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.solve"><code class="docutils literal notranslate"><span class="pre">solve()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.solve_equation_system"><code class="docutils literal notranslate"><span class="pre">solve_equation_system()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#input-options">Input Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.input_options.check_opt"><code class="docutils literal notranslate"><span class="pre">check_opt()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#io-handling">IO Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_df"><code class="docutils literal notranslate"><span class="pre">build_correction_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_str"><code class="docutils literal notranslate"><span class="pre">build_correction_str()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_str_from_df"><code class="docutils literal notranslate"><span class="pre">build_correction_str_from_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.get_and_write_output"><code class="docutils literal notranslate"><span class="pre">get_and_write_output()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.get_optics"><code class="docutils literal notranslate"><span class="pre">get_optics()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.get_tfs"><code class="docutils literal notranslate"><span class="pre">get_tfs()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.maybe_switch_signs"><code class="docutils literal notranslate"><span class="pre">maybe_switch_signs()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#rdt-handling">RDT Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.IRCorrector"><code class="docutils literal notranslate"><span class="pre">IRCorrector</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.RDT"><code class="docutils literal notranslate"><span class="pre">RDT</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.check_corrector_order"><code class="docutils literal notranslate"><span class="pre">check_corrector_order()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.get_needed_orders"><code class="docutils literal notranslate"><span class="pre">get_needed_orders()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.sort_rdts"><code class="docutils literal notranslate"><span class="pre">sort_rdts()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#utilities">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.DotDict"><code class="docutils literal notranslate"><span class="pre">DotDict</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Optics"><code class="docutils literal notranslate"><span class="pre">Optics</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Timer"><code class="docutils literal notranslate"><span class="pre">Timer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.get_max_knl_order"><code class="docutils literal notranslate"><span class="pre">get_max_knl_order()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.i_pow"><code class="docutils literal notranslate"><span class="pre">i_pow()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.is_anti_mirror_symmetric"><code class="docutils literal notranslate"><span class="pre">is_anti_mirror_symmetric()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.log_setup"><code class="docutils literal notranslate"><span class="pre">log_setup()</span></code></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">irnl-rdt-correction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">irnl_rdt_correction.rdt_handling</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+  
+  
+           <div itemprop="articleBody">
+             
+  <h1>Source code for irnl_rdt_correction.rdt_handling</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">RDT Handling</span>
+<span class="sd">------------</span>
+
+<span class="sd">Class definitions of RDTs and IRCorrectors and functions handling these classes</span>
+<span class="sd">for checking and sorting.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="kn">from</span> <span class="nn">irnl_rdt_correction.constants</span> <span class="kn">import</span> <span class="n">ORDER_NAME_MAP</span><span class="p">,</span> <span class="n">SKEW_NAME_MAP</span><span class="p">,</span> <span class="n">POSITION</span><span class="p">,</span> <span class="n">SIDES</span><span class="p">,</span> <span class="n">RDTInputTypes</span>
+<span class="kn">from</span> <span class="nn">irnl_rdt_correction.utilities</span> <span class="kn">import</span> <span class="n">field_component2order</span><span class="p">,</span> <span class="n">order2field_component</span><span class="p">,</span> <span class="n">list2str</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1"># Classes ----------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="IRCorrector"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.rdt_handling.IRCorrector">[docs]</a><span class="k">class</span> <span class="nc">IRCorrector</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Representation of an IR-Corrector in the accelerator. &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_component</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">accel</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">side</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">order</span><span class="p">,</span> <span class="n">skew</span> <span class="o">=</span> <span class="n">field_component2order</span><span class="p">(</span><span class="n">field_component</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">field_component</span> <span class="o">=</span> <span class="n">field_component</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">order</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skew</span> <span class="o">=</span> <span class="n">skew</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accel</span> <span class="o">=</span> <span class="n">accel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="n">ip</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">side</span> <span class="o">=</span> <span class="n">side</span>
+
+        <span class="n">main_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;C</span><span class="si">{</span><span class="n">ORDER_NAME_MAP</span><span class="p">[</span><span class="n">order</span><span class="p">]</span><span class="si">}{</span><span class="n">SKEW_NAME_MAP</span><span class="p">[</span><span class="n">skew</span><span class="p">]</span><span class="si">}</span><span class="s1">X&#39;</span>
+        <span class="n">extra</span> <span class="o">=</span> <span class="s2">&quot;F&quot;</span> <span class="k">if</span> <span class="n">accel</span> <span class="o">==</span> <span class="s2">&quot;hllhc&quot;</span> <span class="ow">and</span> <span class="n">ip</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;M</span><span class="si">{</span><span class="n">main_name</span><span class="si">}{</span><span class="n">extra</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">POSITION</span><span class="si">:</span><span class="s1">d</span><span class="si">}{</span><span class="n">side</span><span class="si">}{</span><span class="n">ip</span><span class="si">:</span><span class="s1">d</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">circuit</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;K</span><span class="si">{</span><span class="n">main_name</span><span class="si">}{</span><span class="n">POSITION</span><span class="si">:</span><span class="s1">d</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">side</span><span class="si">}{</span><span class="n">ip</span><span class="si">:</span><span class="s1">d</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strength_component</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;K</span><span class="si">{</span><span class="n">order</span><span class="o">-</span><span class="mi">1</span><span class="si">}{</span><span class="n">SKEW_NAME_MAP</span><span class="p">[</span><span class="n">skew</span><span class="p">]</span><span class="si">}</span><span class="s2">L&quot;</span>  <span class="c1"># MAD-X order notation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;IRCorrector object </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">field_component</span><span class="si">}</span><span class="s2">), </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">strength_component</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2"> 6E</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">skew</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">skew</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ip</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">side</span> <span class="o">==</span> <span class="n">SIDES</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">side</span> <span class="o">==</span> <span class="n">SIDES</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">ip</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">skew</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">skew</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">order</span>
+
+    <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">skew</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">skew</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ip</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">side</span> <span class="o">==</span> <span class="n">SIDES</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">side</span> <span class="o">==</span> <span class="n">SIDES</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">ip</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">skew</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">skew</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">order</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span></div>
+
+
+<div class="viewcode-block" id="RDT"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.rdt_handling.RDT">[docs]</a><span class="k">class</span> <span class="nc">RDT</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Representation of Resonance Driving Term attributes. &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jklm</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">l</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">jklm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skew</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">l</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jklm</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">swap_beta_exp</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)</span>  <span class="c1"># swap beta-exponents</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;RDT object </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">order2field_component</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">skew</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">skew</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">skew</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">skew</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">skew</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">order</span>
+
+    <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">skew</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">skew</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">skew</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">skew</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">order</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span></div>
+
+
+<span class="n">RDTMap</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">RDT</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+
+
+<span class="c1"># RDT Sorting ------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="sort_rdts"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.rdt_handling.sort_rdts">[docs]</a><span class="k">def</span> <span class="nf">sort_rdts</span><span class="p">(</span><span class="n">rdts</span><span class="p">:</span> <span class="n">RDTInputTypes</span><span class="p">,</span> <span class="n">rdts2</span><span class="p">:</span> <span class="n">RDTInputTypes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">RDTMap</span><span class="p">,</span> <span class="n">RDTMap</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Sorts RDTs by reversed-order (i.e. high-to-low) and orientation (skew, normal).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rdts (RDTInputTypes): RDTs for first optics</span>
+<span class="sd">        rdts2 (RDTInputTypes): RDTs for second optics.</span>
+<span class="sd">                               If not given first optics RDTs are assumed.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple[RDTMap, RDTMap]: RDT mapping (RDT to corrector fields) for both optics.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Sorting RDTs&quot;</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot; - First Optics:&quot;</span><span class="p">)</span>
+    <span class="n">rdt_dict</span> <span class="o">=</span> <span class="n">_build_rdt_mapping</span><span class="p">(</span><span class="n">rdts</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rdts2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot; - Second Optics:&quot;</span><span class="p">)</span>
+        <span class="n">rdt_dict2</span> <span class="o">=</span> <span class="n">_build_rdt_mapping</span><span class="p">(</span><span class="n">rdts2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot; - Second Optics: same RDTs as first.&quot;</span><span class="p">)</span>
+        <span class="n">rdt_dict2</span> <span class="o">=</span> <span class="n">rdt_dict</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">rdt_dict</span><span class="p">,</span> <span class="n">rdt_dict2</span></div>
+
+
+<span class="k">def</span> <span class="nf">_build_rdt_mapping</span><span class="p">(</span><span class="n">rdts</span><span class="p">:</span> <span class="n">RDTInputTypes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RDTMap</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Create a mapping RDT -&gt; List of Correctors.</span>
+
+<span class="sd">    This function converts the rdt-string from the input to an RDT-object</span>
+<span class="sd">    and either creates as list with the default correctors for this RDT</span>
+<span class="sd">    or uses the given one.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Building RDT dictionary.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rdts</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">rdts</span> <span class="o">=</span> <span class="p">{</span><span class="n">rdt</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">rdt</span> <span class="ow">in</span> <span class="n">rdts</span><span class="p">}</span>
+
+    <span class="n">rdt_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">rdt_name</span><span class="p">,</span> <span class="n">correctors</span> <span class="ow">in</span> <span class="n">rdts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">rdt</span> <span class="o">=</span> <span class="n">RDT</span><span class="p">(</span><span class="n">rdt_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">correctors</span><span class="p">):</span>
+            <span class="n">skew</span> <span class="o">=</span> <span class="n">rdt</span><span class="o">.</span><span class="n">skew</span>
+            <span class="n">correctors</span> <span class="o">=</span> <span class="p">[</span><span class="n">order2field_component</span><span class="p">(</span><span class="n">rdt</span><span class="o">.</span><span class="n">order</span><span class="p">,</span> <span class="n">skew</span><span class="p">)]</span>
+
+        <span class="n">rdt_dict</span><span class="p">[</span><span class="n">rdt</span><span class="p">]</span> <span class="o">=</span> <span class="n">correctors</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added: </span><span class="si">{</span><span class="n">rdt</span><span class="si">}</span><span class="s2"> with correctors: </span><span class="si">{</span><span class="n">list2str</span><span class="p">(</span><span class="n">correctors</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># sort RDTs by highest RDT order and skew first:</span>
+    <span class="n">rdt_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">rdt_dict</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+    <span class="c1"># sort RDTs by highest corrector order and skew first (to be tested):</span>
+    <span class="c1"># rdt_dict = dict(sorted(rdt_dict.items(),</span>
+    <span class="c1">#                        key=lambda x: max(v.replace(&#39;a&#39;, &#39;z&#39;)[::-1] for v in x[1]),</span>
+    <span class="c1">#                        reverse=True))</span>
+    <span class="k">return</span> <span class="n">rdt_dict</span>
+
+
+<div class="viewcode-block" id="get_needed_orders"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.rdt_handling.get_needed_orders">[docs]</a><span class="k">def</span> <span class="nf">get_needed_orders</span><span class="p">(</span><span class="n">rdt_maps</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">RDTMap</span><span class="p">],</span> <span class="n">feed_down</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the sorted orders needed for correction, based on the order</span>
+<span class="sd">    of the RDTs to correct plus the feed-down involved and the order of the</span>
+<span class="sd">    corrector, which can be higher than the RDTs in case one wants to correct</span>
+<span class="sd">    via feed-down.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rdt_maps (Sequence[RDTMap]): RDTMaps to check</span>
+<span class="sd">        feed_down (int): Order of maximum feed-down to include</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Sequence[int]: Needed field orders to calculate all corrections including feed-down</span>
+<span class="sd">                       (sorted low-to-high).&quot;&quot;&quot;</span>
+    <span class="n">needed_orders</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">rdt_map</span> <span class="ow">in</span> <span class="n">rdt_maps</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">rdt</span><span class="p">,</span> <span class="n">correctors</span> <span class="ow">in</span> <span class="n">rdt_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># get orders from RDTs + feed-down</span>
+            <span class="k">for</span> <span class="n">fd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">feed_down</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">needed_orders</span> <span class="o">|=</span> <span class="p">{</span><span class="n">rdt</span><span class="o">.</span><span class="n">order</span> <span class="o">+</span> <span class="n">fd</span><span class="p">,</span> <span class="p">}</span>
+
+            <span class="c1"># get orders from correctors</span>
+            <span class="k">for</span> <span class="n">corrector</span> <span class="ow">in</span> <span class="n">correctors</span><span class="p">:</span>
+                <span class="n">needed_orders</span> <span class="o">|=</span> <span class="p">{</span><span class="nb">int</span><span class="p">(</span><span class="n">corrector</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">needed_orders</span><span class="p">)</span></div>
+
+
+<span class="c1"># Order Checks ----</span>
+<div class="viewcode-block" id="check_corrector_order"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.rdt_handling.check_corrector_order">[docs]</a><span class="k">def</span> <span class="nf">check_corrector_order</span><span class="p">(</span><span class="n">rdt_maps</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">RDTMap</span><span class="p">],</span> <span class="n">update_optics</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">feed_down</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Perform checks on corrector orders compared to RDT orders and feed-down.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rdt_maps (Sequence[RDTMap]): RDTMaps to check.</span>
+<span class="sd">        update_optics (bool): True if optics should be updated after each iteration.</span>
+<span class="sd">        feed_down (int): Order of feed-down to include.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">rdt_map</span> <span class="ow">in</span> <span class="n">rdt_maps</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">rdt</span><span class="p">,</span> <span class="n">correctors</span> <span class="ow">in</span> <span class="n">rdt_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">_check_corrector_order_not_lower</span><span class="p">(</span><span class="n">rdt</span><span class="p">,</span> <span class="n">correctors</span><span class="p">)</span>
+            <span class="n">_check_update_optics</span><span class="p">(</span><span class="n">rdt</span><span class="p">,</span> <span class="n">correctors</span><span class="p">,</span> <span class="n">rdt_map</span><span class="p">,</span> <span class="n">update_optics</span><span class="p">,</span> <span class="n">feed_down</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_check_update_optics</span><span class="p">(</span><span class="n">rdt</span><span class="p">:</span> <span class="n">RDT</span><span class="p">,</span> <span class="n">correctors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">rdt_map</span><span class="p">:</span> <span class="n">RDTMap</span><span class="p">,</span> <span class="n">update_optics</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">feed_down</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Check if corrector values are actually set before they are needed for feed-down.</span>
+<span class="sd">    Otherwise an error is thrown. This is only problematic if `update_optics` is `True`.</span>
+
+<span class="sd">    The problem arises, if a corrector is defined via the calculation of</span>
+<span class="sd">    feed-down to a lower-order rdt, but there are other rdts that also</span>
+<span class="sd">    depend on (the feeddown or the value) of this corrector, which have</span>
+<span class="sd">    higher order than the rdt that defines the corrector value and hence</span>
+<span class="sd">    would be calculated earlier.</span>
+
+<span class="sd">    E.g. b6 corrector value is calculated from correcting octupole RDT via</span>
+<span class="sd">    feed-down. Yet decapole RDT also needs correction and the feed-down value</span>
+<span class="sd">    is &gt;= 1.</span>
+
+<span class="sd">    It should be possible to mitigate this by sorting the RDTs by their</span>
+<span class="sd">    highest corrector order instead of their own order.</span>
+<span class="sd">    (one could make a new field `sort_order`. To be tested.)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rdt (RDT): Current RDT to correct/check</span>
+<span class="sd">        correctors (str): Corrector fields to correct RDT with (e.g. &quot;b6&quot;, &quot;a3&quot; etc.)</span>
+<span class="sd">        rdt_map (RDTMap): All RDT-mappings (i.e. RDT to corrector field)</span>
+<span class="sd">        update_optics (bool): True if optics should be updated after each iteration.</span>
+<span class="sd">        feed_down (int): Order of feed-down to include.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">update_optics</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="k">for</span> <span class="n">corrector</span> <span class="ow">in</span> <span class="n">correctors</span><span class="p">:</span>
+        <span class="n">corrector_order</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">corrector</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">for</span> <span class="n">rdt_comp</span> <span class="ow">in</span> <span class="n">rdt_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>  <span class="c1"># compare with all rdts</span>
+            <span class="k">if</span> <span class="n">rdt_comp</span> <span class="ow">is</span> <span class="n">rdt</span><span class="p">:</span>
+                <span class="c1"># rdts are sorted high -&gt; low</span>
+                <span class="c1"># so from here on everything is fine as all lower rdts are</span>
+                <span class="c1"># calculated later anyway.</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">rdt_comp</span><span class="o">.</span><span class="n">order</span> <span class="o">&lt;</span> <span class="n">corrector_order</span> <span class="o">&lt;=</span> <span class="n">rdt_comp</span><span class="o">.</span><span class="n">order</span> <span class="o">+</span> <span class="n">feed_down</span><span class="p">:</span>
+                <span class="c1"># as we did not break yet, rdt_comp.order must be higher or</span>
+                <span class="c1"># equal to rdt.order. Yet with the current feed-down value</span>
+                <span class="c1"># the corrector&#39;s strength is needed for rdt_comp.</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Updating the optics is in this configuration not possible,&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot; as corrector </span><span class="si">{</span><span class="n">corrector</span><span class="si">}</span><span class="s2"> influences </span><span class="si">{</span><span class="n">rdt_comp</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot; with the given feed-down of </span><span class="si">{</span><span class="n">feed_down</span><span class="si">}</span><span class="s2">. Yet the value of&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot; the corrector is defined by </span><span class="si">{</span><span class="n">rdt</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_check_corrector_order_not_lower</span><span class="p">(</span><span class="n">rdt</span><span class="p">:</span> <span class="n">RDT</span><span class="p">,</span> <span class="n">correctors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Check if only higher and equal order correctors are defined to correct</span>
+<span class="sd">    a given rdt.&quot;&quot;&quot;</span>
+    <span class="n">wrong_correctors</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">correctors</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">rdt</span><span class="o">.</span><span class="n">order</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">wrong_correctors</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Correctors can not correct RDTs of higher order.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot; Yet for </span><span class="si">{</span><span class="n">rdt</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> the corrector(s)&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot; &#39;</span><span class="si">{</span><span class="n">list2str</span><span class="p">(</span><span class="n">wrong_correctors</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39; was (were) given.&quot;</span>
+        <span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

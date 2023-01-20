@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; irnl-rdt-correction 0.0.2 documentation</title>
+  <title>Constants &mdash; irnl-rdt-correction 1.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
@@ -17,9 +17,11 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Nonlinear Correction calculation in the IRs" href="main.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -27,11 +29,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html">
+            <a href="index.html" class="icon icon-home"> irnl-rdt-correction
             <img src="_static/omc_logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.0
+                1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -44,6 +46,47 @@
               <p class="caption" role="heading"><span class="caption-text">Main</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="main.html">Nonlinear Correction calculation in the IRs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html#irnl_rdt_correction.main.irnl_rdt_correction"><code class="docutils literal notranslate"><span class="pre">irnl_rdt_correction()</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#equation-system">Equation System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.equation_system.build_equation_system"><code class="docutils literal notranslate"><span class="pre">build_equation_system()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.equation_system.get_available_correctors"><code class="docutils literal notranslate"><span class="pre">get_available_correctors()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.equation_system.get_corrector_coefficient"><code class="docutils literal notranslate"><span class="pre">get_corrector_coefficient()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.equation_system.get_current_rdt_maps"><code class="docutils literal notranslate"><span class="pre">get_current_rdt_maps()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.equation_system.get_elements_integral"><code class="docutils literal notranslate"><span class="pre">get_elements_integral()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.equation_system.get_side_sign"><code class="docutils literal notranslate"><span class="pre">get_side_sign()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.equation_system.init_corrector_and_optics_values"><code class="docutils literal notranslate"><span class="pre">init_corrector_and_optics_values()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.equation_system.optics_update"><code class="docutils literal notranslate"><span class="pre">optics_update()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.equation_system.restore_optics_values"><code class="docutils literal notranslate"><span class="pre">restore_optics_values()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.equation_system.solve"><code class="docutils literal notranslate"><span class="pre">solve()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.equation_system.solve_equation_system"><code class="docutils literal notranslate"><span class="pre">solve_equation_system()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#input-options">Input Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.input_options.check_opt"><code class="docutils literal notranslate"><span class="pre">check_opt()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#io-handling">IO Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.io_handling.build_correction_df"><code class="docutils literal notranslate"><span class="pre">build_correction_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.io_handling.build_correction_str"><code class="docutils literal notranslate"><span class="pre">build_correction_str()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.io_handling.build_correction_str_from_df"><code class="docutils literal notranslate"><span class="pre">build_correction_str_from_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.io_handling.get_and_write_output"><code class="docutils literal notranslate"><span class="pre">get_and_write_output()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.io_handling.get_optics"><code class="docutils literal notranslate"><span class="pre">get_optics()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.io_handling.get_tfs"><code class="docutils literal notranslate"><span class="pre">get_tfs()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.io_handling.maybe_switch_signs"><code class="docutils literal notranslate"><span class="pre">maybe_switch_signs()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#rdt-handling">RDT Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector"><code class="docutils literal notranslate"><span class="pre">IRCorrector</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT"><code class="docutils literal notranslate"><span class="pre">RDT</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.check_corrector_order"><code class="docutils literal notranslate"><span class="pre">check_corrector_order()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.get_needed_orders"><code class="docutils literal notranslate"><span class="pre">get_needed_orders()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.sort_rdts"><code class="docutils literal notranslate"><span class="pre">sort_rdts()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#utilities">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.utilities.DotDict"><code class="docutils literal notranslate"><span class="pre">DotDict</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics"><code class="docutils literal notranslate"><span class="pre">Optics</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.utilities.Timer"><code class="docutils literal notranslate"><span class="pre">Timer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.utilities.get_max_knl_order"><code class="docutils literal notranslate"><span class="pre">get_max_knl_order()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.utilities.i_pow"><code class="docutils literal notranslate"><span class="pre">i_pow()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.utilities.is_anti_mirror_symmetric"><code class="docutils literal notranslate"><span class="pre">is_anti_mirror_symmetric()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#irnl_rdt_correction.utilities.log_setup"><code class="docutils literal notranslate"><span class="pre">log_setup()</span></code></a></li>
 </ul>
 
         </div>
@@ -59,8 +102,8 @@
         <div class="rst-content style-external-links">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>&lt;no title&gt;</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Constants</li>
       <li class="wy-breadcrumbs-aside">
               <!-- User defined GitHub URL -->
               <a href="https://github.com/pylhc/irnl_rdt_correction" class="fa fa-github"> Edit on GitHub</a>
@@ -69,13 +112,637 @@
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+  <nav id="local-table-of-contents" role="navigation" aria-labelledby="local-table-of-contents-title">
+    <h4 id="local-table-of-contents-title">On This Page</h4>
+    <ul>
+<li><a class="reference internal" href="#">Constants</a></li>
+<li><a class="reference internal" href="#equation-system">Equation System</a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.equation_system.build_equation_system"><code class="docutils literal notranslate"><span class="pre">build_equation_system()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.equation_system.get_available_correctors"><code class="docutils literal notranslate"><span class="pre">get_available_correctors()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.equation_system.get_corrector_coefficient"><code class="docutils literal notranslate"><span class="pre">get_corrector_coefficient()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.equation_system.get_current_rdt_maps"><code class="docutils literal notranslate"><span class="pre">get_current_rdt_maps()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.equation_system.get_elements_integral"><code class="docutils literal notranslate"><span class="pre">get_elements_integral()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.equation_system.get_side_sign"><code class="docutils literal notranslate"><span class="pre">get_side_sign()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.equation_system.init_corrector_and_optics_values"><code class="docutils literal notranslate"><span class="pre">init_corrector_and_optics_values()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.equation_system.optics_update"><code class="docutils literal notranslate"><span class="pre">optics_update()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.equation_system.restore_optics_values"><code class="docutils literal notranslate"><span class="pre">restore_optics_values()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.equation_system.solve"><code class="docutils literal notranslate"><span class="pre">solve()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.equation_system.solve_equation_system"><code class="docutils literal notranslate"><span class="pre">solve_equation_system()</span></code></a></li>
+<li><a class="reference internal" href="#input-options">Input Options</a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.input_options.check_opt"><code class="docutils literal notranslate"><span class="pre">check_opt()</span></code></a></li>
+<li><a class="reference internal" href="#io-handling">IO Handling</a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.io_handling.build_correction_df"><code class="docutils literal notranslate"><span class="pre">build_correction_df()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.io_handling.build_correction_str"><code class="docutils literal notranslate"><span class="pre">build_correction_str()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.io_handling.build_correction_str_from_df"><code class="docutils literal notranslate"><span class="pre">build_correction_str_from_df()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.io_handling.get_and_write_output"><code class="docutils literal notranslate"><span class="pre">get_and_write_output()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.io_handling.get_optics"><code class="docutils literal notranslate"><span class="pre">get_optics()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.io_handling.get_tfs"><code class="docutils literal notranslate"><span class="pre">get_tfs()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.io_handling.maybe_switch_signs"><code class="docutils literal notranslate"><span class="pre">maybe_switch_signs()</span></code></a></li>
+<li><a class="reference internal" href="#rdt-handling">RDT Handling</a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector"><code class="docutils literal notranslate"><span class="pre">IRCorrector</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT"><code class="docutils literal notranslate"><span class="pre">RDT</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.check_corrector_order"><code class="docutils literal notranslate"><span class="pre">check_corrector_order()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.get_needed_orders"><code class="docutils literal notranslate"><span class="pre">get_needed_orders()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.sort_rdts"><code class="docutils literal notranslate"><span class="pre">sort_rdts()</span></code></a></li>
+<li><a class="reference internal" href="#utilities">Utilities</a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.utilities.DotDict"><code class="docutils literal notranslate"><span class="pre">DotDict</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics"><code class="docutils literal notranslate"><span class="pre">Optics</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.utilities.Timer"><code class="docutils literal notranslate"><span class="pre">Timer</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.utilities.get_max_knl_order"><code class="docutils literal notranslate"><span class="pre">get_max_knl_order()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.utilities.i_pow"><code class="docutils literal notranslate"><span class="pre">i_pow()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.utilities.is_anti_mirror_symmetric"><code class="docutils literal notranslate"><span class="pre">is_anti_mirror_symmetric()</span></code></a></li>
+<li><a class="reference internal" href="#irnl_rdt_correction.utilities.log_setup"><code class="docutils literal notranslate"><span class="pre">log_setup()</span></code></a></li>
+</ul>
+
+  </nav>
+  
+  
            <div itemprop="articleBody">
              
-  
+  <span class="target" id="module-irnl_rdt_correction.constants"></span><section id="constants">
+<h1>Constants<a class="headerlink" href="#constants" title="Permalink to this heading"></a></h1>
+<p>These constants rely a lot on the HL-LHC/LHC Naming Scheme.</p>
+</section>
+<span class="target" id="module-irnl_rdt_correction.equation_system"></span><section id="equation-system">
+<h1>Equation System<a class="headerlink" href="#equation-system" title="Permalink to this heading"></a></h1>
+<p>Builds and solves the equation system from the rdt-to-corrector-maps given.
+This is Eq. (40) of <a class="reference internal" href="main.html#dillynonlinearircorrections2023" id="id1"><span>[DillyNonlinearIRCorrections2023]</span></a>.</p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.equation_system.build_equation_system">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.equation_system.</span></span><span class="sig-name descname"><span class="pre">build_equation_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rdt_maps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT" title="irnl_rdt_correction.rdt_handling.RDT"><span class="pre">RDT</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correctors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><span class="pre">IRCorrector</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optics_seq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><span class="pre">Optics</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feeddown</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">_SupportsArray</span><span class="p"><span class="pre">[</span></span><span class="pre">dtype</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">_SupportsArray</span><span class="p"><span class="pre">[</span></span><span class="pre">dtype</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">_SupportsArray</span><span class="p"><span class="pre">[</span></span><span class="pre">dtype</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">_SupportsArray</span><span class="p"><span class="pre">[</span></span><span class="pre">dtype</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">_SupportsArray</span><span class="p"><span class="pre">[</span></span><span class="pre">dtype</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">complex</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">complex</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">complex</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">complex</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">complex</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">_SupportsArray</span><span class="p"><span class="pre">[</span></span><span class="pre">dtype</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">_SupportsArray</span><span class="p"><span class="pre">[</span></span><span class="pre">dtype</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">_SupportsArray</span><span class="p"><span class="pre">[</span></span><span class="pre">dtype</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">_SupportsArray</span><span class="p"><span class="pre">[</span></span><span class="pre">dtype</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">_SupportsArray</span><span class="p"><span class="pre">[</span></span><span class="pre">dtype</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">complex</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">complex</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">complex</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">complex</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">complex</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/equation_system.html#build_equation_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.equation_system.build_equation_system" title="Permalink to this definition"></a></dt>
+<dd><p>Builds equation system as in  Eq. (40) of <a class="reference internal" href="main.html#dillynonlinearircorrections2023" id="id2"><span>[DillyNonlinearIRCorrections2023]</span></a>
+for a given ip for all given optics and error files (i.e. beams) and grouped RDTs,
+i.e. RDTs that share correctors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rdt_maps</strong> (<em>Sequence</em><em>[</em><em>RDTMap</em><em>]</em>) -- Sequence of RDTMap objects,
+i.e. a dict mapping the RDT to the used correctors.
+This is a subset of all RDTs, as they have been grouped
+by common correctors before.</p></li>
+<li><p><strong>correctors</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><em>IRCorrector</em></a><em>]</em>) -- IRCorrectors to be used.</p></li>
+<li><p><strong>ip</strong> (<em>int</em>) -- Current IP to correct.</p></li>
+<li><p><strong>optics_seq</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><em>Optics</em></a><em>]</em>) -- Sequence of given Optics (twiss and errors)</p></li>
+<li><p><strong>feeddown</strong> (<em>int</em>) -- Orders of feed-down to include calculating the integral on the rhs</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>tuple of</dt><dd><p>b_matrix: np.array N_rdts x  N_correctors
+integral: np.array N_rdts x 1</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.equation_system.get_available_correctors">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.equation_system.</span></span><span class="sig-name descname"><span class="pre">get_available_correctors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optics_seq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><span class="pre">Optics</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><span class="pre">IRCorrector</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/equation_system.html#get_available_correctors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.equation_system.get_available_correctors" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the available correctors by checking for their presence in the optics.
+If the corrector is not found in this ip, the ip is skipped.
+If only one corrector (left or right) is present a warning is issued.
+If one corrector is present in only one optics (and not in the other)
+an Environment Error is raised.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field_components</strong> (<em>Set</em><em>[</em><em>str</em><em>]</em>) -- Set of field components to be corrected
+(i.e. correctors to be found for).
+Field components are e.g. “a3”, “b4” etc.</p></li>
+<li><p><strong>accel</strong> (<em>str</em>) -- Which accelerator to use.</p></li>
+<li><p><strong>ip</strong> (<em>int</em>) -- Which IP we are currently working on.</p></li>
+<li><p><strong>optics_seq</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><em>Optics</em></a><em>]</em>) -- Sequence of Optics (twiss and errors).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of IRCorrectors to use to correct given field components.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector">IRCorrector</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.equation_system.get_corrector_coefficient">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.equation_system.</span></span><span class="sig-name descname"><span class="pre">get_corrector_coefficient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rdt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT" title="irnl_rdt_correction.rdt_handling.RDT"><span class="pre">RDT</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">corrector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><span class="pre">IRCorrector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">optics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><span class="pre">Optics</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/equation_system.html#get_corrector_coefficient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.equation_system.get_corrector_coefficient" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate B-Matrix Element for Corrector.
+These are the entries on the lhs of Eq. (40) of <a class="reference internal" href="main.html#dillynonlinearircorrections2023" id="id3"><span>[DillyNonlinearIRCorrections2023]</span></a>
+including feed-down coefficient z and signs.
+Any imaginary i coefficient  is also included, making all values real.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rdt</strong> (<a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT" title="irnl_rdt_correction.rdt_handling.RDT"><em>RDT</em></a>) -- Current RDT</p></li>
+<li><p><strong>corrector</strong> (<a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><em>IRCorrector</em></a>) -- IRCorrector at which the coefficient is to be calculated.</p></li>
+<li><p><strong>optics</strong> (<a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><em>Optics</em></a>) -- Current optics</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Calculated matrix value.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.equation_system.get_current_rdt_maps">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.equation_system.</span></span><span class="sig-name descname"><span class="pre">get_current_rdt_maps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rdt_maps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT" title="irnl_rdt_correction.rdt_handling.RDT"><span class="pre">RDT</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT" title="irnl_rdt_correction.rdt_handling.RDT"><span class="pre">RDT</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT" title="irnl_rdt_correction.rdt_handling.RDT"><span class="pre">RDT</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/equation_system.html#get_current_rdt_maps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.equation_system.get_current_rdt_maps" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new rdt_map with all rdt’s that share correctors.</p>
+<p>This function is called in a while-loop, <cite>so rdt_maps</cite> is the
+<cite>remaining_rdt_maps</cite> from the last loop.
+The while-loop is interrupted when no remaining rdts are left.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>rdt_maps</strong> (<em>Sequence</em><em>[</em><em>RDTMap</em><em>]</em>) -- (Still) available RDTMaps to be checked.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>3-Tuple consisting of
+the sequence of current RDTMaps to use, the remaining RDT maps and
+the checked (i.e. to be used) correctors in this loop.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Sequence[RDTMap], Sequence[RDTMap], Set[str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.equation_system.get_elements_integral">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.equation_system.</span></span><span class="sig-name descname"><span class="pre">get_elements_integral</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rdt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT" title="irnl_rdt_correction.rdt_handling.RDT"><span class="pre">RDT</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><span class="pre">Optics</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">feeddown</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/equation_system.html#get_elements_integral"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.equation_system.get_elements_integral" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the RDT integral for all elements of the IP.
+These are the entries on the rhs of Eq. (40) of <a class="reference internal" href="main.html#dillynonlinearircorrections2023" id="id4"><span>[DillyNonlinearIRCorrections2023]</span></a>,
+including sign.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rdt</strong> (<a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT" title="irnl_rdt_correction.rdt_handling.RDT"><em>RDT</em></a>) -- Current RDT</p></li>
+<li><p><strong>ip</strong> (<em>int</em>) -- Current IP</p></li>
+<li><p><strong>optics</strong> (<a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><em>Optics</em></a>) -- Current optics</p></li>
+<li><p><strong>feeddown</strong> (<em>int</em>) -- Orders of feed-down to include</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Calculated Integral value.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.equation_system.get_side_sign">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.equation_system.</span></span><span class="sig-name descname"><span class="pre">get_side_sign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/equation_system.html#get_side_sign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.equation_system.get_side_sign" title="Permalink to this definition"></a></dt>
+<dd><p>Sign of the integral and corrector for this side.</p>
+<p>This is the exp(iπnθ(s_w−s_IP)) part of Eq. (16)
+or (-1)^(θ(s_w−s_IP)) of later equations, e.g. Eq. (17)
+in <a class="reference internal" href="main.html#dillynonlinearircorrections2023" id="id5"><span>[DillyNonlinearIRCorrections2023]</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>int</em>) -- order of the RDT</p></li>
+<li><p><strong>side</strong> (<em>str</em>) -- side of the IP</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Either -1 or 1</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.equation_system.init_corrector_and_optics_values">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.equation_system.</span></span><span class="sig-name descname"><span class="pre">init_corrector_and_optics_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correctors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><span class="pre">IRCorrector</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optics_seq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><span class="pre">Optics</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_optics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><span class="pre">IRCorrector</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/equation_system.html#init_corrector_and_optics_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.equation_system.init_corrector_and_optics_values" title="Permalink to this definition"></a></dt>
+<dd><p>Save original corrector values from optics (for later restoration, only if <code class="docutils literal notranslate"><span class="pre">update_optics</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>)
+and if <code class="docutils literal notranslate"><span class="pre">ignore_settings</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the corrector values in the optics are set to <code class="docutils literal notranslate"><span class="pre">0</span></code>.
+Otherwise, the corrector object value is initialized with the value from the optics.
+An error is thrown if the optics differ in value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>correctors</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><em>IRCorrector</em></a><em>]</em>) -- Sequence of IRCorrectors to initialize.</p></li>
+<li><p><strong>optics_seq</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><em>Optics</em></a><em>]</em>) -- Optics to get values from.</p></li>
+<li><p><strong>update_optics</strong> (<em>bool</em>) -- If not set, saves initial data for later recovery.</p></li>
+<li><p><strong>ignore_settings</strong> (<em>bool</em>) -- If set, values in Optics will be set to zero for given correctors.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>The saved values per corrector (per Optics).</dt><dd><p>If the optics are updated anyway, this is an empty dict.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dict[<a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector">IRCorrector</a>, Sequence[float]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.equation_system.optics_update">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.equation_system.</span></span><span class="sig-name descname"><span class="pre">optics_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correctors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><span class="pre">IRCorrector</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optics_seq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><span class="pre">Optics</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/equation_system.html#optics_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.equation_system.optics_update" title="Permalink to this definition"></a></dt>
+<dd><p>Updates the corrector strength values in the current optics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>correctors</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><em>IRCorrector</em></a><em>]</em>) -- IRCorrectors containing the new values.</p></li>
+<li><p><strong>optics_seq</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><em>Optics</em></a><em>]</em>) -- Optics to update.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.equation_system.restore_optics_values">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.equation_system.</span></span><span class="sig-name descname"><span class="pre">restore_optics_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">saved_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optics_seq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><span class="pre">Optics</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/equation_system.html#restore_optics_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.equation_system.restore_optics_values" title="Permalink to this definition"></a></dt>
+<dd><p>Restore saved initial corrector values (if any) to optics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>saved_values</strong> (<em>Dict</em>) -- Saved initial values (key: entry in optics, values: value per optics)</p></li>
+<li><p><strong>optics_seq</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><em>Optics</em></a><em>]</em>) -- Optics to update.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.equation_system.solve">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.equation_system.</span></span><span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rdt_maps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT" title="irnl_rdt_correction.rdt_handling.RDT"><span class="pre">RDT</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optics_seq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><span class="pre">Optics</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ips</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_optics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_corrector_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feeddown</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><span class="pre">IRCorrector</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/equation_system.html#solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.equation_system.solve" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate corrections, i.e. build and solve Eq. (40) of <a class="reference internal" href="main.html#dillynonlinearircorrections2023" id="id6"><span>[DillyNonlinearIRCorrections2023]</span></a>.
+Corrections are performed by grouping RDTs with common correctors.
+If possible, these are ordered from the highest order to lowest,
+to be able to update optics and include their feed-down.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rdt_maps</strong> (<em>Sequence</em><em>[</em><em>RDTMap</em><em>]</em>) -- Sequence of RDTMap objects,
+i.e. a dict mapping the RDT to the used correctors.</p></li>
+<li><p><strong>optics_seq</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><em>Optics</em></a><em>]</em>) -- Sequence of Optics objects containing twiss and errors.</p></li>
+<li><p><strong>accel</strong> (<em>str</em>) -- Accelerator to use (implemented ‘lhc’ and ‘hllhc’).</p></li>
+<li><p><strong>ips</strong> (<em>Sequence</em><em>[</em><em>int</em><em>]</em>) -- Sequence of IPs to correct. Elements will split by IP,
+assuming their name ends with “L” or “R” for
+left and right followed by the IP number.</p></li>
+<li><p><strong>update_optics</strong> (<em>bool</em>) -- Sorts the RDTs to start with the highest order
+and updates the corrector strengths in the optics
+after calculation, so the feeddown to lower order
+correctors is included.</p></li>
+<li><p><strong>ignore_corrector_settings</strong> (<em>bool</em>) -- Ignore the current settings of the correctors.
+If this is not set the corrector values of the
+optics are used as initial conditions.</p></li>
+<li><p><strong>feeddown</strong> (<em>int</em>) -- Orders of feed-down to include calculating the integral on the rhs of
+Eq. (40) of <a class="reference internal" href="main.html#dillynonlinearircorrections2023" id="id7"><span>[DillyNonlinearIRCorrections2023]</span></a></p></li>
+<li><p><strong>iterations</strong> (<em>int</em>) -- (Re-)iterate correction, starting with the previously
+calculated values. Needs to be &gt; 0, as the first calculation
+counts as an iteration.</p></li>
+<li><p><strong>solver</strong> (<em>str</em>) -- Solver to use: ‘inv’, ‘lstq’ or ‘linear’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Sequence of IRCorrector objects, which define the</dt><dd><p>IR corrector and its value and contain additional
+information about the corrector.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Sequence[<a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector">IRCorrector</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.equation_system.solve_equation_system">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.equation_system.</span></span><span class="sig-name descname"><span class="pre">solve_equation_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correctors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><span class="pre">IRCorrector</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lhs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/irnl_rdt_correction/equation_system.html#solve_equation_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.equation_system.solve_equation_system" title="Permalink to this definition"></a></dt>
+<dd><p>Solves the system with the given solver.</p>
+<p>The result is transferred to the corrector values internally.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>correctors</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><em>IRCorrector</em></a><em>]</em>) -- Sequence of IRCorrectors this equation system was build for.
+Stores the resulting values.</p></li>
+<li><p><strong>lhs</strong> (<em>np.array</em>) -- Left hand side of the Eqs to solve.</p></li>
+<li><p><strong>rhs</strong> (<em>np.array</em>) -- Right hand side of the Eqs to solve.</p></li>
+<li><p><strong>solver</strong> (<em>str</em>) -- Solver to use (see SOLVER_MAP below).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-irnl_rdt_correction.input_options"></span><section id="input-options">
+<h1>Input Options<a class="headerlink" href="#input-options" title="Permalink to this heading"></a></h1>
+<p>Handles the input parameters, contains their default values
+and checks for their validity.</p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.input_options.check_opt">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.input_options.</span></span><span class="sig-name descname"><span class="pre">check_opt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#irnl_rdt_correction.utilities.DotDict" title="irnl_rdt_correction.utilities.DotDict"><span class="pre">DotDict</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#irnl_rdt_correction.utilities.DotDict" title="irnl_rdt_correction.utilities.DotDict"><span class="pre">DotDict</span></a></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/input_options.html#check_opt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.input_options.check_opt" title="Permalink to this definition"></a></dt>
+<dd><p>Asserts that the input parameters make sense and adds what’s missing.
+If the input is empty, arguments will be parsed from commandline.
+Checks include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Set defaults (see <code class="docutils literal notranslate"><span class="pre">DEFAULTS</span></code>) if option not given.</p></li>
+<li><p>Check accelerator name is valid</p></li>
+<li><p>Set default RDTs if not given (see <code class="docutils literal notranslate"><span class="pre">DEFAULT_RDTS</span></code>)</p></li>
+<li><p>Check required parameters are present (twiss, errors, beams, rdts)</p></li>
+<li><p>Check feeddown and iterations</p></li>
+</ul>
+</div></blockquote>
+<p>TODO: Replace DotDict with dataclass and have class check most of this…</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>opt</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><a class="reference internal" href="#irnl_rdt_correction.utilities.DotDict" title="irnl_rdt_correction.utilities.DotDict"><em>DotDict</em></a><em>]</em>) -- Function options in dictionary format.
+Description of the arguments are given in
+<a class="reference internal" href="main.html#irnl_rdt_correction.main.irnl_rdt_correction" title="irnl_rdt_correction.main.irnl_rdt_correction"><code class="xref py py-func docutils literal notranslate"><span class="pre">irnl_rdt_correction.main.irnl_rdt_correction()</span></code></a>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(Parsed and) checked options.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#irnl_rdt_correction.utilities.DotDict" title="irnl_rdt_correction.utilities.DotDict">DotDict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-irnl_rdt_correction.io_handling"></span><section id="io-handling">
+<h1>IO Handling<a class="headerlink" href="#io-handling" title="Permalink to this heading"></a></h1>
+<p>Functions for reading input and writing output.</p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.io_handling.build_correction_df">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.io_handling.</span></span><span class="sig-name descname"><span class="pre">build_correction_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correctors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><span class="pre">IRCorrector</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TfsDataFrame</span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/io_handling.html#build_correction_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.io_handling.build_correction_df" title="Permalink to this definition"></a></dt>
+<dd><p>Build the DataFrame that contains the information for corrector powering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>correctors</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><em>IRCorrector</em></a><em>]</em>) -- Sequence or IRCorrectors containing their desired settings.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Converted DataFrame</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>TfsDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.io_handling.build_correction_str">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.io_handling.</span></span><span class="sig-name descname"><span class="pre">build_correction_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correctors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><span class="pre">IRCorrector</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/io_handling.html#build_correction_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.io_handling.build_correction_str" title="Permalink to this definition"></a></dt>
+<dd><p>Build the MAD-X command that contains the information for corrector powering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>correctors</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><em>IRCorrector</em></a><em>]</em>) -- Sequence or IRCorrectors containing their desired settings.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Converted MAD-X commands.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.io_handling.build_correction_str_from_df">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.io_handling.</span></span><span class="sig-name descname"><span class="pre">build_correction_str_from_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correctors_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/io_handling.html#build_correction_str_from_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.io_handling.build_correction_str_from_df" title="Permalink to this definition"></a></dt>
+<dd><p>Build the MAD-X command that contains the information for corrector powering
+from the given DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>correctors_df</strong> (<em>DataFrame</em>) -- Corrector information in DataFrame format.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Converted MAD-X commands.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.io_handling.get_and_write_output">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.io_handling.</span></span><span class="sig-name descname"><span class="pre">get_and_write_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correctors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><span class="pre">IRCorrector</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">TfsDataFrame</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/io_handling.html#get_and_write_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.io_handling.get_and_write_output" title="Permalink to this definition"></a></dt>
+<dd><p>Convert the IRCorrector data to MAD-X commands and TFSDataFrame and write to files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>out_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) -- Path to output file (suffix will be added/changed to fit format)</p></li>
+<li><p><strong>correctors</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="irnl_rdt_correction.rdt_handling.IRCorrector"><em>IRCorrector</em></a><em>]</em>) -- Sequence or IRCorrectors containing their desired settings.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>IRCorrectors information converted to MAD-X command and TFSDataFrame</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[str, tfs.TfsDataFrame]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.io_handling.get_optics">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.io_handling.</span></span><span class="sig-name descname"><span class="pre">get_optics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beams</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twiss</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">TfsDataFrame</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">TfsDataFrame</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orders</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_missing_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><span class="pre">Optics</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/io_handling.html#get_optics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.io_handling.get_optics" title="Permalink to this definition"></a></dt>
+<dd><p>Get the Optics instances from beams, twiss and errors.
+Also checks the DataFrames for containing needed information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beams</strong> (<em>Sequence</em><em>[</em><em>int</em><em>]</em>) -- Beam number the twiss/errors refer to</p></li>
+<li><p><strong>twiss</strong> (<em>Sequence</em><em>[</em><em>StrOrPathOrDataFrame</em><em>]</em>) -- </p></li>
+<li><p><strong>errors</strong> (<em>Sequence</em><em>[</em><em>StrOrPathOrDataFrame</em><em>]</em>) -- </p></li>
+<li><p><strong>orders</strong> (<em>Sequence</em><em>[</em><em>int</em><em>]</em>) -- Orders needed for calculations (used to check DataFrames)</p></li>
+<li><p><strong>ignore_missing_columns</strong> (<em>bool</em>) -- If set, fills missing columns with zeros.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Tuple of Optics objects containing combined information</dt><dd><p>about beam, twiss and errors.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Sequence[<a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics">Optics</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.io_handling.get_tfs">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.io_handling.</span></span><span class="sig-name descname"><span class="pre">get_tfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">TfsDataFrame</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/io_handling.html#get_tfs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.io_handling.get_tfs" title="Permalink to this definition"></a></dt>
+<dd><p>Get TFS-DataFrames from Paths or return DataFrames if already loaded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>paths</strong> (<em>Sequence</em><em>[</em><em>StrOrPathOrDataFrame</em><em>]</em>) -- (TFS)DataFrames or paths to tfs files.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Loaded (TFS)DataFrames.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Sequence[DataFrame]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.io_handling.maybe_switch_signs">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.io_handling.</span></span><span class="sig-name descname"><span class="pre">maybe_switch_signs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#irnl_rdt_correction.utilities.Optics" title="irnl_rdt_correction.utilities.Optics"><span class="pre">Optics</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/irnl_rdt_correction/io_handling.html#maybe_switch_signs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.io_handling.maybe_switch_signs" title="Permalink to this definition"></a></dt>
+<dd><p>Switch the signs for Beam optics.
+This is due to the switch in direction between beam and
+(anti-) symmetry after a rotation of 180deg around the y-axis of magnets.
+Magnet orders that show anti-symmetry are: a1 (K0SL), b2 (K1L), a3 (K2SL), b4 (K3L) etc.</p>
+<p>This brings the Beam 2 KNL and x values to Beam 4 definition.</p>
+</dd></dl>
+
+<span class="target" id="module-irnl_rdt_correction.rdt_handling"></span><section id="rdt-handling">
+<h1>RDT Handling<a class="headerlink" href="#rdt-handling" title="Permalink to this heading"></a></h1>
+<p>Class definitions of RDTs and IRCorrectors and functions handling these classes
+for checking and sorting.</p>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="irnl_rdt_correction.rdt_handling.IRCorrector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.rdt_handling.</span></span><span class="sig-name descname"><span class="pre">IRCorrector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_component</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/irnl_rdt_correction/rdt_handling.html#IRCorrector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.rdt_handling.IRCorrector" title="Permalink to this definition"></a></dt>
+<dd><p>Representation of an IR-Corrector in the accelerator.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="irnl_rdt_correction.rdt_handling.RDT">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.rdt_handling.</span></span><span class="sig-name descname"><span class="pre">RDT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/irnl_rdt_correction/rdt_handling.html#RDT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.rdt_handling.RDT" title="Permalink to this definition"></a></dt>
+<dd><p>Representation of Resonance Driving Term attributes.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.rdt_handling.check_corrector_order">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.rdt_handling.</span></span><span class="sig-name descname"><span class="pre">check_corrector_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rdt_maps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT" title="irnl_rdt_correction.rdt_handling.RDT"><span class="pre">RDT</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_optics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feed_down</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/irnl_rdt_correction/rdt_handling.html#check_corrector_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.rdt_handling.check_corrector_order" title="Permalink to this definition"></a></dt>
+<dd><p>Perform checks on corrector orders compared to RDT orders and feed-down.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rdt_maps</strong> (<em>Sequence</em><em>[</em><em>RDTMap</em><em>]</em>) -- RDTMaps to check.</p></li>
+<li><p><strong>update_optics</strong> (<em>bool</em>) -- True if optics should be updated after each iteration.</p></li>
+<li><p><strong>feed_down</strong> (<em>int</em>) -- Order of feed-down to include.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.rdt_handling.get_needed_orders">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.rdt_handling.</span></span><span class="sig-name descname"><span class="pre">get_needed_orders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rdt_maps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT" title="irnl_rdt_correction.rdt_handling.RDT"><span class="pre">RDT</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feed_down</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/rdt_handling.html#get_needed_orders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.rdt_handling.get_needed_orders" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the sorted orders needed for correction, based on the order
+of the RDTs to correct plus the feed-down involved and the order of the
+corrector, which can be higher than the RDTs in case one wants to correct
+via feed-down.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rdt_maps</strong> (<em>Sequence</em><em>[</em><em>RDTMap</em><em>]</em>) -- RDTMaps to check</p></li>
+<li><p><strong>feed_down</strong> (<em>int</em>) -- Order of maximum feed-down to include</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Needed field orders to calculate all corrections including feed-down</dt><dd><p>(sorted low-to-high).</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Sequence[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.rdt_handling.sort_rdts">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.rdt_handling.</span></span><span class="sig-name descname"><span class="pre">sort_rdts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rdts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rdts2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT" title="irnl_rdt_correction.rdt_handling.RDT"><span class="pre">RDT</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#irnl_rdt_correction.rdt_handling.RDT" title="irnl_rdt_correction.rdt_handling.RDT"><span class="pre">RDT</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/rdt_handling.html#sort_rdts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.rdt_handling.sort_rdts" title="Permalink to this definition"></a></dt>
+<dd><p>Sorts RDTs by reversed-order (i.e. high-to-low) and orientation (skew, normal).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rdts</strong> (<em>RDTInputTypes</em>) -- RDTs for first optics</p></li>
+<li><p><strong>rdts2</strong> (<em>RDTInputTypes</em>) -- RDTs for second optics.
+If not given first optics RDTs are assumed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>RDT mapping (RDT to corrector fields) for both optics.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[RDTMap, RDTMap]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-irnl_rdt_correction.utilities"></span><section id="utilities">
+<h1>Utilities<a class="headerlink" href="#utilities" title="Permalink to this heading"></a></h1>
+<p>Additional utilities used throughout the correction.</p>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="irnl_rdt_correction.utilities.DotDict">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.utilities.</span></span><span class="sig-name descname"><span class="pre">DotDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/irnl_rdt_correction/utilities.html#DotDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.utilities.DotDict" title="Permalink to this definition"></a></dt>
+<dd><p>Make dict fields accessible by attributes.
+TODO: Replace with dataclass.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="irnl_rdt_correction.utilities.Optics">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.utilities.</span></span><span class="sig-name descname"><span class="pre">Optics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twiss</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/irnl_rdt_correction/utilities.html#Optics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.utilities.Optics" title="Permalink to this definition"></a></dt>
+<dd><p>Store Optics Data.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="irnl_rdt_correction.utilities.Timer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.utilities.</span></span><span class="sig-name descname"><span class="pre">Timer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'start',</span> <span class="pre">print_fun:</span> <span class="pre">~typing.Callable[[str],</span> <span class="pre">None]</span> <span class="pre">=</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">print&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/irnl_rdt_correction/utilities.html#Timer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.utilities.Timer" title="Permalink to this definition"></a></dt>
+<dd><p>Collect Times and print a summary at the end.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.utilities.get_max_knl_order">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.utilities.</span></span><span class="sig-name descname"><span class="pre">get_max_knl_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TfsDataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/utilities.html#get_max_knl_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.utilities.get_max_knl_order" title="Permalink to this definition"></a></dt>
+<dd><p>Return the maximum order in the KN(S)L columns of the DataFrame.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.utilities.i_pow">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.utilities.</span></span><span class="sig-name descname"><span class="pre">i_pow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">complex</span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/utilities.html#i_pow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.utilities.i_pow" title="Permalink to this definition"></a></dt>
+<dd><p>i to the power of n.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.utilities.is_anti_mirror_symmetric">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.utilities.</span></span><span class="sig-name descname"><span class="pre">is_anti_mirror_symmetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/utilities.html#is_anti_mirror_symmetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.utilities.is_anti_mirror_symmetric" title="Permalink to this definition"></a></dt>
+<dd><p>Returns true if the column name is a KNL/KNSL column and the
+magnetic field that this column represents is anti-symmetric upon mirroring on y axis.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="irnl_rdt_correction.utilities.log_setup">
+<span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.utilities.</span></span><span class="sig-name descname"><span class="pre">log_setup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/irnl_rdt_correction/utilities.html#log_setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.utilities.log_setup" title="Permalink to this definition"></a></dt>
+<dd><p>Set up a basic logger.</p>
+</dd></dl>
+
+
 
            </div>
           </div>
-          <footer>
+
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="main.html" class="btn btn-neutral float-left" title="Nonlinear Correction calculation in the IRs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 

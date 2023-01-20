@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Search &mdash; irnl-rdt-correction 0.0.2 documentation</title>
+  <title>Search &mdash; irnl-rdt-correction 1.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
@@ -17,6 +17,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <script src="_static/searchtools.js"></script>
     <script src="_static/language_data.js"></script>
@@ -29,11 +30,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html">
+            <a href="index.html" class="icon icon-home"> irnl-rdt-correction
             <img src="_static/omc_logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.0
+                1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="#" method="get">
@@ -46,6 +47,47 @@
               <p class="caption" role="heading"><span class="caption-text">Main</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="main.html">Nonlinear Correction calculation in the IRs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html#irnl_rdt_correction.main.irnl_rdt_correction"><code class="docutils literal notranslate"><span class="pre">irnl_rdt_correction()</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#equation-system">Equation System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.build_equation_system"><code class="docutils literal notranslate"><span class="pre">build_equation_system()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.get_available_correctors"><code class="docutils literal notranslate"><span class="pre">get_available_correctors()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.get_corrector_coefficient"><code class="docutils literal notranslate"><span class="pre">get_corrector_coefficient()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.get_current_rdt_maps"><code class="docutils literal notranslate"><span class="pre">get_current_rdt_maps()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.get_elements_integral"><code class="docutils literal notranslate"><span class="pre">get_elements_integral()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.get_side_sign"><code class="docutils literal notranslate"><span class="pre">get_side_sign()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.init_corrector_and_optics_values"><code class="docutils literal notranslate"><span class="pre">init_corrector_and_optics_values()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.optics_update"><code class="docutils literal notranslate"><span class="pre">optics_update()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.restore_optics_values"><code class="docutils literal notranslate"><span class="pre">restore_optics_values()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.solve"><code class="docutils literal notranslate"><span class="pre">solve()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.solve_equation_system"><code class="docutils literal notranslate"><span class="pre">solve_equation_system()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#input-options">Input Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.input_options.check_opt"><code class="docutils literal notranslate"><span class="pre">check_opt()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#io-handling">IO Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.io_handling.build_correction_df"><code class="docutils literal notranslate"><span class="pre">build_correction_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.io_handling.build_correction_str"><code class="docutils literal notranslate"><span class="pre">build_correction_str()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.io_handling.build_correction_str_from_df"><code class="docutils literal notranslate"><span class="pre">build_correction_str_from_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.io_handling.get_and_write_output"><code class="docutils literal notranslate"><span class="pre">get_and_write_output()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.io_handling.get_optics"><code class="docutils literal notranslate"><span class="pre">get_optics()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.io_handling.get_tfs"><code class="docutils literal notranslate"><span class="pre">get_tfs()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.io_handling.maybe_switch_signs"><code class="docutils literal notranslate"><span class="pre">maybe_switch_signs()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#rdt-handling">RDT Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.rdt_handling.IRCorrector"><code class="docutils literal notranslate"><span class="pre">IRCorrector</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.rdt_handling.RDT"><code class="docutils literal notranslate"><span class="pre">RDT</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.rdt_handling.check_corrector_order"><code class="docutils literal notranslate"><span class="pre">check_corrector_order()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.rdt_handling.get_needed_orders"><code class="docutils literal notranslate"><span class="pre">get_needed_orders()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.rdt_handling.sort_rdts"><code class="docutils literal notranslate"><span class="pre">sort_rdts()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#utilities">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.utilities.DotDict"><code class="docutils literal notranslate"><span class="pre">DotDict</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.utilities.Optics"><code class="docutils literal notranslate"><span class="pre">Optics</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.utilities.Timer"><code class="docutils literal notranslate"><span class="pre">Timer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.utilities.get_max_knl_order"><code class="docutils literal notranslate"><span class="pre">get_max_knl_order()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.utilities.i_pow"><code class="docutils literal notranslate"><span class="pre">i_pow()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.utilities.is_anti_mirror_symmetric"><code class="docutils literal notranslate"><span class="pre">is_anti_mirror_symmetric()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.utilities.log_setup"><code class="docutils literal notranslate"><span class="pre">log_setup()</span></code></a></li>
 </ul>
 
         </div>
@@ -61,14 +103,16 @@
         <div class="rst-content style-external-links">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Search</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Search</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+  
+  
            <div itemprop="articleBody">
              
   <noscript>
@@ -86,6 +130,7 @@
 
            </div>
           </div>
+
           <footer>
 
   <hr/>

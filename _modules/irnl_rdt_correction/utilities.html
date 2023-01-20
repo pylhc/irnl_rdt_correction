@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>irnl_rdt_correction.utilities &mdash; irnl-rdt-correction 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> irnl-rdt-correction
+            <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Main</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../main.html">Nonlinear Correction calculation in the IRs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../main.html#irnl_rdt_correction.main.irnl_rdt_correction"><code class="docutils literal notranslate"><span class="pre">irnl_rdt_correction()</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html">Constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#equation-system">Equation System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.build_equation_system"><code class="docutils literal notranslate"><span class="pre">build_equation_system()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_available_correctors"><code class="docutils literal notranslate"><span class="pre">get_available_correctors()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_corrector_coefficient"><code class="docutils literal notranslate"><span class="pre">get_corrector_coefficient()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_current_rdt_maps"><code class="docutils literal notranslate"><span class="pre">get_current_rdt_maps()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_elements_integral"><code class="docutils literal notranslate"><span class="pre">get_elements_integral()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.get_side_sign"><code class="docutils literal notranslate"><span class="pre">get_side_sign()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.init_corrector_and_optics_values"><code class="docutils literal notranslate"><span class="pre">init_corrector_and_optics_values()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.optics_update"><code class="docutils literal notranslate"><span class="pre">optics_update()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.restore_optics_values"><code class="docutils literal notranslate"><span class="pre">restore_optics_values()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.solve"><code class="docutils literal notranslate"><span class="pre">solve()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.solve_equation_system"><code class="docutils literal notranslate"><span class="pre">solve_equation_system()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#input-options">Input Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.input_options.check_opt"><code class="docutils literal notranslate"><span class="pre">check_opt()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#io-handling">IO Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_df"><code class="docutils literal notranslate"><span class="pre">build_correction_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_str"><code class="docutils literal notranslate"><span class="pre">build_correction_str()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_str_from_df"><code class="docutils literal notranslate"><span class="pre">build_correction_str_from_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.get_and_write_output"><code class="docutils literal notranslate"><span class="pre">get_and_write_output()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.get_optics"><code class="docutils literal notranslate"><span class="pre">get_optics()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.get_tfs"><code class="docutils literal notranslate"><span class="pre">get_tfs()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.maybe_switch_signs"><code class="docutils literal notranslate"><span class="pre">maybe_switch_signs()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#rdt-handling">RDT Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.IRCorrector"><code class="docutils literal notranslate"><span class="pre">IRCorrector</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.RDT"><code class="docutils literal notranslate"><span class="pre">RDT</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.check_corrector_order"><code class="docutils literal notranslate"><span class="pre">check_corrector_order()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.get_needed_orders"><code class="docutils literal notranslate"><span class="pre">get_needed_orders()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.sort_rdts"><code class="docutils literal notranslate"><span class="pre">sort_rdts()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#utilities">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.DotDict"><code class="docutils literal notranslate"><span class="pre">DotDict</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Optics"><code class="docutils literal notranslate"><span class="pre">Optics</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Timer"><code class="docutils literal notranslate"><span class="pre">Timer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.get_max_knl_order"><code class="docutils literal notranslate"><span class="pre">get_max_knl_order()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.i_pow"><code class="docutils literal notranslate"><span class="pre">i_pow()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.is_anti_mirror_symmetric"><code class="docutils literal notranslate"><span class="pre">is_anti_mirror_symmetric()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.log_setup"><code class="docutils literal notranslate"><span class="pre">log_setup()</span></code></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">irnl-rdt-correction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">irnl_rdt_correction.utilities</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+  
+  
+           <div itemprop="articleBody">
+             
+  <h1>Source code for irnl_rdt_correction.utilities</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Utilities</span>
+<span class="sd">---------</span>
+<span class="sd">Additional utilities used throughout the correction.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">from</span> <span class="nn">tfs</span> <span class="kn">import</span> <span class="n">TfsDataFrame</span>
+
+<span class="kn">from</span> <span class="nn">irnl_rdt_correction.constants</span> <span class="kn">import</span> <span class="n">SKEW_NAME_MAP</span><span class="p">,</span> <span class="n">SKEW_FIELD_MAP</span><span class="p">,</span> <span class="n">FIELD_SKEW_MAP</span>
+
+
+<span class="c1"># Classes ----------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="DotDict"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.DotDict">[docs]</a><span class="k">class</span> <span class="nc">DotDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Make dict fields accessible by attributes.</span>
+<span class="sd">    TODO: Replace with dataclass.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DotDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="fm">__setattr__</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="fm">__setitem__</span>
+    <span class="fm">__delattr__</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="fm">__delitem__</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Needed to raise the correct exceptions &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">DotDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+
+
+<div class="viewcode-block" id="Timer"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.Timer">[docs]</a><span class="k">class</span> <span class="nc">Timer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Collect Times and print a summary at the end. &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="n">print_fun</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="nb">print</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">print</span> <span class="o">=</span> <span class="n">print_fun</span>
+
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">))</span>
+        <span class="n">time_</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">time_</span>
+        <span class="k">return</span> <span class="n">time_</span>
+
+    <span class="k">def</span> <span class="nf">time_since_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">step</span><span class="p">:</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">dtime</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">step</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">dtime</span>
+
+    <span class="k">def</span> <span class="nf">time_between_steps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">list_steps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">start</span><span class="p">:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">list_steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">list_steps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">dtime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">start</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">dtime</span>
+
+    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">str_length</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">time_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_between_steps</span><span class="p">())</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">format_str</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">{{</span><span class="s2">step:</span><span class="si">{</span><span class="n">str_length</span><span class="si">}</span><span class="s2">s</span><span class="se">}}</span><span class="s2">:&quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot; +</span><span class="se">{{</span><span class="s2">dtime: </span><span class="si">{</span><span class="n">time_length</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">.5f</span><span class="se">}}</span><span class="s2">s&quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot; (</span><span class="se">{{</span><span class="s2">ttime: </span><span class="si">{</span><span class="n">time_length</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">.3f</span><span class="se">}}</span><span class="s2">s total)&quot;</span><span class="p">)</span>
+        <span class="n">last_time</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">step_time</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">last_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">start_time</span> <span class="o">=</span> <span class="n">step_time</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Timing Summary ----&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">format_str</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">dtime</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ttime</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">format_str</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">dtime</span><span class="o">=</span><span class="n">step_time</span><span class="o">-</span><span class="n">last_time</span><span class="p">,</span> <span class="n">ttime</span><span class="o">=</span><span class="n">step_time</span><span class="o">-</span><span class="n">start_time</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="n">last_time</span> <span class="o">=</span> <span class="n">step_time</span></div>
+
+
+<div class="viewcode-block" id="Optics"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.Optics">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Optics</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Store Optics Data. &quot;&quot;&quot;</span>
+    <span class="n">beam</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">twiss</span><span class="p">:</span> <span class="n">DataFrame</span>
+    <span class="n">errors</span><span class="p">:</span> <span class="n">DataFrame</span></div>
+
+
+<span class="c1"># KNL-Checks -------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="get_max_knl_order"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.get_max_knl_order">[docs]</a><span class="k">def</span> <span class="nf">get_max_knl_order</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">TfsDataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Return the maximum order in the KN(S)L columns of the DataFrame. &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^K(\d+)S?L$&quot;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="is_anti_mirror_symmetric"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.is_anti_mirror_symmetric">[docs]</a><span class="k">def</span> <span class="nf">is_anti_mirror_symmetric</span><span class="p">(</span><span class="n">column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Returns true if the column name is a KNL/KNSL column and the</span>
+<span class="sd">    magnetic field that this column represents is anti-symmetric upon mirroring on y axis.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^K(\d+)S?L$&quot;</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="c1"># name does not match pattern</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">column_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="sa">f</span><span class="s2">&quot;K</span><span class="si">{</span><span class="n">order</span><span class="si">:</span><span class="s2">d</span><span class="si">}{</span><span class="n">SKEW_NAME_MAP</span><span class="p">[</span><span class="n">is_even</span><span class="p">(</span><span class="n">order</span><span class="p">)]</span><span class="si">}</span><span class="s2">L&quot;</span></div>
+
+
+<span class="c1"># Small Helpers ----------------------------------------------------------------</span>
+
+<span class="k">def</span> <span class="nf">list2str</span><span class="p">(</span><span class="n">list_</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">list_</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;[]&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">idx2str</span><span class="p">(</span><span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;second&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;third&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="s1">&#39;fourth&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;fifth&#39;</span><span class="p">}[</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">order2field_component</span><span class="p">(</span><span class="n">order</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">skew</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">SKEW_FIELD_MAP</span><span class="p">[</span><span class="n">skew</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}{</span><span class="n">order</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">field_component2order</span><span class="p">(</span><span class="n">field_component</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">field_component</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">FIELD_SKEW_MAP</span><span class="p">[</span><span class="n">field_component</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+
+<span class="k">def</span> <span class="nf">is_odd</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">is_even</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="n">is_odd</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="i_pow"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.i_pow">[docs]</a><span class="k">def</span> <span class="nf">i_pow</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">complex</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; i to the power of n.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="n">j</span><span class="o">**</span><span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)</span>   <span class="c1"># more exact with modulo</span></div>
+
+
+<div class="viewcode-block" id="log_setup"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.log_setup">[docs]</a><span class="k">def</span> <span class="nf">log_setup</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Set up a basic logger. &quot;&quot;&quot;</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+        <span class="n">stream</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span>
+        <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(levelname)7s</span><span class="s2"> | </span><span class="si">%(message)s</span><span class="s2"> | </span><span class="si">%(name)s</span><span class="s2">&quot;</span>
+    <span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

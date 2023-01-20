@@ -13,13 +13,12 @@ Package Reference
 
    main
 
-..
-    This is commented out for later:
-    .. toctree::
-       :caption: Tools
-       :maxdepth: 1
 
-       tools
+.. toctree::
+   :caption: Tools
+   :maxdepth: 1
+
+   tools
 
 
 Indices and tables

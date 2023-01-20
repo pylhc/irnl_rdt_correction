@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; irnl-rdt-correction 0.0.2 documentation</title>
+  <title>Index &mdash; irnl-rdt-correction 1.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
@@ -16,6 +16,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -26,11 +27,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html">
+            <a href="index.html" class="icon icon-home"> irnl-rdt-correction
             <img src="_static/omc_logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.0
+                1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -43,6 +44,47 @@
               <p class="caption" role="heading"><span class="caption-text">Main</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="main.html">Nonlinear Correction calculation in the IRs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html#irnl_rdt_correction.main.irnl_rdt_correction"><code class="docutils literal notranslate"><span class="pre">irnl_rdt_correction()</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Constants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#equation-system">Equation System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.build_equation_system"><code class="docutils literal notranslate"><span class="pre">build_equation_system()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.get_available_correctors"><code class="docutils literal notranslate"><span class="pre">get_available_correctors()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.get_corrector_coefficient"><code class="docutils literal notranslate"><span class="pre">get_corrector_coefficient()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.get_current_rdt_maps"><code class="docutils literal notranslate"><span class="pre">get_current_rdt_maps()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.get_elements_integral"><code class="docutils literal notranslate"><span class="pre">get_elements_integral()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.get_side_sign"><code class="docutils literal notranslate"><span class="pre">get_side_sign()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.init_corrector_and_optics_values"><code class="docutils literal notranslate"><span class="pre">init_corrector_and_optics_values()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.optics_update"><code class="docutils literal notranslate"><span class="pre">optics_update()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.restore_optics_values"><code class="docutils literal notranslate"><span class="pre">restore_optics_values()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.solve"><code class="docutils literal notranslate"><span class="pre">solve()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.equation_system.solve_equation_system"><code class="docutils literal notranslate"><span class="pre">solve_equation_system()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#input-options">Input Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.input_options.check_opt"><code class="docutils literal notranslate"><span class="pre">check_opt()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#io-handling">IO Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.io_handling.build_correction_df"><code class="docutils literal notranslate"><span class="pre">build_correction_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.io_handling.build_correction_str"><code class="docutils literal notranslate"><span class="pre">build_correction_str()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.io_handling.build_correction_str_from_df"><code class="docutils literal notranslate"><span class="pre">build_correction_str_from_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.io_handling.get_and_write_output"><code class="docutils literal notranslate"><span class="pre">get_and_write_output()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.io_handling.get_optics"><code class="docutils literal notranslate"><span class="pre">get_optics()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.io_handling.get_tfs"><code class="docutils literal notranslate"><span class="pre">get_tfs()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.io_handling.maybe_switch_signs"><code class="docutils literal notranslate"><span class="pre">maybe_switch_signs()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#rdt-handling">RDT Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.rdt_handling.IRCorrector"><code class="docutils literal notranslate"><span class="pre">IRCorrector</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.rdt_handling.RDT"><code class="docutils literal notranslate"><span class="pre">RDT</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.rdt_handling.check_corrector_order"><code class="docutils literal notranslate"><span class="pre">check_corrector_order()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.rdt_handling.get_needed_orders"><code class="docutils literal notranslate"><span class="pre">get_needed_orders()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.rdt_handling.sort_rdts"><code class="docutils literal notranslate"><span class="pre">sort_rdts()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#utilities">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.utilities.DotDict"><code class="docutils literal notranslate"><span class="pre">DotDict</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.utilities.Optics"><code class="docutils literal notranslate"><span class="pre">Optics</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.utilities.Timer"><code class="docutils literal notranslate"><span class="pre">Timer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.utilities.get_max_knl_order"><code class="docutils literal notranslate"><span class="pre">get_max_knl_order()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.utilities.i_pow"><code class="docutils literal notranslate"><span class="pre">i_pow()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.utilities.is_anti_mirror_symmetric"><code class="docutils literal notranslate"><span class="pre">is_anti_mirror_symmetric()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#irnl_rdt_correction.utilities.log_setup"><code class="docutils literal notranslate"><span class="pre">log_setup()</span></code></a></li>
 </ul>
 
         </div>
@@ -58,8 +100,8 @@
         <div class="rst-content style-external-links">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Index</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Index</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/pylhc/irnl-rdt-correction/blob/master/doc/genindex" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -67,6 +109,8 @@
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+  
+  
            <div itemprop="articleBody">
              
 
@@ -74,21 +118,42 @@
 
 <div class="genindex-jumpbox">
  <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#O"><strong>O</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
- | <a href="#U"><strong>U</strong></a>
  
 </div>
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.build_equation_system">build_equation_system() (in module irnl_rdt_correction.irnl_rdt_correction)</a>
+      <li><a href="tools.html#irnl_rdt_correction.io_handling.build_correction_df">build_correction_df() (in module irnl_rdt_correction.io_handling)</a>
+</li>
+      <li><a href="tools.html#irnl_rdt_correction.io_handling.build_correction_str">build_correction_str() (in module irnl_rdt_correction.io_handling)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="tools.html#irnl_rdt_correction.io_handling.build_correction_str_from_df">build_correction_str_from_df() (in module irnl_rdt_correction.io_handling)</a>
+</li>
+      <li><a href="tools.html#irnl_rdt_correction.equation_system.build_equation_system">build_equation_system() (in module irnl_rdt_correction.equation_system)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="tools.html#irnl_rdt_correction.rdt_handling.check_corrector_order">check_corrector_order() (in module irnl_rdt_correction.rdt_handling)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="tools.html#irnl_rdt_correction.input_options.check_opt">check_opt() (in module irnl_rdt_correction.input_options)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -96,7 +161,7 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.DotDict">DotDict (class in irnl_rdt_correction.irnl_rdt_correction)</a>
+      <li><a href="tools.html#irnl_rdt_correction.utilities.DotDict">DotDict (class in irnl_rdt_correction.utilities)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -104,15 +169,27 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.get_available_correctors">get_available_correctors() (in module irnl_rdt_correction.irnl_rdt_correction)</a>
+      <li><a href="tools.html#irnl_rdt_correction.io_handling.get_and_write_output">get_and_write_output() (in module irnl_rdt_correction.io_handling)</a>
 </li>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.get_corrector_coefficient">get_corrector_coefficient() (in module irnl_rdt_correction.irnl_rdt_correction)</a>
+      <li><a href="tools.html#irnl_rdt_correction.equation_system.get_available_correctors">get_available_correctors() (in module irnl_rdt_correction.equation_system)</a>
+</li>
+      <li><a href="tools.html#irnl_rdt_correction.equation_system.get_corrector_coefficient">get_corrector_coefficient() (in module irnl_rdt_correction.equation_system)</a>
+</li>
+      <li><a href="tools.html#irnl_rdt_correction.equation_system.get_current_rdt_maps">get_current_rdt_maps() (in module irnl_rdt_correction.equation_system)</a>
+</li>
+      <li><a href="tools.html#irnl_rdt_correction.equation_system.get_elements_integral">get_elements_integral() (in module irnl_rdt_correction.equation_system)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.get_elements_integral">get_elements_integral() (in module irnl_rdt_correction.irnl_rdt_correction)</a>
+      <li><a href="tools.html#irnl_rdt_correction.utilities.get_max_knl_order">get_max_knl_order() (in module irnl_rdt_correction.utilities)</a>
 </li>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.get_integral_sign">get_integral_sign() (in module irnl_rdt_correction.irnl_rdt_correction)</a>
+      <li><a href="tools.html#irnl_rdt_correction.rdt_handling.get_needed_orders">get_needed_orders() (in module irnl_rdt_correction.rdt_handling)</a>
+</li>
+      <li><a href="tools.html#irnl_rdt_correction.io_handling.get_optics">get_optics() (in module irnl_rdt_correction.io_handling)</a>
+</li>
+      <li><a href="tools.html#irnl_rdt_correction.equation_system.get_side_sign">get_side_sign() (in module irnl_rdt_correction.equation_system)</a>
+</li>
+      <li><a href="tools.html#irnl_rdt_correction.io_handling.get_tfs">get_tfs() (in module irnl_rdt_correction.io_handling)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -120,24 +197,74 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.init_corrector_and_optics_values">init_corrector_and_optics_values() (in module irnl_rdt_correction.irnl_rdt_correction)</a>
+      <li><a href="tools.html#irnl_rdt_correction.utilities.i_pow">i_pow() (in module irnl_rdt_correction.utilities)</a>
 </li>
+      <li><a href="tools.html#irnl_rdt_correction.equation_system.init_corrector_and_optics_values">init_corrector_and_optics_values() (in module irnl_rdt_correction.equation_system)</a>
+</li>
+      <li><a href="tools.html#irnl_rdt_correction.rdt_handling.IRCorrector">IRCorrector (class in irnl_rdt_correction.rdt_handling)</a>
+</li>
+      <li><a href="main.html#irnl_rdt_correction.main.irnl_rdt_correction">irnl_rdt_correction() (in module irnl_rdt_correction.main)</a>
+</li>
+      <li>
+    irnl_rdt_correction.constants
+
+      <ul>
+        <li><a href="tools.html#module-irnl_rdt_correction.constants">module</a>
+</li>
+      </ul></li>
+      <li>
+    irnl_rdt_correction.equation_system
+
+      <ul>
+        <li><a href="tools.html#module-irnl_rdt_correction.equation_system">module</a>
+</li>
+      </ul></li>
+      <li>
+    irnl_rdt_correction.input_options
+
+      <ul>
+        <li><a href="tools.html#module-irnl_rdt_correction.input_options">module</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
-    irnl_rdt_correction.irnl_rdt_correction
+    irnl_rdt_correction.io_handling
 
       <ul>
-        <li><a href="main.html#module-irnl_rdt_correction.irnl_rdt_correction">module</a>
+        <li><a href="tools.html#module-irnl_rdt_correction.io_handling">module</a>
 </li>
       </ul></li>
+      <li>
+    irnl_rdt_correction.main
+
+      <ul>
+        <li><a href="main.html#module-irnl_rdt_correction.main">module</a>
+</li>
+      </ul></li>
+      <li>
+    irnl_rdt_correction.rdt_handling
+
+      <ul>
+        <li><a href="tools.html#module-irnl_rdt_correction.rdt_handling">module</a>
+</li>
+      </ul></li>
+      <li>
+    irnl_rdt_correction.utilities
+
+      <ul>
+        <li><a href="tools.html#module-irnl_rdt_correction.utilities">module</a>
+</li>
+      </ul></li>
+      <li><a href="tools.html#irnl_rdt_correction.utilities.is_anti_mirror_symmetric">is_anti_mirror_symmetric() (in module irnl_rdt_correction.utilities)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.log_setup">log_setup() (in module irnl_rdt_correction.irnl_rdt_correction)</a>
+      <li><a href="tools.html#irnl_rdt_correction.utilities.log_setup">log_setup() (in module irnl_rdt_correction.utilities)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -145,24 +272,50 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.main">main() (in module irnl_rdt_correction.irnl_rdt_correction)</a>
+      <li><a href="tools.html#irnl_rdt_correction.io_handling.maybe_switch_signs">maybe_switch_signs() (in module irnl_rdt_correction.io_handling)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     module
 
       <ul>
-        <li><a href="main.html#module-irnl_rdt_correction.irnl_rdt_correction">irnl_rdt_correction.irnl_rdt_correction</a>
+        <li><a href="tools.html#module-irnl_rdt_correction.constants">irnl_rdt_correction.constants</a>
+</li>
+        <li><a href="tools.html#module-irnl_rdt_correction.equation_system">irnl_rdt_correction.equation_system</a>
+</li>
+        <li><a href="tools.html#module-irnl_rdt_correction.input_options">irnl_rdt_correction.input_options</a>
+</li>
+        <li><a href="tools.html#module-irnl_rdt_correction.io_handling">irnl_rdt_correction.io_handling</a>
+</li>
+        <li><a href="main.html#module-irnl_rdt_correction.main">irnl_rdt_correction.main</a>
+</li>
+        <li><a href="tools.html#module-irnl_rdt_correction.rdt_handling">irnl_rdt_correction.rdt_handling</a>
+</li>
+        <li><a href="tools.html#module-irnl_rdt_correction.utilities">irnl_rdt_correction.utilities</a>
 </li>
       </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="tools.html#irnl_rdt_correction.utilities.Optics">Optics (class in irnl_rdt_correction.utilities)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="tools.html#irnl_rdt_correction.equation_system.optics_update">optics_update() (in module irnl_rdt_correction.equation_system)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.restore_optics_values">restore_optics_values() (in module irnl_rdt_correction.irnl_rdt_correction)</a>
+      <li><a href="tools.html#irnl_rdt_correction.rdt_handling.RDT">RDT (class in irnl_rdt_correction.rdt_handling)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="tools.html#irnl_rdt_correction.equation_system.restore_optics_values">restore_optics_values() (in module irnl_rdt_correction.equation_system)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -170,15 +323,13 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.solve">solve() (in module irnl_rdt_correction.irnl_rdt_correction)</a>
-</li>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.solve_equation_system">solve_equation_system() (in module irnl_rdt_correction.irnl_rdt_correction)</a>
+      <li><a href="tools.html#irnl_rdt_correction.equation_system.solve">solve() (in module irnl_rdt_correction.equation_system)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.sort_rdts">sort_rdts() (in module irnl_rdt_correction.irnl_rdt_correction)</a>
+      <li><a href="tools.html#irnl_rdt_correction.equation_system.solve_equation_system">solve_equation_system() (in module irnl_rdt_correction.equation_system)</a>
 </li>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.switch_signs_for_beams">switch_signs_for_beams() (in module irnl_rdt_correction.irnl_rdt_correction)</a>
+      <li><a href="tools.html#irnl_rdt_correction.rdt_handling.sort_rdts">sort_rdts() (in module irnl_rdt_correction.rdt_handling)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -186,15 +337,7 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.Timer">Timer (class in irnl_rdt_correction.irnl_rdt_correction)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="U">U</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="main.html#irnl_rdt_correction.irnl_rdt_correction.update_optics">update_optics() (in module irnl_rdt_correction.irnl_rdt_correction)</a>
+      <li><a href="tools.html#irnl_rdt_correction.utilities.Timer">Timer (class in irnl_rdt_correction.utilities)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -203,6 +346,7 @@
 
            </div>
           </div>
+
           <footer>
 
   <hr/>
