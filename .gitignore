@@ -249,3 +249,15 @@ Temporary Items
 /.idea/inspectionProfiles/profiles_settings.xml
 /.idea/vcs.xml
 /.idea/PyhDToolkit.iml
+
+# LaTeX
+
+*.aux
+*.bbl
+*.blg
+*.fls
+*.ist
+*.out
+*.synctex.*
+*.toc
+*.fdb_latexmk

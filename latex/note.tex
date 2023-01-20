@@ -1,0 +1,84 @@
+\documentclass[dvipsnames]{simplenote}    % Specifies the document style.
+% \documentclass[dvipsnames]{cernatsnote}    % Specifies the document style.
+\usepackage{amssymb}
+\usepackage[T1]{fontenc}  % allows for \textsc and \textbf in one 
+\usepackage{xstring}  % string manipulation
+\usepackage[normalem]{ulem} % underlines
+\usepackage{cite}
+\usepackage{xfrac}
+
+\listfiles  % writes current versions into log
+\input{userdef.tex}
+% Meta-Data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+% \documentlabel{CERN-ACC-NOTE-2022-???}
+\documentversion{Version 1.0}
+\date{18.01.2023}
+\title{A flexible nonlinear Resonance Driving Term based Correction Algorithm with feed-down}
+\author{J. Dilly, R. Tom\'as}
+
+% logbook: 
+% Document Begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\keywords{nonlinear correction, insertion region, feed-down, LHC, HL-LHC, HiLumi}
+
+\begin{document}
+\graphicspath{
+    {./images/}
+    %{./images/}
+}
+\maketitle 
+
+\begin{abstract}
+The optics in the insertion regions around the interaction points of the LHC, and its upgrade project the High Luminosity LHC, 
+are very sensitive to local magnetic errors due to the extremely high beta-functions present.
+Local corrections need to take both beams into account, due to the common aperture of the magnets in these regions.
+In collision optics, the non-zero closed orbit around the interaction point leads to a ``feed-down'' of high-order errors to lower orders, 
+causing additional effects detrimental to beam lifetime. 
+An extension to the proven method~\cite{BruningDynamicApertureStudies2004} for correcting these errors by locally suppressing resonance driving terms has been undertaken, 
+not only taking this feed-down into account, but also adding the possibility of utilizing it such that the powering of higher-order correctors will compensate 
+for lower order errors.
+The existing correction scheme has also operated on the assumption of symmetric beta-functions of the optics in the two rings.
+As this assumption can fail for a multitude of reasons, such as inherently asymmetric optics, 
+an extension of this correction scheme has been developed removing the need for symmetry by operating on the two separate optics of the beams at the same time.
+In contrast to earlier implementations, the target resonance driving terms to be corrected can also be flexibly changed. 
+The mathematical background as well as the implementation of this new extension are presented in this note.
+\end{abstract}
+
+
+\tableofcontents
+\newpage
+
+% Motivation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{01_motivation}
+
+
+% Mathematical Description %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\FloatBarrier
+\input{02_background}
+
+% Implementation Details %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\FloatBarrier
+\input{03_implementation}
+
+% Applications %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\FloatBarrier
+\input{04_applications}
+
+% Conclusion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\FloatBarrier
+\input{05_conclusion}
+
+% Bibliography %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\FloatBarrier
+
+\bibliographystyle{siamurl}
+\bibliography{library_jdilly.bib}
+\clearpage
+
+% Appendix %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \FloatBarrier
+% \input{appendix}
+
+\end{document}

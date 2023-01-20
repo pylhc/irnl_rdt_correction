@@ -68,7 +68,7 @@ extensions = [
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-# templates_path = ['_templates']
+templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -127,7 +127,7 @@ html_theme = "sphinx_rtd_theme"
 html_theme_options = {
     "collapse_navigation": False,
     "display_version": True,
-    "logo_only": True,
+    "logo_only": False,
     "navigation_depth": 2,
     "style_external_links": True,
 }
