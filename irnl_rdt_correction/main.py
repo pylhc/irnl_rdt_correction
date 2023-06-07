@@ -9,10 +9,6 @@ feed-down and using feed-down to correct lower order RDTs.
 Details can be found in [DillyNonlinearIRCorrections2023]_ .
 
 TODO:
- - [easy] Allow not giving errors (need to be `None` in list,
-   so that the list lengths are still the same and there is a
-   clear correspondence twiss-errors-beams).
-   Should then be assumed all zero.
  - [easy] Allow for more than two optics given
    (e.g. find corrections for 15cm and 30cm for both beams)
  - [medium] Maybe sort RDTs by highest corrector instead of highest RDT order?
@@ -58,7 +54,7 @@ from typing import Tuple
 import tfs
 
 from irnl_rdt_correction.equation_system import solve
-from irnl_rdt_correction.input_options import check_opt
+from irnl_rdt_correction.input_options import InputOptions, check_opt
 from irnl_rdt_correction.io_handling import get_and_write_output, get_optics
 from irnl_rdt_correction.rdt_handling import sort_rdts, check_corrector_order, get_needed_orders
 from irnl_rdt_correction.utilities import Timer, log_setup
@@ -76,10 +72,10 @@ def irnl_rdt_correction(**opt) -> Tuple[str, tfs.TfsDataFrame]:
                                            (e.g. only the ones in the IRs).
                                            All elements from the error-files need to be present.
                                            Required!
-        errors (list[str/Path/DataFrame]): Path(s) to error file(s) or DataFrame(s) of errors.
-                                           Can contain less elements than the optics files,
-                                           these elements are then assumed to have no errors.
-                                           Required!
+        errors (list[str/Path/DataFrame/None]): Path(s) to error file(s) or DataFrame(s) of errors.
+                                                Can contain less elements than the optics files,
+                                                these elements are then assumed to have no errors.
+                                                Optional! 
         beams (list[int]): Which beam the files come from (1, 2 or 4).
                            Required!
         output (str/Path): Path to write command and tfs_df file.
@@ -139,7 +135,7 @@ def irnl_rdt_correction(**opt) -> Tuple[str, tfs.TfsDataFrame]:
     """
     LOG.info("Starting IRNL Correction.")
     timer = Timer("Start", print_fun=LOG.debug)
-    opt = check_opt(opt)
+    opt: InputOptions = check_opt(opt)
     timer.step("Opt Parsed.")
 
     rdt_maps = sort_rdts(opt.rdts, opt.rdts2)

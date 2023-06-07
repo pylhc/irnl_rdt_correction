@@ -6,51 +6,19 @@ Handles the input parameters, contains their default values
 and checks for their validity.
 """
 import argparse
+from dataclasses import dataclass, fields
 import logging
 from pathlib import Path
-from typing import Iterable, Sized, Union
+from typing import Iterable, Sequence, Sized, Union
 
 import pandas as pd
 import tfs
 
-from irnl_rdt_correction.constants import EXT_TFS, EXT_MADX
+from irnl_rdt_correction.constants import EXT_TFS, EXT_MADX, StrOrPathOrDataFrame, StrOrPathOrDataFrameOrNone
 from irnl_rdt_correction.equation_system import SOLVER_MAP
-from irnl_rdt_correction.utilities import list2str, DotDict
+from irnl_rdt_correction.utilities import list2str
 
 LOG = logging.getLogger(__name__)
-
-
-# Default Values ---------------------------------------------------------------
-
-DEFAULTS = {'feeddown': 0,
-            'ips': [1, 2, 5, 8],
-            'accel': 'lhc',
-            'solver': 'lstsq',
-            'update_optics': True,
-            'iterations': 1,
-            'ignore_corrector_settings': False,
-            'rdts2': None,
-            'ignore_missing_columns': False,
-            'output': None,
-            }
-
-DEFAULT_RDTS = {
-    'lhc': ('F0003', 'F0003*',  # correct a3 errors with F0003
-            'F1002', 'F1002*',  # correct b3 errors with F1002
-            'F1003', 'F3001',  # correct a4 errors with F1003 and F3001
-            'F4000', 'F0004',  # correct b4 errors with F4000 and F0004
-            'F6000', 'F0006',  # correct b6 errors with F6000 and F0006
-            ),
-    'hllhc': ('F0003', 'F0003*',  # correct a3 errors with F0003
-              'F1002', 'F1002*',  # correct b3 errors with F1002
-              'F1003', 'F3001',  # correct a4 errors with F1003 and F3001
-              'F0004', 'F4000',  # correct b4 errors with F0004 and F4000
-              'F0005', 'F0005*',  # correct a5 errors with F0005
-              'F5000', 'F5000*',  # correct b5 errors with F5000
-              'F5001', 'F1005',  # correct a6 errors with F5001 and F1005
-              'F6000', 'F0006',  # correct b6 errors with F6000 and F0006
-              ),
-}
 
 
 # Parser -----------------------------------------------------------------------
@@ -109,8 +77,8 @@ def get_parser() -> argparse.ArgumentParser:
         "--accel",
         dest="accel",
         type=str.lower,
-        choices=list(DEFAULT_RDTS.keys()),
-        default=DEFAULTS['accel'],
+        choices=list(InputOptions.DEFAULT_RDTS.keys()),
+        default=InputOptions.accel,
         help="Which accelerator we have.",
     )
     parser.add_argument(
@@ -118,7 +86,7 @@ def get_parser() -> argparse.ArgumentParser:
         dest="feeddown",
         type=int,
         help="Order of Feeddown to include.",
-        default=DEFAULTS['feeddown'],
+        default=InputOptions.feeddown,
     )
     parser.add_argument(
         "--ips",
@@ -126,7 +94,7 @@ def get_parser() -> argparse.ArgumentParser:
         nargs="+",
         help="In which IPs to correct.",
         type=int,
-        default=DEFAULTS['ips'],
+        default=list(InputOptions.ips),
     )
     parser.add_argument(
         "--solver",
@@ -134,7 +102,7 @@ def get_parser() -> argparse.ArgumentParser:
         help="Solving method to use.",
         type=str.lower,
         choices=list(SOLVER_MAP.keys()),
-        default=DEFAULTS['solver'],
+        default=InputOptions.solver,
     )
     parser.add_argument(
         "--update_optics",
@@ -144,7 +112,7 @@ def get_parser() -> argparse.ArgumentParser:
               "corrector strengths in the optics after calculation, so the "
               "feeddown to lower order correctors is included."
               ),
-        default=DEFAULTS["update_optics"]
+        default=InputOptions.update_optics
     )
     parser.add_argument(
         "--iterations",
@@ -152,7 +120,7 @@ def get_parser() -> argparse.ArgumentParser:
         type=int,
         help=("Reiterate correction, "
               "starting with the previously calculated values."),
-        default=DEFAULTS["iterations"]
+        default=InputOptions.iterations
     )
     parser.add_argument(
         "--ignore_corrector_settings",
@@ -170,10 +138,129 @@ def get_parser() -> argparse.ArgumentParser:
     )
     return parser
 
+# InputOptions and Defaults ---------------------------------------------------------------
+
+@dataclass
+class InputOptions:
+    DEFAULT_RDTS = {
+        'lhc': ('F0003', 'F0003*',  # correct a3 errors with F0003
+                'F1002', 'F1002*',  # correct b3 errors with F1002
+                'F1003', 'F3001',  # correct a4 errors with F1003 and F3001
+                'F4000', 'F0004',  # correct b4 errors with F4000 and F0004
+                'F6000', 'F0006',  # correct b6 errors with F6000 and F0006
+                ),
+        'hllhc': ('F0003', 'F0003*',  # correct a3 errors with F0003
+                'F1002', 'F1002*',  # correct b3 errors with F1002
+                'F1003', 'F3001',  # correct a4 errors with F1003 and F3001
+                'F0004', 'F4000',  # correct b4 errors with F0004 and F4000
+                'F0005', 'F0005*',  # correct a5 errors with F0005
+                'F5000', 'F5000*',  # correct b5 errors with F5000
+                'F5001', 'F1005',  # correct a6 errors with F5001 and F1005
+                'F6000', 'F0006',  # correct b6 errors with F6000 and F0006
+                ),
+    }
+
+    twiss: Sequence[StrOrPathOrDataFrame]
+    beams: Sequence[int]
+    rdts: Sequence[str]
+    errors: Sequence[StrOrPathOrDataFrameOrNone] = None
+    rdts2: Sequence[str] = None
+    accel: str = 'lhc'
+    feeddown: int = 0
+    ips: Sequence[int] = (1, 2, 5, 8)
+    solver: str ='lstsq'
+    update_optics: bool = True
+    iterations: int = 1
+    ignore_corrector_settings: bool = False
+    ignore_missing_columns: bool = False
+    output: str = None
+
+    def __post_init__(self):
+        self.check_all()
+
+    def __getitem__(self, item):
+        return getattr(self, item)
+    
+    def keys(self):
+        return (f.name for f in fields(self))
+
+    def values(self):
+        return (getattr(self, f.name) for f in fields(self))
+    
+    def items(self):
+        return ((f.name, getattr(self, f.name)) for f in fields(self))
+
+    def check_all(self):
+        self.check_accel()
+        self.check_twiss()
+        self.check_errors()
+        self.check_beams()
+        self.check_rdts()
+        self.check_feeddown()
+        self.check_iterations()
+
+    def check_accel(self):
+        if self.accel not in self.DEFAULT_RDTS:
+            raise ValueError(f"Parameter 'accel' needs to be one of '{list2str(list(self.DEFAULT_RDTS.keys()))}' "
+                            f"but was '{self.accel}' instead.")
+
+    def check_twiss(self):
+        if self.twiss is None:
+            raise ValueError("Parameter 'twiss' needs to be set.")
+
+        self._check_iterable('twiss') 
+        for element in self.twiss:
+            if not isinstance(element, (str, Path, pd.DataFrame, tfs.TfsDataFrame)):
+                raise TypeError(f"Not all elements of 'twiss' are DataFrames or paths to DataFrames!")
+    
+    def check_errors(self):
+        if self.errors is None:
+            self.errors = tuple([None] * len(self.twiss))
+            return
+
+        self._check_iterable('errors')
+        for element in self.errors:
+            if not isinstance(element, (str, Path, pd.DataFrame, tfs.TfsDataFrame, type(None))):
+                raise TypeError(f"Not all elements of 'errors' are DataFrames or paths to DataFrames or None!")
+    
+    def check_beams(self):
+        if self.beams is None:
+            raise ValueError("Parameter 'beams' needs to be set.")
+        self._check_iterable('beams') 
+    
+    def check_rdts(self):
+        if self.rdts is None:
+            self.rdts = self.DEFAULT_RDTS[self.accel]
+        else:
+            self._check_iterable('rdts')
+    
+    def check_feeddown(self):
+        if self.feeddown < 0 or not (self.feeddown == int(self.feeddown)):
+            raise ValueError("'feeddown' needs to be a positive integer.")
+
+    def check_iterations(self):
+        if self.iterations < 1:
+            raise ValueError("At least one iteration (see: 'iterations') needs to "
+                            "be done for correction.")
+
+    def _check_iterable(self, name):
+        inputs = getattr(self, name)
+        if isinstance(inputs, str) or not isinstance(inputs, (Iterable, Sized)):
+            raise ValueError(f"Parameter '{name}' needs to be iterable, "
+                             f"even if only of length 1. Instead was '{inputs}'.")
+
+    @classmethod
+    def from_args_or_dict(cls, d):
+        return cls(**d)
+
+
+
 
 # Checks -----------------------------------------------------------------------
 
-def check_opt(opt: Union[dict, DotDict]) -> DotDict:
+
+
+def check_opt(opt: Union[dict, InputOptions]) -> InputOptions:
     """ Asserts that the input parameters make sense and adds what's missing.
     If the input is empty, arguments will be parsed from commandline.
     Checks include:
@@ -198,50 +285,14 @@ def check_opt(opt: Union[dict, DotDict]) -> DotDict:
     parser = get_parser()
     if not len(opt):
         opt = vars(parser.parse_args())
-    opt = DotDict(opt)
+
+    if not isinstance(opt, InputOptions):
+        opt = InputOptions(**opt)
+
     known_opts = [a.dest for a in parser._actions if not isinstance(a, argparse._HelpAction)]  # best way I could figure out
     unknown_opts = [k for k in opt.keys() if k not in known_opts]
     if len(unknown_opts):
         raise AttributeError(f"Unknown arguments found: '{list2str(unknown_opts)}'.\n"
                              f"Allowed input parameters are: '{list2str(known_opts)}'")
 
-    # Set defaults
-    for name, default in DEFAULTS.items():
-        if opt.get(name) is None:
-            LOG.debug(f"Setting input '{name}' to default value '{default}'.")
-            opt[name] = default
-
-    # check accel
-    opt.accel = opt.accel.lower()  # let's not care about case
-    if opt.accel not in DEFAULT_RDTS.keys():
-        raise ValueError(f"Parameter 'accel' needs to be one of '{list2str(list(DEFAULT_RDTS.keys()))}' "
-                         f"but was '{opt.accel}' instead.")
-
-    # Set rdts:
-    if opt.get('rdts') is None:
-        opt.rdts = DEFAULT_RDTS[opt.accel]
-
-    # Check required and rdts:
-    for name in ('twiss', 'errors', 'beams', 'rdts'):
-        inputs = opt.get(name)
-        if inputs is None or isinstance(inputs, str) or not isinstance(inputs, (Iterable, Sized)):
-            raise ValueError(f"Parameter '{name}' is required and needs to be "
-                             "iterable, even if only of length 1. "
-                             f"Instead was '{inputs}'.")
-
-    # Check twiss and errors input type
-    for name in ('twiss', 'errors'):
-        inputs = opt.get(name)
-        for element in inputs:
-            if not isinstance(element, (str, Path, pd.DataFrame, tfs.TfsDataFrame)):
-                raise TypeError(f"Not all elements of '{name}' are DataFrames or paths to DataFrames!")
-
-    if opt.feeddown < 0 or not (opt.feeddown == int(opt.feeddown)):
-        raise ValueError("'feeddown' needs to be a positive integer.")
-
-    if opt.iterations < 1:
-        raise ValueError("At least one iteration (see: 'iterations') needs to "
-                         "be done for correction.")
     return opt
-
-

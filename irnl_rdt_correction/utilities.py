@@ -19,24 +19,6 @@ from irnl_rdt_correction.constants import SKEW_NAME_MAP, SKEW_FIELD_MAP, FIELD_S
 
 # Classes ----------------------------------------------------------------------
 
-class DotDict(dict):
-    """ Make dict fields accessible by attributes.
-    TODO: Replace with dataclass.
-    """
-    def __init__(self, *args, **kwargs):
-        super(DotDict, self).__init__(*args, **kwargs)
-
-    __setattr__ = dict.__setitem__
-    __delattr__ = dict.__delitem__
-
-    def __getattr__(self, key):
-        """ Needed to raise the correct exceptions """
-        try:
-            return super(DotDict, self).__getitem__(key)
-        except KeyError as e:
-            raise AttributeError(e).with_traceback(e.__traceback__) from e
-
-
 class Timer:
     """ Collect Times and print a summary at the end. """
     def __init__(self, name: str = "start", print_fun: Callable[[str], None] = print):
