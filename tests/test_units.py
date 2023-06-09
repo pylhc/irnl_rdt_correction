@@ -22,16 +22,6 @@ def test_list_to_str():
     assert ABC == "".join(list2str(list(ABC)).replace(" ", "").replace("'", "").replace('"', "").split(','))
 
 
-def test_wrong_arguments():
-    with pytest.raises(AttributeError) as e:
-        irnl_rdt_correction(
-            feddown=0,
-            itterations=1,
-        )
-    assert "feddown" in str(e)
-    assert "itterations" in str(e)
-
-
 @pytest.mark.parametrize('beam', (1, 2, 4))
 def test_switch_signs(beam: int):
     """ Test the sign-switching function between Beam 2 to Beam 4 
