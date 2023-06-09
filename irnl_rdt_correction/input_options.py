@@ -9,7 +9,7 @@ import argparse
 from dataclasses import dataclass, fields
 import logging
 from pathlib import Path
-from typing import Iterable, Sequence, Sized, Union
+from typing import Iterable, Optional, Sequence, Sized, Union, Tuple
 
 import pandas as pd
 import tfs
@@ -142,6 +142,16 @@ def get_parser() -> argparse.ArgumentParser:
 
 @dataclass
 class InputOptions:
+    """ DataClass to store the input options.
+    On creation it asserts that the input parameters make sense and adds what's missing.
+    Checks include:
+        - Set defaults (see ``DEFAULTS``) if option not given.
+        - Check accelerator name is valid
+        - Set default RDTs if not given (see ``DEFAULT_RDTS``)
+        - Check required parameters are present (twiss, errors, beams, rdts)
+        - Check feeddown and iterations
+
+    """
     DEFAULT_RDTS = {
         'lhc': ('F0003', 'F0003*',  # correct a3 errors with F0003
                 'F1002', 'F1002*',  # correct b3 errors with F1002
@@ -160,10 +170,10 @@ class InputOptions:
                 ),
     }
 
-    twiss: Sequence[StrOrPathOrDataFrame]
     beams: Sequence[int]
-    rdts: Sequence[str]
+    twiss: Sequence[StrOrPathOrDataFrame]
     errors: Sequence[StrOrPathOrDataFrameOrNone] = None
+    rdts: Sequence[str] = None
     rdts2: Sequence[str] = None
     accel: str = 'lhc'
     feeddown: int = 0
@@ -181,8 +191,9 @@ class InputOptions:
     def __getitem__(self, item):
         return getattr(self, item)
     
-    def keys(self):
-        return (f.name for f in fields(self))
+    @classmethod
+    def keys(cls):
+        return (f.name for f in fields(cls))
 
     def values(self):
         return (getattr(self, f.name) for f in fields(self))
@@ -250,49 +261,37 @@ class InputOptions:
                              f"even if only of length 1. Instead was '{inputs}'.")
 
     @classmethod
-    def from_args_or_dict(cls, d):
-        return cls(**d)
+    def from_args_or_dict(cls, opt: Optional[Union[dict, 'InputOptions']] = None) -> 'InputOptions':
+        """Create an InputOptions instance from the given dictionary.
+        If the input is empty, arguments will be parsed from commandline.
+
+        Args:
+            opt (Union[dict, DotDict]): Function options in dictionary format.
+                                    Description of the arguments are given in
+                                    :func:`irnl_rdt_correction.main.irnl_rdt_correction`.
+                                    Optional, if not given parses commandline args
+
+        Returns:
+            InputOptions: (Parsed and) checked options.
+        """
+        if isinstance(opt, InputOptions):
+            return opt
+
+        if opt is None or not len(opt):
+            parser = get_parser()
+            opt = vars(parser.parse_args())
+            
+        return cls(**opt)
 
 
-
-
-# Checks -----------------------------------------------------------------------
-
-
-
-def check_opt(opt: Union[dict, InputOptions]) -> InputOptions:
-    """ Asserts that the input parameters make sense and adds what's missing.
-    If the input is empty, arguments will be parsed from commandline.
-    Checks include:
-        - Set defaults (see ``DEFAULTS``) if option not given.
-        - Check accelerator name is valid
-        - Set default RDTs if not given (see ``DEFAULT_RDTS``)
-        - Check required parameters are present (twiss, errors, beams, rdts)
-        - Check feeddown and iterations
-
-    TODO: Replace DotDict with dataclass and have class check most of this...
-
-    Args:
-        opt (Union[dict, DotDict]): Function options in dictionary format.
-                                Description of the arguments are given in
-                                :func:`irnl_rdt_correction.main.irnl_rdt_correction`.
-
-    Returns:
-        DotDict: (Parsed and) checked options.
-
+def allow_commandline_and_kwargs(func):
+    """ Decorator to allow a function to take options from the commandline
+    or via kwargs, or given an InputOptions instance. 
     """
-    # check for unkown input
-    parser = get_parser()
-    if not len(opt):
-        opt = vars(parser.parse_args())
-
-    if not isinstance(opt, InputOptions):
-        opt = InputOptions(**opt)
-
-    known_opts = [a.dest for a in parser._actions if not isinstance(a, argparse._HelpAction)]  # best way I could figure out
-    unknown_opts = [k for k in opt.keys() if k not in known_opts]
-    if len(unknown_opts):
-        raise AttributeError(f"Unknown arguments found: '{list2str(unknown_opts)}'.\n"
-                             f"Allowed input parameters are: '{list2str(known_opts)}'")
-
-    return opt
+    def wrapper(opt: Optional[Union[InputOptions, dict]] = None, **kwargs) -> Tuple[str, tfs.TfsDataFrame]:
+        if not isinstance(opt, InputOptions):
+            if opt is None:
+                opt = kwargs
+            opt = InputOptions.from_args_or_dict(opt)
+        return func(opt)
+    return wrapper

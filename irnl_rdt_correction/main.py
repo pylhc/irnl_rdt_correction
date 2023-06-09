@@ -54,15 +54,15 @@ from typing import Tuple
 import tfs
 
 from irnl_rdt_correction.equation_system import solve
-from irnl_rdt_correction.input_options import InputOptions, check_opt
+from irnl_rdt_correction.input_options import InputOptions, allow_commandline_and_kwargs
 from irnl_rdt_correction.io_handling import get_and_write_output, get_optics
 from irnl_rdt_correction.rdt_handling import sort_rdts, check_corrector_order, get_needed_orders
 from irnl_rdt_correction.utilities import Timer, log_setup
 
 LOG = logging.getLogger(__name__)
 
-
-def irnl_rdt_correction(**opt) -> Tuple[str, tfs.TfsDataFrame]:
+@allow_commandline_and_kwargs
+def irnl_rdt_correction(opt: InputOptions) -> Tuple[str, tfs.TfsDataFrame]:
     """ Get correctors and their optimal powering to minimize the given RDTs.
 
     Keyword Args:
@@ -96,7 +96,7 @@ def irnl_rdt_correction(**opt) -> Tuple[str, tfs.TfsDataFrame]:
                           the feed-down from the corrector is used for correction.
                           In the case where multiple orders of correctors are used,
                           increasing ``iterations`` might be useful.
-                          Default: Standard RDTs for given ``accel`` (see ``DEFAULT_RDTS`` in this file).
+                          Default: Standard RDTs for given ``accel`` (see ``InputOptions.DEFAULT_RDTS``).
         rdts2 (list[str], dict[str, list[str]):
                            RDTs to correct for second beam/file, if different from first.
                            Same format rules as for ``rdts``. Default: ``None``.
@@ -135,8 +135,6 @@ def irnl_rdt_correction(**opt) -> Tuple[str, tfs.TfsDataFrame]:
     """
     LOG.info("Starting IRNL Correction.")
     timer = Timer("Start", print_fun=LOG.debug)
-    opt: InputOptions = check_opt(opt)
-    timer.step("Opt Parsed.")
 
     rdt_maps = sort_rdts(opt.rdts, opt.rdts2)
     check_corrector_order(rdt_maps, update_optics=opt.update_optics, feed_down=opt.feeddown)
@@ -168,6 +166,7 @@ def irnl_rdt_correction(**opt) -> Tuple[str, tfs.TfsDataFrame]:
         raise EnvironmentError('No correctors found in input optics.')
 
     return get_and_write_output(opt.output, correctors)
+
 
 
 # Script Mode ------------------------------------------------------------------

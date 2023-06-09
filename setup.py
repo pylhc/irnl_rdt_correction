@@ -46,7 +46,6 @@ EXTRA_DEPENDENCIES = {
         "tables>=3.6.0",
     ],
     "doc": ["sphinx", "sphinx_rtd_theme"],
-    "optional": "xtrack",  # only if you run it from xtrack and only for typehints here
 }
 EXTRA_DEPENDENCIES.update(
     {"all": [elem for list_ in EXTRA_DEPENDENCIES.values() for elem in list_]}
