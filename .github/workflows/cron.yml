@@ -8,5 +8,4 @@ on:
 
 jobs:
     tests:
-    #   uses: pylhc/.github/.github/workflows/cron.yml@master
-      uses: pylhc/.github/.github/workflows/cron.yml@reusable_workflows
+      uses: pylhc/.github/.github/workflows/cron.yml@master

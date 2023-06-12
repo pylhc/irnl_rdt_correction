@@ -12,5 +12,4 @@ on:  # Runs on any push event to any branch except master (the coverage workflow
 
 jobs:
   tests:
-    # uses: pylhc/.github/.github/workflows/tests.yml@master
-    uses: pylhc/.github/.github/workflows/tests.yml@reusable_workflows
+    uses: pylhc/.github/.github/workflows/tests.yml@master
