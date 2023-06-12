@@ -11,4 +11,6 @@ jobs:
   coverage:
     #   uses: pylhc/.github/.github/workflows/coverage.yml@master
       uses: pylhc/.github/.github/workflows/coverage.yml@reusable_workflows
+      with:
+        src-dir: irnl_rdt_correction
       secrets: inherit
