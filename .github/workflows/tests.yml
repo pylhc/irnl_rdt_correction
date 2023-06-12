@@ -1,5 +1,5 @@
 # Runs all tests 
-name: Tests
+name: All Tests
 
 defaults:
   run:
@@ -14,3 +14,5 @@ jobs:
   tests:
     # uses: pylhc/.github/.github/workflows/tests.yml@master
     uses: pylhc/.github/.github/workflows/tests.yml@reusable_workflows
+    with:
+        name: run
