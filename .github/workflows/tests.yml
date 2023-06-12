@@ -18,14 +18,14 @@ on:  # Runs on any push event to any branch except master (the coverage workflow
 #         name: run
 jobs:
     basic-tests:
-      uses: pylhc/.github/.github/workflows/tests.yml@master
+      uses: pylhc/.github/.github/workflows/tests.yml@reusable_workflows
       with:
         name: basic
         pytest-options: -m "not extended and not cern_network"
 
     extended-tests:
       needs: basic-tests
-      uses: pylhc/.github/.github/workflows/tests.yml@master
+      uses: pylhc/.github/.github/workflows/tests.yml@reusable_workflows
       with:
         name: extended
         pytest-options: -m "extended and not cern_network"
