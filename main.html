@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nonlinear Correction calculation in the IRs &mdash; irnl-rdt-correction 1.0.0 documentation</title>
@@ -12,10 +12,9 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -30,15 +29,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> irnl-rdt-correction
-            <img src="_static/omc_logo.svg" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            irnl-rdt-correction
+              <img src="_static/omc_logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -103,7 +106,7 @@
         <div class="rst-content style-external-links">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Nonlinear Correction calculation in the IRs</li>
       <li class="wy-breadcrumbs-aside">
               <!-- User defined GitHub URL -->
@@ -163,18 +166,20 @@ are non-linearly dependent.)</p></li>
 </ul>
 </div>
 <p class="rubric">References</p>
-<dl class="citation">
-<dt class="label" id="bruningdynamicaperturestudies2004"><span class="brackets"><a class="fn-backref" href="#id1">BruningDynamicApertureStudies2004</a></span></dt>
-<dd><p>O. Bruening et al.,
+<div role="list" class="citation-list">
+<div class="citation" id="bruningdynamicaperturestudies2004" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">BruningDynamicApertureStudies2004</a><span class="fn-bracket">]</span></span>
+<p>O. Bruening et al.,
 Dynamic aperture studies for the LHC separation dipoles. (2004)
 <a class="reference external" href="https://cds.cern.ch/record/742967">https://cds.cern.ch/record/742967</a></p>
-</dd>
-<dt class="label" id="dillynonlinearircorrections2023"><span class="brackets"><a class="fn-backref" href="#id2">DillyNonlinearIRCorrections2023</a></span></dt>
-<dd><p>J. Dilly et R. Tomás,
+</div>
+<div class="citation" id="dillynonlinearircorrections2023" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">DillyNonlinearIRCorrections2023</a><span class="fn-bracket">]</span></span>
+<p>J. Dilly et R. Tomás,
 A flexible nonlinear Resonance Driving Term based Correction Algorithm with feed-down. (2023)
 <a class="reference external" href="https://github.com/pylhc/irnl_rdt_correction/blob/master/latex/note.pdf">https://github.com/pylhc/irnl_rdt_correction/blob/master/latex/note.pdf</a></p>
-</dd>
-</dl>
+</div>
+</div>
 <p>author: Joschua Dilly</p>
 </section>
 <dl class="py function">
@@ -182,7 +187,7 @@ A flexible nonlinear Resonance Driving Term based Correction Algorithm with feed
 <span class="sig-prename descclassname"><span class="pre">irnl_rdt_correction.main.</span></span><span class="sig-name descname"><span class="pre">irnl_rdt_correction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">opt</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">TfsDataFrame</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/irnl_rdt_correction/main.html#irnl_rdt_correction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irnl_rdt_correction.main.irnl_rdt_correction" title="Permalink to this definition"></a></dt>
 <dd><p>Get correctors and their optimal powering to minimize the given RDTs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Keyword Arguments</dt>
+<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>twiss</strong> (<em>list</em><em>[</em><em>str/Path/DataFrame</em><em>]</em>) -- Path(s) to twiss file(s) or DataFrame(s) of optics.
 Needs to contain only the elements to be corrected
@@ -242,11 +247,11 @@ counts as an iteration.
 Default: <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the string contains the madx-commands used to power the correctors;
 the dataframe contains the same values in a pandas DataFrame.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple[string, Dataframe]</p>
 </dd>
 </dl>
