@@ -144,7 +144,6 @@ class InputOptions:
     """ DataClass to store the input options.
     On creation it asserts that the input parameters make sense and adds what's missing.
     Checks include:
-        - Set defaults (see ``DEFAULTS``) if option not given.
         - Check accelerator name is valid
         - Set default RDTs if not given (see ``DEFAULT_RDTS``)
         - Check required parameters are present (twiss, errors, beams, rdts)
