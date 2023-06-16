@@ -26,6 +26,14 @@ LOG = logging.getLogger(__name__)
 def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     parser.add_argument(
+        "--beams",
+        dest="beams",
+        type=int,
+        nargs="+",
+        help="Which beam the files come from (1, 2 or 4)",
+        required=True,
+    )
+    parser.add_argument(
         "--twiss",
         dest="twiss",
         nargs="+",
@@ -39,15 +47,6 @@ def get_parser() -> argparse.ArgumentParser:
         dest="errors",
         nargs="+",
         help="Path(s) to error file(s), in the format of MAD-X `esave` output.",
-        required=True,
-    )
-    parser.add_argument(
-        "--beams",
-        dest="beams",
-        type=int,
-        nargs="+",
-        help="Which beam the files come from (1, 2 or 4)",
-        required=True,
     )
     parser.add_argument(
         "--output",
