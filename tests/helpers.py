@@ -1,5 +1,7 @@
+from contextlib import contextmanager
 import re
 from pathlib import Path
+import sys
 from typing import Union, List, Iterable, Sequence
 
 import h5py
@@ -126,3 +128,22 @@ def get_corrector_magnets_mask(index: pd.Index) -> pd.Series:
 def get_opposite_sign_beam4_kl_columns(range_: Iterable):
     """Get the KN(S)L columns that have opposite signs for beam 4."""
     return [f"K{order}{'' if order % 2 else 'S'}L" for order in range_]
+
+
+@contextmanager
+def cli_args(*args, **kwargs):
+    """ Provides context to run an entrypoint like with commandline args.
+    Arguments are restored after context.
+
+    Args:
+        The Commandline args (excluding the script name)
+
+    Keyword Args:
+        script: script-name. Used as first commandline-arg.
+                Otherwise it's 'somescript.py'
+    """
+    script = kwargs.get("script", "somescript.py")
+    args_save = sys.argv.copy()
+    sys.argv = [script] + list(args)
+    yield
+    sys.argv = args_save

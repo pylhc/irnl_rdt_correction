@@ -7,14 +7,14 @@ Functions for reading input and writing output.
 """
 import logging
 from pathlib import Path
-from typing import Sequence, Iterable, Tuple, Union
+from typing import Optional, Sequence, Iterable, Tuple, Union
 
 import pandas as pd
 import tfs
 from pandas import DataFrame
 from tfs import TfsDataFrame
 
-from irnl_rdt_correction.constants import PLANES, DELTA, EXT_MADX, EXT_TFS, StrOrPathOrDataFrame
+from irnl_rdt_correction.constants import PLANES, DELTA, EXT_MADX, EXT_TFS, StrOrPathOrDataFrame, StrOrPathOrDataFrameOrNone
 from irnl_rdt_correction.utilities import is_anti_mirror_symmetric, idx2str, list2str, Optics
 from irnl_rdt_correction.rdt_handling import IRCorrector
 
@@ -26,15 +26,15 @@ X, Y = PLANES
 
 
 def get_optics(beams: Sequence[int],
-               twiss: Sequence[StrOrPathOrDataFrame], errors: Sequence[StrOrPathOrDataFrame],
+               twiss: Sequence[StrOrPathOrDataFrame], errors: Sequence[StrOrPathOrDataFrameOrNone],
                orders: Sequence[int], ignore_missing_columns: bool) -> Tuple[Optics]:
     """Get the Optics instances from beams, twiss and errors.
     Also checks the DataFrames for containing needed information.
 
     Args:
         beams (Sequence[int]): Beam number the twiss/errors refer to
-        twiss (Sequence[StrOrPathOrDataFrame]): 
-        errors (Sequence[StrOrPathOrDataFrame]):
+        twiss (Sequence[StrOrPathOrDataFrame]): Sequence of twiss TfsDataFrames or paths to the tfs files.
+        errors (Sequence[StrOrPathOrDataFrame]): Sequence of errors TfsDataFrames or paths to the tfs files. Can be `None`.
         orders (Sequence[int]): Orders needed for calculations (used to check DataFrames)
         ignore_missing_columns (bool): If set, fills missing columns with zeros.
 
@@ -43,6 +43,8 @@ def get_optics(beams: Sequence[int],
                           about beam, twiss and errors.
     """
     twiss_dfs = get_tfs(twiss)
+
+    errors = _check_errors(errors, ignore_missing_columns)  
     errors_dfs = get_tfs(errors)
 
     beams, twiss_dfs, errors_dfs = _check_dfs(
@@ -181,6 +183,31 @@ def _write_tfs(out_path: Path, correction_df: DataFrame):
 
 # Utils ------------------------------------------------------------------------
 
+
+def _check_errors(errors: Sequence[StrOrPathOrDataFrameOrNone], 
+                  ignore_missing_columns: bool = False) -> Tuple[StrOrPathOrDataFrame, ...]:
+    """Check the given errors for None-type and fill with empty dataframes.
+    This only makes sense if `ignore_missing_columns` is set to `True` 
+    as these DataFrames obviously have all columns missing, so we check for that here as well.
+
+    Args:
+        errors (Sequence[StrOrPathOrDataFrameOrNone]): Sequence of given errors, 
+                                                       i.e. either DataFrames or paths to tfs files.
+        ignore_missing_columns (bool, optional): Whether to ignore missing columns. Defaults to False.
+
+    Returns:
+        tuple[StrOrPathOrDataFrame, ...]: Tuple with Nones filled with empty TfsDataFrames. 
+    """
+    if all(e is not None for e in errors):
+        return errors
+
+    if not ignore_missing_columns:
+        raise ValueError("None-type errors given, but `ignore_missing_columns` is set to `False`. "
+        "Either specify errors or set `ignore_missing_columns` to `True`.")
+
+    return tuple(TfsDataFrame() if e is None else e for e in errors)
+
+
 def _check_dfs(beams: Sequence[int], twiss_dfs: Sequence[DataFrame], errors_dfs: Sequence[DataFrame],
                orders: Sequence[int], ignore_missing_columns: bool
                ) -> Tuple[Sequence[int], Sequence[DataFrame], Sequence[DataFrame]]:
@@ -193,7 +220,14 @@ def _check_dfs(beams: Sequence[int], twiss_dfs: Sequence[DataFrame], errors_dfs:
         - All needed field strengths are present in twiss
           -> either Error or Warning depending on ``ignore_missing_columns``.
     """
-    twiss_dfs, errors_dfs = tuple(tuple(df.copy() for df in dfs) for dfs in (twiss_dfs, errors_dfs))
+    twiss_dfs, errors_dfs = tuple(tuple(df.copy() for df in dfs) 
+                                  for dfs in (twiss_dfs, errors_dfs))
+
+    needed_twiss = list(PLANES)
+    needed_errors = [f"{DELTA}{p}" for p in PLANES]
+    needed_k = [f"K{order-1:d}{orientation}L"  # -1 for madx-order
+                for order in orders
+                for orientation in ("S", "")]
 
     if len(twiss_dfs) > 2 or len(errors_dfs) > 2:
         raise NotImplementedError("A maximum of two optics can be corrected "
@@ -210,14 +244,14 @@ def _check_dfs(beams: Sequence[int], twiss_dfs: Sequence[DataFrame], errors_dfs:
                          f"({len(beams):d}). Please specify a beam for each "
                          "optics.")
 
-    for idx_file, (optics, errors) in enumerate(zip(twiss_dfs, errors_dfs)):
-        not_found_errors = errors.index.difference(optics.index)
+    for idx_file, (twiss, errors) in enumerate(zip(twiss_dfs, errors_dfs)):
+        not_found_errors = errors.index.difference(twiss.index)
         if len(not_found_errors):
             raise IOError("The following elements were found in the "
                           f"{idx2str(idx_file)} given errors file but not in"
                           f"the optics: {list2str(not_found_errors.to_list())}")
 
-        not_found_optics = optics.index.difference(errors.index)
+        not_found_optics = twiss.index.difference(errors.index)
         if len(not_found_optics):
             LOG.debug("The following elements were found in the "
                       f"{idx2str(idx_file)} given optics file but not in "
@@ -226,21 +260,19 @@ def _check_dfs(beams: Sequence[int], twiss_dfs: Sequence[DataFrame], errors_dfs:
             for indx in not_found_optics:
                 errors.loc[indx, :] = 0
 
-        needed_values = [f"K{order-1:d}{orientation}L"  # -1 for madx-order
-                         for order in orders
-                         for orientation in ("S", "")]
-
-        for df, file_type in ((optics, "optics"), (errors, "error")):
-            not_found_strengths = [s for s in needed_values if s not in df.columns]
-            if len(not_found_strengths):
-                text = ("Some strength values were not found in the "
+        for df, needed_cols, file_type in ((
+            twiss, needed_twiss, "twiss"), (errors, needed_errors, "error")
+            ):
+            missing_cols = [s for s in needed_cols + needed_k if s not in df.columns]
+            if len(missing_cols):
+                text = ("Some strength values/columns were not found in the "
                         f"{idx2str(idx_file)} given {file_type} file: "
-                        f"{list2str(not_found_strengths)}.")
+                        f"{list2str(missing_cols)}.")
 
                 if not ignore_missing_columns:
                     raise IOError(text)
                 LOG.warning(text + " They are assumed to be zero.")
-                for kl in not_found_strengths:
+                for kl in missing_cols:
                     df[kl] = 0
     return beams, twiss_dfs, errors_dfs
 

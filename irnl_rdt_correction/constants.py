@@ -34,4 +34,5 @@ EXT_MADX = ".madx"  # suffix for madx-command file
 
 # Types ---
 StrOrPathOrDataFrame = Union[str, Path, DataFrame, TfsDataFrame]
+StrOrPathOrDataFrameOrNone = Union[str, Path, DataFrame, TfsDataFrame, None]
 RDTInputTypes = Union[Sequence[str], Dict[str, Sequence[str]]]
