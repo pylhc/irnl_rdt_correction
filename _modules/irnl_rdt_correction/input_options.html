@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>irnl_rdt_correction.input_options &mdash; irnl-rdt-correction 1.0.0 documentation</title>
+  <title>irnl_rdt_correction.input_options &mdash; irnl-rdt-correction 1.1.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
@@ -34,7 +34,7 @@
               <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0
+                1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -47,7 +47,6 @@
               <p class="caption" role="heading"><span class="caption-text">Main</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../main.html">Nonlinear Correction calculation in the IRs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../main.html#irnl_rdt_correction.main.irnl_rdt_correction"><code class="docutils literal notranslate"><span class="pre">irnl_rdt_correction()</span></code></a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tools</span></p>
 <ul>
@@ -65,7 +64,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.solve"><code class="docutils literal notranslate"><span class="pre">solve()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.solve_equation_system"><code class="docutils literal notranslate"><span class="pre">solve_equation_system()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#input-options">Input Options</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.input_options.check_opt"><code class="docutils literal notranslate"><span class="pre">check_opt()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.input_options.InputOptions"><code class="docutils literal notranslate"><span class="pre">InputOptions</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.input_options.InputOptions.from_args_or_dict"><code class="docutils literal notranslate"><span class="pre">InputOptions.from_args_or_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.input_options.allow_commandline_and_kwargs"><code class="docutils literal notranslate"><span class="pre">allow_commandline_and_kwargs()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#io-handling">IO Handling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_df"><code class="docutils literal notranslate"><span class="pre">build_correction_df()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_str"><code class="docutils literal notranslate"><span class="pre">build_correction_str()</span></code></a></li>
@@ -81,7 +84,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.get_needed_orders"><code class="docutils literal notranslate"><span class="pre">get_needed_orders()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.sort_rdts"><code class="docutils literal notranslate"><span class="pre">sort_rdts()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#utilities">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.DotDict"><code class="docutils literal notranslate"><span class="pre">DotDict</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Optics"><code class="docutils literal notranslate"><span class="pre">Optics</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Timer"><code class="docutils literal notranslate"><span class="pre">Timer</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.get_max_knl_order"><code class="docutils literal notranslate"><span class="pre">get_max_knl_order()</span></code></a></li>
@@ -125,57 +127,33 @@
 <span class="sd">and checks for their validity.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">fields</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Sized</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Sized</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">tfs</span>
 
-<span class="kn">from</span> <span class="nn">irnl_rdt_correction.constants</span> <span class="kn">import</span> <span class="n">EXT_TFS</span><span class="p">,</span> <span class="n">EXT_MADX</span>
+<span class="kn">from</span> <span class="nn">irnl_rdt_correction.constants</span> <span class="kn">import</span> <span class="n">EXT_TFS</span><span class="p">,</span> <span class="n">EXT_MADX</span><span class="p">,</span> <span class="n">StrOrPathOrDataFrame</span><span class="p">,</span> <span class="n">StrOrPathOrDataFrameOrNone</span>
 <span class="kn">from</span> <span class="nn">irnl_rdt_correction.equation_system</span> <span class="kn">import</span> <span class="n">SOLVER_MAP</span>
-<span class="kn">from</span> <span class="nn">irnl_rdt_correction.utilities</span> <span class="kn">import</span> <span class="n">list2str</span><span class="p">,</span> <span class="n">DotDict</span>
+<span class="kn">from</span> <span class="nn">irnl_rdt_correction.utilities</span> <span class="kn">import</span> <span class="n">list2str</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
-
-<span class="c1"># Default Values ---------------------------------------------------------------</span>
-
-<span class="n">DEFAULTS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;feeddown&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-            <span class="s1">&#39;ips&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
-            <span class="s1">&#39;accel&#39;</span><span class="p">:</span> <span class="s1">&#39;lhc&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;solver&#39;</span><span class="p">:</span> <span class="s1">&#39;lstsq&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;update_optics&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s1">&#39;iterations&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s1">&#39;ignore_corrector_settings&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-            <span class="s1">&#39;rdts2&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="s1">&#39;ignore_missing_columns&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-            <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="p">}</span>
-
-<span class="n">DEFAULT_RDTS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;lhc&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;F0003&#39;</span><span class="p">,</span> <span class="s1">&#39;F0003*&#39;</span><span class="p">,</span>  <span class="c1"># correct a3 errors with F0003</span>
-            <span class="s1">&#39;F1002&#39;</span><span class="p">,</span> <span class="s1">&#39;F1002*&#39;</span><span class="p">,</span>  <span class="c1"># correct b3 errors with F1002</span>
-            <span class="s1">&#39;F1003&#39;</span><span class="p">,</span> <span class="s1">&#39;F3001&#39;</span><span class="p">,</span>  <span class="c1"># correct a4 errors with F1003 and F3001</span>
-            <span class="s1">&#39;F4000&#39;</span><span class="p">,</span> <span class="s1">&#39;F0004&#39;</span><span class="p">,</span>  <span class="c1"># correct b4 errors with F4000 and F0004</span>
-            <span class="s1">&#39;F6000&#39;</span><span class="p">,</span> <span class="s1">&#39;F0006&#39;</span><span class="p">,</span>  <span class="c1"># correct b6 errors with F6000 and F0006</span>
-            <span class="p">),</span>
-    <span class="s1">&#39;hllhc&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;F0003&#39;</span><span class="p">,</span> <span class="s1">&#39;F0003*&#39;</span><span class="p">,</span>  <span class="c1"># correct a3 errors with F0003</span>
-              <span class="s1">&#39;F1002&#39;</span><span class="p">,</span> <span class="s1">&#39;F1002*&#39;</span><span class="p">,</span>  <span class="c1"># correct b3 errors with F1002</span>
-              <span class="s1">&#39;F1003&#39;</span><span class="p">,</span> <span class="s1">&#39;F3001&#39;</span><span class="p">,</span>  <span class="c1"># correct a4 errors with F1003 and F3001</span>
-              <span class="s1">&#39;F0004&#39;</span><span class="p">,</span> <span class="s1">&#39;F4000&#39;</span><span class="p">,</span>  <span class="c1"># correct b4 errors with F0004 and F4000</span>
-              <span class="s1">&#39;F0005&#39;</span><span class="p">,</span> <span class="s1">&#39;F0005*&#39;</span><span class="p">,</span>  <span class="c1"># correct a5 errors with F0005</span>
-              <span class="s1">&#39;F5000&#39;</span><span class="p">,</span> <span class="s1">&#39;F5000*&#39;</span><span class="p">,</span>  <span class="c1"># correct b5 errors with F5000</span>
-              <span class="s1">&#39;F5001&#39;</span><span class="p">,</span> <span class="s1">&#39;F1005&#39;</span><span class="p">,</span>  <span class="c1"># correct a6 errors with F5001 and F1005</span>
-              <span class="s1">&#39;F6000&#39;</span><span class="p">,</span> <span class="s1">&#39;F0006&#39;</span><span class="p">,</span>  <span class="c1"># correct b6 errors with F6000 and F0006</span>
-              <span class="p">),</span>
-<span class="p">}</span>
 
 
 <span class="c1"># Parser -----------------------------------------------------------------------</span>
 
 <span class="k">def</span> <span class="nf">get_parser</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">:</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--beams&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;beams&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Which beam the files come from (1, 2 or 4)&quot;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--twiss&quot;</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;twiss&quot;</span><span class="p">,</span>
@@ -190,15 +168,6 @@
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;errors&quot;</span><span class="p">,</span>
         <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path(s) to error file(s), in the format of MAD-X `esave` output.&quot;</span><span class="p">,</span>
-        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--beams&quot;</span><span class="p">,</span>
-        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;beams&quot;</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
-        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Which beam the files come from (1, 2 or 4)&quot;</span><span class="p">,</span>
-        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--output&quot;</span><span class="p">,</span>
@@ -228,8 +197,8 @@
         <span class="s2">&quot;--accel&quot;</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;accel&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
-        <span class="n">choices</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">DEFAULT_RDTS</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
-        <span class="n">default</span><span class="o">=</span><span class="n">DEFAULTS</span><span class="p">[</span><span class="s1">&#39;accel&#39;</span><span class="p">],</span>
+        <span class="n">choices</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">InputOptions</span><span class="o">.</span><span class="n">DEFAULT_RDTS</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">InputOptions</span><span class="o">.</span><span class="n">accel</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Which accelerator we have.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
@@ -237,7 +206,7 @@
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;feeddown&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Order of Feeddown to include.&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="n">DEFAULTS</span><span class="p">[</span><span class="s1">&#39;feeddown&#39;</span><span class="p">],</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">InputOptions</span><span class="o">.</span><span class="n">feeddown</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--ips&quot;</span><span class="p">,</span>
@@ -245,7 +214,7 @@
         <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;In which IPs to correct.&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="n">DEFAULTS</span><span class="p">[</span><span class="s1">&#39;ips&#39;</span><span class="p">],</span>
+        <span class="n">default</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">InputOptions</span><span class="o">.</span><span class="n">ips</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--solver&quot;</span><span class="p">,</span>
@@ -253,7 +222,7 @@
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Solving method to use.&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
         <span class="n">choices</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">SOLVER_MAP</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
-        <span class="n">default</span><span class="o">=</span><span class="n">DEFAULTS</span><span class="p">[</span><span class="s1">&#39;solver&#39;</span><span class="p">],</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">InputOptions</span><span class="o">.</span><span class="n">solver</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--update_optics&quot;</span><span class="p">,</span>
@@ -263,7 +232,7 @@
               <span class="s2">&quot;corrector strengths in the optics after calculation, so the &quot;</span>
               <span class="s2">&quot;feeddown to lower order correctors is included.&quot;</span>
               <span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="n">DEFAULTS</span><span class="p">[</span><span class="s2">&quot;update_optics&quot;</span><span class="p">]</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">InputOptions</span><span class="o">.</span><span class="n">update_optics</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--iterations&quot;</span><span class="p">,</span>
@@ -271,7 +240,7 @@
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Reiterate correction, &quot;</span>
               <span class="s2">&quot;starting with the previously calculated values.&quot;</span><span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="n">DEFAULTS</span><span class="p">[</span><span class="s2">&quot;iterations&quot;</span><span class="p">]</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">InputOptions</span><span class="o">.</span><span class="n">iterations</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--ignore_corrector_settings&quot;</span><span class="p">,</span>
@@ -289,81 +258,162 @@
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span>
 
+<span class="c1"># InputOptions and Defaults ---------------------------------------------------------------</span>
 
-<span class="c1"># Checks -----------------------------------------------------------------------</span>
-
-<div class="viewcode-block" id="check_opt"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.input_options.check_opt">[docs]</a><span class="k">def</span> <span class="nf">check_opt</span><span class="p">(</span><span class="n">opt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">DotDict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DotDict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Asserts that the input parameters make sense and adds what&#39;s missing.</span>
-<span class="sd">    If the input is empty, arguments will be parsed from commandline.</span>
+<div class="viewcode-block" id="InputOptions"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.input_options.InputOptions">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">InputOptions</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; DataClass to store the input options.</span>
+<span class="sd">    On creation it asserts that the input parameters make sense and adds what&#39;s missing.</span>
 <span class="sd">    Checks include:</span>
-<span class="sd">        - Set defaults (see ``DEFAULTS``) if option not given.</span>
 <span class="sd">        - Check accelerator name is valid</span>
 <span class="sd">        - Set default RDTs if not given (see ``DEFAULT_RDTS``)</span>
 <span class="sd">        - Check required parameters are present (twiss, errors, beams, rdts)</span>
 <span class="sd">        - Check feeddown and iterations</span>
 
-<span class="sd">    TODO: Replace DotDict with dataclass and have class check most of this...</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        opt (Union[dict, DotDict]): Function options in dictionary format.</span>
-<span class="sd">                                Description of the arguments are given in</span>
-<span class="sd">                                :func:`irnl_rdt_correction.main.irnl_rdt_correction`.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        DotDict: (Parsed and) checked options.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># check for unkown input</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">get_parser</span><span class="p">()</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">):</span>
-        <span class="n">opt</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">())</span>
-    <span class="n">opt</span> <span class="o">=</span> <span class="n">DotDict</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
-    <span class="n">known_opts</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">dest</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">parser</span><span class="o">.</span><span class="n">_actions</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">argparse</span><span class="o">.</span><span class="n">_HelpAction</span><span class="p">)]</span>  <span class="c1"># best way I could figure out</span>
-    <span class="n">unknown_opts</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">opt</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">known_opts</span><span class="p">]</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unknown_opts</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown arguments found: &#39;</span><span class="si">{</span><span class="n">list2str</span><span class="p">(</span><span class="n">unknown_opts</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                             <span class="sa">f</span><span class="s2">&quot;Allowed input parameters are: &#39;</span><span class="si">{</span><span class="n">list2str</span><span class="p">(</span><span class="n">known_opts</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+    <span class="n">DEFAULT_RDTS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;lhc&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;F0003&#39;</span><span class="p">,</span> <span class="s1">&#39;F0003*&#39;</span><span class="p">,</span>  <span class="c1"># correct a3 errors with F0003</span>
+                <span class="s1">&#39;F1002&#39;</span><span class="p">,</span> <span class="s1">&#39;F1002*&#39;</span><span class="p">,</span>  <span class="c1"># correct b3 errors with F1002</span>
+                <span class="s1">&#39;F1003&#39;</span><span class="p">,</span> <span class="s1">&#39;F3001&#39;</span><span class="p">,</span>  <span class="c1"># correct a4 errors with F1003 and F3001</span>
+                <span class="s1">&#39;F4000&#39;</span><span class="p">,</span> <span class="s1">&#39;F0004&#39;</span><span class="p">,</span>  <span class="c1"># correct b4 errors with F4000 and F0004</span>
+                <span class="s1">&#39;F6000&#39;</span><span class="p">,</span> <span class="s1">&#39;F0006&#39;</span><span class="p">,</span>  <span class="c1"># correct b6 errors with F6000 and F0006</span>
+                <span class="p">),</span>
+        <span class="s1">&#39;hllhc&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;F0003&#39;</span><span class="p">,</span> <span class="s1">&#39;F0003*&#39;</span><span class="p">,</span>  <span class="c1"># correct a3 errors with F0003</span>
+                <span class="s1">&#39;F1002&#39;</span><span class="p">,</span> <span class="s1">&#39;F1002*&#39;</span><span class="p">,</span>  <span class="c1"># correct b3 errors with F1002</span>
+                <span class="s1">&#39;F1003&#39;</span><span class="p">,</span> <span class="s1">&#39;F3001&#39;</span><span class="p">,</span>  <span class="c1"># correct a4 errors with F1003 and F3001</span>
+                <span class="s1">&#39;F0004&#39;</span><span class="p">,</span> <span class="s1">&#39;F4000&#39;</span><span class="p">,</span>  <span class="c1"># correct b4 errors with F0004 and F4000</span>
+                <span class="s1">&#39;F0005&#39;</span><span class="p">,</span> <span class="s1">&#39;F0005*&#39;</span><span class="p">,</span>  <span class="c1"># correct a5 errors with F0005</span>
+                <span class="s1">&#39;F5000&#39;</span><span class="p">,</span> <span class="s1">&#39;F5000*&#39;</span><span class="p">,</span>  <span class="c1"># correct b5 errors with F5000</span>
+                <span class="s1">&#39;F5001&#39;</span><span class="p">,</span> <span class="s1">&#39;F1005&#39;</span><span class="p">,</span>  <span class="c1"># correct a6 errors with F5001 and F1005</span>
+                <span class="s1">&#39;F6000&#39;</span><span class="p">,</span> <span class="s1">&#39;F0006&#39;</span><span class="p">,</span>  <span class="c1"># correct b6 errors with F6000 and F0006</span>
+                <span class="p">),</span>
+    <span class="p">}</span>
 
-    <span class="c1"># Set defaults</span>
-    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">default</span> <span class="ow">in</span> <span class="n">DEFAULTS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">opt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Setting input &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; to default value &#39;</span><span class="si">{</span><span class="n">default</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
-            <span class="n">opt</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
+    <span class="n">beams</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">twiss</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StrOrPathOrDataFrame</span><span class="p">]</span>
+    <span class="n">errors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StrOrPathOrDataFrameOrNone</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">rdts</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">rdts2</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">accel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;lhc&#39;</span>
+    <span class="n">feeddown</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ips</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span><span class="s1">&#39;lstsq&#39;</span>
+    <span class="n">update_optics</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">ignore_corrector_settings</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">ignore_missing_columns</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">output</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="c1"># check accel</span>
-    <span class="n">opt</span><span class="o">.</span><span class="n">accel</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">accel</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>  <span class="c1"># let&#39;s not care about case</span>
-    <span class="k">if</span> <span class="n">opt</span><span class="o">.</span><span class="n">accel</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">DEFAULT_RDTS</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;accel&#39; needs to be one of &#39;</span><span class="si">{</span><span class="n">list2str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">DEFAULT_RDTS</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
-                         <span class="sa">f</span><span class="s2">&quot;but was &#39;</span><span class="si">{</span><span class="n">opt</span><span class="o">.</span><span class="n">accel</span><span class="si">}</span><span class="s2">&#39; instead.&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_all</span><span class="p">()</span>
 
-    <span class="c1"># Set rdts:</span>
-    <span class="k">if</span> <span class="n">opt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;rdts&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">opt</span><span class="o">.</span><span class="n">rdts</span> <span class="o">=</span> <span class="n">DEFAULT_RDTS</span><span class="p">[</span><span class="n">opt</span><span class="o">.</span><span class="n">accel</span><span class="p">]</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+    
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="bp">cls</span><span class="p">))</span>
 
-    <span class="c1"># Check required and rdts:</span>
-    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;twiss&#39;</span><span class="p">,</span> <span class="s1">&#39;errors&#39;</span><span class="p">,</span> <span class="s1">&#39;beams&#39;</span><span class="p">,</span> <span class="s1">&#39;rdts&#39;</span><span class="p">):</span>
-        <span class="n">inputs</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">inputs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">(</span><span class="n">Iterable</span><span class="p">,</span> <span class="n">Sized</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; is required and needs to be &quot;</span>
-                             <span class="s2">&quot;iterable, even if only of length 1. &quot;</span>
-                             <span class="sa">f</span><span class="s2">&quot;Instead was &#39;</span><span class="si">{</span><span class="n">inputs</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">((</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">))</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 
-    <span class="c1"># Check twiss and errors input type</span>
-    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;twiss&#39;</span><span class="p">,</span> <span class="s1">&#39;errors&#39;</span><span class="p">):</span>
-        <span class="n">inputs</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">check_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_accel</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_twiss</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_errors</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_beams</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_rdts</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_feeddown</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_iterations</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">check_accel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">accel</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_RDTS</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;accel&#39; needs to be one of &#39;</span><span class="si">{</span><span class="n">list2str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_RDTS</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;but was &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">accel</span><span class="si">}</span><span class="s2">&#39; instead.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">check_twiss</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">twiss</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Parameter &#39;twiss&#39; needs to be set.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_iterable</span><span class="p">(</span><span class="s1">&#39;twiss&#39;</span><span class="p">)</span> 
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">twiss</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">tfs</span><span class="o">.</span><span class="n">TfsDataFrame</span><span class="p">)):</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Not all elements of &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; are DataFrames or paths to DataFrames!&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Not all elements of &#39;twiss&#39; are DataFrames or paths to DataFrames!&quot;</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">check_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">errors</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">twiss</span><span class="p">))</span>
+            <span class="k">return</span>
 
-    <span class="k">if</span> <span class="n">opt</span><span class="o">.</span><span class="n">feeddown</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">feeddown</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">feeddown</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;feeddown&#39; needs to be a positive integer.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_iterable</span><span class="p">(</span><span class="s1">&#39;errors&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">tfs</span><span class="o">.</span><span class="n">TfsDataFrame</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Not all elements of &#39;errors&#39; are DataFrames or paths to DataFrames or None!&quot;</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">check_beams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beams</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Parameter &#39;beams&#39; needs to be set.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_iterable</span><span class="p">(</span><span class="s1">&#39;beams&#39;</span><span class="p">)</span> 
+    
+    <span class="k">def</span> <span class="nf">check_rdts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rdts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rdts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_RDTS</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">accel</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_iterable</span><span class="p">(</span><span class="s1">&#39;rdts&#39;</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">check_feeddown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">feeddown</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feeddown</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feeddown</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;feeddown&#39; needs to be a positive integer.&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">opt</span><span class="o">.</span><span class="n">iterations</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least one iteration (see: &#39;iterations&#39;) needs to &quot;</span>
-                         <span class="s2">&quot;be done for correction.&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">opt</span></div>
+    <span class="k">def</span> <span class="nf">check_iterations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterations</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least one iteration (see: &#39;iterations&#39;) needs to &quot;</span>
+                            <span class="s2">&quot;be done for correction.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_check_iterable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">(</span><span class="n">Iterable</span><span class="p">,</span> <span class="n">Sized</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; needs to be iterable, &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;even if only of length 1. Instead was &#39;</span><span class="si">{</span><span class="n">inputs</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="InputOptions.from_args_or_dict"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.input_options.InputOptions.from_args_or_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_args_or_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">opt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s1">&#39;InputOptions&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;InputOptions&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an InputOptions instance from the given dictionary.</span>
+<span class="sd">        If the input is empty, arguments will be parsed from commandline.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            opt (Union[dict, DotDict]): Function options in dictionary format.</span>
+<span class="sd">                                    Description of the arguments are given in</span>
+<span class="sd">                                    :func:`irnl_rdt_correction.main.irnl_rdt_correction`.</span>
+<span class="sd">                                    Optional, if not given parses commandline args</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            InputOptions: (Parsed and) checked options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">InputOptions</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">opt</span>
+
+        <span class="k">if</span> <span class="n">opt</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">):</span>
+            <span class="n">parser</span> <span class="o">=</span> <span class="n">get_parser</span><span class="p">()</span>
+            <span class="n">opt</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">())</span>
+            
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">opt</span><span class="p">)</span></div></div>
 
 
+<div class="viewcode-block" id="allow_commandline_and_kwargs"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.input_options.allow_commandline_and_kwargs">[docs]</a><span class="k">def</span> <span class="nf">allow_commandline_and_kwargs</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Decorator to allow a function to take options from the commandline</span>
+<span class="sd">    or via kwargs, or given an InputOptions instance. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">opt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InputOptions</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">tfs</span><span class="o">.</span><span class="n">TfsDataFrame</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">InputOptions</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">opt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">opt</span> <span class="o">=</span> <span class="n">kwargs</span>
+            <span class="n">opt</span> <span class="o">=</span> <span class="n">InputOptions</span><span class="o">.</span><span class="n">from_args_or_dict</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper</span></div>
 </pre></div>
 
            </div>

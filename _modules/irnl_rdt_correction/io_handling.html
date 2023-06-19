@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>irnl_rdt_correction.io_handling &mdash; irnl-rdt-correction 1.0.0 documentation</title>
+  <title>irnl_rdt_correction.io_handling &mdash; irnl-rdt-correction 1.1.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
@@ -34,7 +34,7 @@
               <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0
+                1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -47,7 +47,6 @@
               <p class="caption" role="heading"><span class="caption-text">Main</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../main.html">Nonlinear Correction calculation in the IRs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../main.html#irnl_rdt_correction.main.irnl_rdt_correction"><code class="docutils literal notranslate"><span class="pre">irnl_rdt_correction()</span></code></a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tools</span></p>
 <ul>
@@ -65,7 +64,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.solve"><code class="docutils literal notranslate"><span class="pre">solve()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.equation_system.solve_equation_system"><code class="docutils literal notranslate"><span class="pre">solve_equation_system()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#input-options">Input Options</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.input_options.check_opt"><code class="docutils literal notranslate"><span class="pre">check_opt()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.input_options.InputOptions"><code class="docutils literal notranslate"><span class="pre">InputOptions</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.input_options.InputOptions.from_args_or_dict"><code class="docutils literal notranslate"><span class="pre">InputOptions.from_args_or_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.input_options.allow_commandline_and_kwargs"><code class="docutils literal notranslate"><span class="pre">allow_commandline_and_kwargs()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#io-handling">IO Handling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_df"><code class="docutils literal notranslate"><span class="pre">build_correction_df()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_str"><code class="docutils literal notranslate"><span class="pre">build_correction_str()</span></code></a></li>
@@ -81,7 +84,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.get_needed_orders"><code class="docutils literal notranslate"><span class="pre">get_needed_orders()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.rdt_handling.sort_rdts"><code class="docutils literal notranslate"><span class="pre">sort_rdts()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#utilities">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.DotDict"><code class="docutils literal notranslate"><span class="pre">DotDict</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Optics"><code class="docutils literal notranslate"><span class="pre">Optics</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Timer"><code class="docutils literal notranslate"><span class="pre">Timer</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.get_max_knl_order"><code class="docutils literal notranslate"><span class="pre">get_max_knl_order()</span></code></a></li>
@@ -126,14 +128,14 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">tfs</span>
 <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
 <span class="kn">from</span> <span class="nn">tfs</span> <span class="kn">import</span> <span class="n">TfsDataFrame</span>
 
-<span class="kn">from</span> <span class="nn">irnl_rdt_correction.constants</span> <span class="kn">import</span> <span class="n">PLANES</span><span class="p">,</span> <span class="n">DELTA</span><span class="p">,</span> <span class="n">EXT_MADX</span><span class="p">,</span> <span class="n">EXT_TFS</span><span class="p">,</span> <span class="n">StrOrPathOrDataFrame</span>
+<span class="kn">from</span> <span class="nn">irnl_rdt_correction.constants</span> <span class="kn">import</span> <span class="n">PLANES</span><span class="p">,</span> <span class="n">DELTA</span><span class="p">,</span> <span class="n">EXT_MADX</span><span class="p">,</span> <span class="n">EXT_TFS</span><span class="p">,</span> <span class="n">StrOrPathOrDataFrame</span><span class="p">,</span> <span class="n">StrOrPathOrDataFrameOrNone</span>
 <span class="kn">from</span> <span class="nn">irnl_rdt_correction.utilities</span> <span class="kn">import</span> <span class="n">is_anti_mirror_symmetric</span><span class="p">,</span> <span class="n">idx2str</span><span class="p">,</span> <span class="n">list2str</span><span class="p">,</span> <span class="n">Optics</span>
 <span class="kn">from</span> <span class="nn">irnl_rdt_correction.rdt_handling</span> <span class="kn">import</span> <span class="n">IRCorrector</span>
 
@@ -145,15 +147,15 @@
 
 
 <div class="viewcode-block" id="get_optics"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.get_optics">[docs]</a><span class="k">def</span> <span class="nf">get_optics</span><span class="p">(</span><span class="n">beams</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-               <span class="n">twiss</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StrOrPathOrDataFrame</span><span class="p">],</span> <span class="n">errors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StrOrPathOrDataFrame</span><span class="p">],</span>
+               <span class="n">twiss</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StrOrPathOrDataFrame</span><span class="p">],</span> <span class="n">errors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StrOrPathOrDataFrameOrNone</span><span class="p">],</span>
                <span class="n">orders</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">ignore_missing_columns</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optics</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the Optics instances from beams, twiss and errors.</span>
 <span class="sd">    Also checks the DataFrames for containing needed information.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        beams (Sequence[int]): Beam number the twiss/errors refer to</span>
-<span class="sd">        twiss (Sequence[StrOrPathOrDataFrame]): </span>
-<span class="sd">        errors (Sequence[StrOrPathOrDataFrame]):</span>
+<span class="sd">        twiss (Sequence[StrOrPathOrDataFrame]): Sequence of twiss TfsDataFrames or paths to the tfs files.</span>
+<span class="sd">        errors (Sequence[StrOrPathOrDataFrame]): Sequence of errors TfsDataFrames or paths to the tfs files. Can be `None`.</span>
 <span class="sd">        orders (Sequence[int]): Orders needed for calculations (used to check DataFrames)</span>
 <span class="sd">        ignore_missing_columns (bool): If set, fills missing columns with zeros.</span>
 
@@ -162,6 +164,8 @@
 <span class="sd">                          about beam, twiss and errors.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">twiss_dfs</span> <span class="o">=</span> <span class="n">get_tfs</span><span class="p">(</span><span class="n">twiss</span><span class="p">)</span>
+
+    <span class="n">errors</span> <span class="o">=</span> <span class="n">_check_errors</span><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="n">ignore_missing_columns</span><span class="p">)</span>  
     <span class="n">errors_dfs</span> <span class="o">=</span> <span class="n">get_tfs</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
 
     <span class="n">beams</span><span class="p">,</span> <span class="n">twiss_dfs</span><span class="p">,</span> <span class="n">errors_dfs</span> <span class="o">=</span> <span class="n">_check_dfs</span><span class="p">(</span>
@@ -300,6 +304,31 @@
 
 <span class="c1"># Utils ------------------------------------------------------------------------</span>
 
+
+<span class="k">def</span> <span class="nf">_check_errors</span><span class="p">(</span><span class="n">errors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StrOrPathOrDataFrameOrNone</span><span class="p">],</span> 
+                  <span class="n">ignore_missing_columns</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">StrOrPathOrDataFrame</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check the given errors for None-type and fill with empty dataframes.</span>
+<span class="sd">    This only makes sense if `ignore_missing_columns` is set to `True` </span>
+<span class="sd">    as these DataFrames obviously have all columns missing, so we check for that here as well.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        errors (Sequence[StrOrPathOrDataFrameOrNone]): Sequence of given errors, </span>
+<span class="sd">                                                       i.e. either DataFrames or paths to tfs files.</span>
+<span class="sd">        ignore_missing_columns (bool, optional): Whether to ignore missing columns. Defaults to False.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple[StrOrPathOrDataFrame, ...]: Tuple with Nones filled with empty TfsDataFrames. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">e</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">errors</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ignore_missing_columns</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;None-type errors given, but `ignore_missing_columns` is set to `False`. &quot;</span>
+        <span class="s2">&quot;Either specify errors or set `ignore_missing_columns` to `True`.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">TfsDataFrame</span><span class="p">()</span> <span class="k">if</span> <span class="n">e</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">)</span>
+
+
 <span class="k">def</span> <span class="nf">_check_dfs</span><span class="p">(</span><span class="n">beams</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">twiss_dfs</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DataFrame</span><span class="p">],</span> <span class="n">errors_dfs</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DataFrame</span><span class="p">],</span>
                <span class="n">orders</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">ignore_missing_columns</span><span class="p">:</span> <span class="nb">bool</span>
                <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DataFrame</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DataFrame</span><span class="p">]]:</span>
@@ -312,7 +341,14 @@
 <span class="sd">        - All needed field strengths are present in twiss</span>
 <span class="sd">          -&gt; either Error or Warning depending on ``ignore_missing_columns``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">twiss_dfs</span><span class="p">,</span> <span class="n">errors_dfs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">dfs</span><span class="p">)</span> <span class="k">for</span> <span class="n">dfs</span> <span class="ow">in</span> <span class="p">(</span><span class="n">twiss_dfs</span><span class="p">,</span> <span class="n">errors_dfs</span><span class="p">))</span>
+    <span class="n">twiss_dfs</span><span class="p">,</span> <span class="n">errors_dfs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">dfs</span><span class="p">)</span> 
+                                  <span class="k">for</span> <span class="n">dfs</span> <span class="ow">in</span> <span class="p">(</span><span class="n">twiss_dfs</span><span class="p">,</span> <span class="n">errors_dfs</span><span class="p">))</span>
+
+    <span class="n">needed_twiss</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">PLANES</span><span class="p">)</span>
+    <span class="n">needed_errors</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DELTA</span><span class="si">}{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">PLANES</span><span class="p">]</span>
+    <span class="n">needed_k</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;K</span><span class="si">{</span><span class="n">order</span><span class="o">-</span><span class="mi">1</span><span class="si">:</span><span class="s2">d</span><span class="si">}{</span><span class="n">orientation</span><span class="si">}</span><span class="s2">L&quot;</span>  <span class="c1"># -1 for madx-order</span>
+                <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span>
+                <span class="k">for</span> <span class="n">orientation</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)]</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">twiss_dfs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">errors_dfs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;A maximum of two optics can be corrected &quot;</span>
@@ -329,14 +365,14 @@
                          <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">beams</span><span class="p">)</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">). Please specify a beam for each &quot;</span>
                          <span class="s2">&quot;optics.&quot;</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">idx_file</span><span class="p">,</span> <span class="p">(</span><span class="n">optics</span><span class="p">,</span> <span class="n">errors</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">twiss_dfs</span><span class="p">,</span> <span class="n">errors_dfs</span><span class="p">)):</span>
-        <span class="n">not_found_errors</span> <span class="o">=</span> <span class="n">errors</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">optics</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx_file</span><span class="p">,</span> <span class="p">(</span><span class="n">twiss</span><span class="p">,</span> <span class="n">errors</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">twiss_dfs</span><span class="p">,</span> <span class="n">errors_dfs</span><span class="p">)):</span>
+        <span class="n">not_found_errors</span> <span class="o">=</span> <span class="n">errors</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">twiss</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">not_found_errors</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;The following elements were found in the &quot;</span>
                           <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">idx2str</span><span class="p">(</span><span class="n">idx_file</span><span class="p">)</span><span class="si">}</span><span class="s2"> given errors file but not in&quot;</span>
                           <span class="sa">f</span><span class="s2">&quot;the optics: </span><span class="si">{</span><span class="n">list2str</span><span class="p">(</span><span class="n">not_found_errors</span><span class="o">.</span><span class="n">to_list</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="n">not_found_optics</span> <span class="o">=</span> <span class="n">optics</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">errors</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">not_found_optics</span> <span class="o">=</span> <span class="n">twiss</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">errors</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">not_found_optics</span><span class="p">):</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;The following elements were found in the &quot;</span>
                       <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">idx2str</span><span class="p">(</span><span class="n">idx_file</span><span class="p">)</span><span class="si">}</span><span class="s2"> given optics file but not in &quot;</span>
@@ -345,21 +381,19 @@
             <span class="k">for</span> <span class="n">indx</span> <span class="ow">in</span> <span class="n">not_found_optics</span><span class="p">:</span>
                 <span class="n">errors</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">indx</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="n">needed_values</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;K</span><span class="si">{</span><span class="n">order</span><span class="o">-</span><span class="mi">1</span><span class="si">:</span><span class="s2">d</span><span class="si">}{</span><span class="n">orientation</span><span class="si">}</span><span class="s2">L&quot;</span>  <span class="c1"># -1 for madx-order</span>
-                         <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span>
-                         <span class="k">for</span> <span class="n">orientation</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)]</span>
-
-        <span class="k">for</span> <span class="n">df</span><span class="p">,</span> <span class="n">file_type</span> <span class="ow">in</span> <span class="p">((</span><span class="n">optics</span><span class="p">,</span> <span class="s2">&quot;optics&quot;</span><span class="p">),</span> <span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">)):</span>
-            <span class="n">not_found_strengths</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">needed_values</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">not_found_strengths</span><span class="p">):</span>
-                <span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Some strength values were not found in the &quot;</span>
+        <span class="k">for</span> <span class="n">df</span><span class="p">,</span> <span class="n">needed_cols</span><span class="p">,</span> <span class="n">file_type</span> <span class="ow">in</span> <span class="p">((</span>
+            <span class="n">twiss</span><span class="p">,</span> <span class="n">needed_twiss</span><span class="p">,</span> <span class="s2">&quot;twiss&quot;</span><span class="p">),</span> <span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="n">needed_errors</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">)</span>
+            <span class="p">):</span>
+            <span class="n">missing_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">needed_cols</span> <span class="o">+</span> <span class="n">needed_k</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing_cols</span><span class="p">):</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Some strength values/columns were not found in the &quot;</span>
                         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">idx2str</span><span class="p">(</span><span class="n">idx_file</span><span class="p">)</span><span class="si">}</span><span class="s2"> given </span><span class="si">{</span><span class="n">file_type</span><span class="si">}</span><span class="s2"> file: &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">list2str</span><span class="p">(</span><span class="n">not_found_strengths</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">list2str</span><span class="p">(</span><span class="n">missing_cols</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">ignore_missing_columns</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s2">&quot; They are assumed to be zero.&quot;</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">kl</span> <span class="ow">in</span> <span class="n">not_found_strengths</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">kl</span> <span class="ow">in</span> <span class="n">missing_cols</span><span class="p">:</span>
                     <span class="n">df</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">return</span> <span class="n">beams</span><span class="p">,</span> <span class="n">twiss_dfs</span><span class="p">,</span> <span class="n">errors_dfs</span>
 
