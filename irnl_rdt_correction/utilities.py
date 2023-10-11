@@ -126,6 +126,24 @@ def i_pow(n: int) -> complex:
     return 1j**(n % 4)   # more exact with modulo
 
 
+def corrector_sign_beam_symmetry(beam: int, column_name: str) -> int:
+    """This function returns -1 if there is if there is a sign change
+    change for the powering of the corrector and it's field component,
+    due to the anti-symmetric magnetic field.
+    See Chapter 3.1 Beam Directions in [DillyNonlinearIRCorrections2023]_
+
+    Args:
+        beam (int): beam used
+        column_name (str): column name of the field strength
+
+    Returns:
+        int: -1 if the corrector circuit has opposite sign to its field, 1 otherwise.
+    """
+    if is_even(beam) and is_anti_mirror_symmetric(column_name):
+        return -1
+    return 1
+
+
 def log_setup():
     """ Set up a basic logger. """
     logging.basicConfig(

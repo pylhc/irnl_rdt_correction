@@ -7,17 +7,16 @@ This is Eq. (40) of [DillyNonlinearIRCorrections2023]_.
 
 """
 import logging
-from typing import Sequence, Tuple, Set, Dict, List
+from typing import Dict, List, Sequence, Set, Tuple
 
 import numpy as np
 from numpy.typing import ArrayLike
 from pandas import DataFrame, Series
 
-from irnl_rdt_correction.constants import BETA, SIDES, PLANES, DELTA, KEYWORD, MULTIPOLE
-from irnl_rdt_correction.rdt_handling import IRCorrector, RDT, RDTMap
-from irnl_rdt_correction.utilities import (
-    list2str, i_pow, is_even, is_odd, is_anti_mirror_symmetric, idx2str, Optics
-)
+from irnl_rdt_correction.constants import BETA, DELTA, KEYWORD, MULTIPOLE, PLANES, SIDES
+from irnl_rdt_correction.rdt_handling import RDT, IRCorrector, RDTMap
+from irnl_rdt_correction.utilities import (Optics, corrector_sign_beam_symmetry, i_pow, idx2str,
+                                           is_even, is_odd, list2str)
 
 LOG = logging.getLogger(__name__)
 
@@ -237,6 +236,8 @@ def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_s
 
     Returns:
         Dict[IRCorrector, Sequence[float]]: The saved values per corrector (per Optics).
+                                            These are the values directly taken from the optics, 
+                                            i.e. the sign might be different to the sign stored in the correctors objects.
                                             If the optics are updated anyway, this is an empty dict.
     """
     saved_values = {}
@@ -245,7 +246,7 @@ def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_s
         values = [optic.twiss.loc[corrector.name, corrector.strength_component] for optic in optics_seq]
 
         if not update_optics:
-            saved_values[corrector] = values
+            saved_values[corrector] = values  # saved without sign-change
 
         if ignore_settings:
             # set corrector value in optics to zero
@@ -256,7 +257,8 @@ def init_corrector_and_optics_values(correctors: Sequence[IRCorrector], optics_s
                 raise ValueError(f"Initial value for corrector {corrector.name} differs "
                                  f"between optics.")
             # use optics value as initial value (as equation system calculates corrector delta!!)
-            corrector.value = values[0]
+            sign = corrector_sign_beam_symmetry(optics_seq[0].beam, corrector.strength_component)
+            corrector.value = sign * values[0]
     return saved_values
 
 
@@ -425,10 +427,7 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
     # in Beam 2 and Beam 4. The correct sign in MAD-X is then assured by the
     # lattice setup, where these correctors have a minus sign in Beam 4.
     # See Chapter 3.1 Beam Directions in [DillyNonlinearIRCorrections2023]_
-    sign_beam = 1
-    if is_even(optics.beam) and is_anti_mirror_symmetric(corrector.strength_component):
-        sign_beam = -1
-
+    sign_beam = corrector_sign_beam_symmetry(optics.beam, corrector.strength_component)
     return sign_beam * sign_corrector * z * betax * betay
 
 
@@ -447,8 +446,7 @@ def get_side_sign(n: int, side: str) -> int:
         int: Either -1 or 1
     """
     if side == "R":
-        # return (-1)**n
-        return -1 if n % 2 else 1
+        return -1 if n % 2 else 1  # == (-1)**n, but faster and exact
     return 1
 
 
@@ -535,7 +533,7 @@ def optics_update(correctors: Sequence[IRCorrector], optics_seq: Sequence[Optics
     """
     for optics in optics_seq:
         for corrector in correctors:
-            sign = -1 if is_even(optics.beam) and is_anti_mirror_symmetric(corrector.strength_component) else 1
+            sign = corrector_sign_beam_symmetry(optics.beam, corrector.strength_component)
             optics.twiss.loc[corrector.name, corrector.strength_component] = sign * corrector.value
 
 

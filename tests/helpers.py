@@ -77,11 +77,11 @@ def generate_pseudo_model(n_ips: int, n_magnets: int, accel: str,
     return df
 
 
-def generate_errortable(index: Sequence, value: float = 0) -> pd.DataFrame:
+def generate_errortable(index: Sequence, value: float = 0, max_order: int = MAX_N) -> pd.DataFrame:
     """Return DataFrame from index and KN(S)L + D[XY] columns."""
     return pd.DataFrame(value,
                         index=index,
-                        columns=[f"K{n}{o}L" for n in range(MAX_N) for o in ("", "S")] + [f"D{plane}" for plane in "XY"]
+                        columns=[f"K{n}{o}L" for n in range(max_order) for o in ("", "S")] + [f"D{plane}" for plane in "XY"]
                         )
 
 
