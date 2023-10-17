@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>irnl_rdt_correction.io_handling &mdash; irnl-rdt-correction 1.1.0 documentation</title>
+  <title>irnl_rdt_correction.io_handling &mdash; irnl-rdt-correction 1.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
@@ -11,11 +11,11 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=58fbf978"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -86,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#utilities">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Optics"><code class="docutils literal notranslate"><span class="pre">Optics</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Timer"><code class="docutils literal notranslate"><span class="pre">Timer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.corrector_sign_beam_symmetry"><code class="docutils literal notranslate"><span class="pre">corrector_sign_beam_symmetry()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.get_max_knl_order"><code class="docutils literal notranslate"><span class="pre">get_max_knl_order()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.i_pow"><code class="docutils literal notranslate"><span class="pre">i_pow()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.is_anti_mirror_symmetric"><code class="docutils literal notranslate"><span class="pre">is_anti_mirror_symmetric()</span></code></a></li>
@@ -146,7 +147,9 @@
 <span class="c1"># Input ------------------------------------------------------------------------</span>
 
 
-<div class="viewcode-block" id="get_optics"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.get_optics">[docs]</a><span class="k">def</span> <span class="nf">get_optics</span><span class="p">(</span><span class="n">beams</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+<div class="viewcode-block" id="get_optics">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.get_optics">[docs]</a>
+<span class="k">def</span> <span class="nf">get_optics</span><span class="p">(</span><span class="n">beams</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
                <span class="n">twiss</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StrOrPathOrDataFrame</span><span class="p">],</span> <span class="n">errors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StrOrPathOrDataFrameOrNone</span><span class="p">],</span>
                <span class="n">orders</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">ignore_missing_columns</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optics</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the Optics instances from beams, twiss and errors.</span>
@@ -178,7 +181,10 @@
     <span class="k">return</span> <span class="n">optics_seq</span></div>
 
 
-<div class="viewcode-block" id="get_tfs"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.get_tfs">[docs]</a><span class="k">def</span> <span class="nf">get_tfs</span><span class="p">(</span><span class="n">paths</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StrOrPathOrDataFrame</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DataFrame</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="get_tfs">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.get_tfs">[docs]</a>
+<span class="k">def</span> <span class="nf">get_tfs</span><span class="p">(</span><span class="n">paths</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StrOrPathOrDataFrame</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get TFS-DataFrames from Paths or return DataFrames if already loaded.</span>
 
 <span class="sd">    Args:</span>
@@ -193,9 +199,12 @@
     <span class="p">)</span></div>
 
 
+
 <span class="c1"># Output -----------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="get_and_write_output"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.get_and_write_output">[docs]</a><span class="k">def</span> <span class="nf">get_and_write_output</span><span class="p">(</span><span class="n">out_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">correctors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">tfs</span><span class="o">.</span><span class="n">TfsDataFrame</span><span class="p">]:</span>
+<div class="viewcode-block" id="get_and_write_output">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.get_and_write_output">[docs]</a>
+<span class="k">def</span> <span class="nf">get_and_write_output</span><span class="p">(</span><span class="n">out_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">correctors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">tfs</span><span class="o">.</span><span class="n">TfsDataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert the IRCorrector data to MAD-X commands and TFSDataFrame and write to files.</span>
 
 <span class="sd">    Args:</span>
@@ -216,9 +225,12 @@
     <span class="k">return</span> <span class="n">correction_text</span><span class="p">,</span> <span class="n">correction_df</span></div>
 
 
+
 <span class="c1"># Build ---</span>
 
-<div class="viewcode-block" id="build_correction_df"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_df">[docs]</a><span class="k">def</span> <span class="nf">build_correction_df</span><span class="p">(</span><span class="n">correctors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">TfsDataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="build_correction_df">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_df">[docs]</a>
+<span class="k">def</span> <span class="nf">build_correction_df</span><span class="p">(</span><span class="n">correctors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">TfsDataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Build the DataFrame that contains the information for corrector powering.</span>
 
 <span class="sd">    Args:</span>
@@ -234,7 +246,10 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="build_correction_str"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_str">[docs]</a><span class="k">def</span> <span class="nf">build_correction_str</span><span class="p">(</span><span class="n">correctors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="build_correction_str">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_str">[docs]</a>
+<span class="k">def</span> <span class="nf">build_correction_str</span><span class="p">(</span><span class="n">correctors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Build the MAD-X command that contains the information for corrector powering.</span>
 
 <span class="sd">    Args:</span>
@@ -246,7 +261,10 @@
     <span class="k">return</span> <span class="n">_build_correction_str</span><span class="p">(</span><span class="n">corr</span> <span class="k">for</span> <span class="n">corr</span> <span class="ow">in</span> <span class="n">correctors</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="build_correction_str_from_df"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_str_from_df">[docs]</a><span class="k">def</span> <span class="nf">build_correction_str_from_df</span><span class="p">(</span><span class="n">correctors_df</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="build_correction_str_from_df">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_str_from_df">[docs]</a>
+<span class="k">def</span> <span class="nf">build_correction_str_from_df</span><span class="p">(</span><span class="n">correctors_df</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Build the MAD-X command that contains the information for corrector powering</span>
 <span class="sd">    from the given DataFrame.</span>
 
@@ -257,6 +275,7 @@
 <span class="sd">        str: Converted MAD-X commands.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_build_correction_str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">correctors_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">())</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_build_correction_str</span><span class="p">(</span><span class="n">iterator</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">IRCorrector</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -398,7 +417,9 @@
     <span class="k">return</span> <span class="n">beams</span><span class="p">,</span> <span class="n">twiss_dfs</span><span class="p">,</span> <span class="n">errors_dfs</span>
 
 
-<div class="viewcode-block" id="maybe_switch_signs"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.maybe_switch_signs">[docs]</a><span class="k">def</span> <span class="nf">maybe_switch_signs</span><span class="p">(</span><span class="n">optics</span><span class="p">:</span> <span class="n">Optics</span><span class="p">):</span>
+<div class="viewcode-block" id="maybe_switch_signs">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.maybe_switch_signs">[docs]</a>
+<span class="k">def</span> <span class="nf">maybe_switch_signs</span><span class="p">(</span><span class="n">optics</span><span class="p">:</span> <span class="n">Optics</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Switch the signs for Beam optics.</span>
 <span class="sd">     This is due to the switch in direction between beam and</span>
 <span class="sd">     (anti-) symmetry after a rotation of 180deg around the y-axis of magnets.</span>
@@ -413,6 +434,7 @@
 
         <span class="n">columns</span> <span class="o">=</span> <span class="n">optics</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">optics</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">is_anti_mirror_symmetric</span><span class="p">)]</span>
         <span class="n">optics</span><span class="o">.</span><span class="n">errors</span><span class="p">[</span><span class="n">columns</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">optics</span><span class="o">.</span><span class="n">errors</span><span class="p">[</span><span class="n">columns</span><span class="p">]</span></div>
+
 
         <span class="c1"># in twiss the signs are already switched by MAD-X due to bv-flag.</span>
         <span class="c1"># Now Beam 2 optics and errors have the same values as Beam 4</span>

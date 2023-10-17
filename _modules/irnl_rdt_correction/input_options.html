@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>irnl_rdt_correction.input_options &mdash; irnl-rdt-correction 1.1.0 documentation</title>
+  <title>irnl_rdt_correction.input_options &mdash; irnl-rdt-correction 1.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
@@ -11,11 +11,11 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=58fbf978"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -86,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#utilities">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Optics"><code class="docutils literal notranslate"><span class="pre">Optics</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Timer"><code class="docutils literal notranslate"><span class="pre">Timer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.corrector_sign_beam_symmetry"><code class="docutils literal notranslate"><span class="pre">corrector_sign_beam_symmetry()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.get_max_knl_order"><code class="docutils literal notranslate"><span class="pre">get_max_knl_order()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.i_pow"><code class="docutils literal notranslate"><span class="pre">i_pow()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.is_anti_mirror_symmetric"><code class="docutils literal notranslate"><span class="pre">is_anti_mirror_symmetric()</span></code></a></li>
@@ -260,7 +261,9 @@
 
 <span class="c1"># InputOptions and Defaults ---------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="InputOptions"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.input_options.InputOptions">[docs]</a><span class="nd">@dataclass</span>
+<div class="viewcode-block" id="InputOptions">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.input_options.InputOptions">[docs]</a>
+<span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">InputOptions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; DataClass to store the input options.</span>
 <span class="sd">    On creation it asserts that the input parameters make sense and adds what&#39;s missing.</span>
@@ -379,7 +382,9 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; needs to be iterable, &quot;</span>
                              <span class="sa">f</span><span class="s2">&quot;even if only of length 1. Instead was &#39;</span><span class="si">{</span><span class="n">inputs</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="InputOptions.from_args_or_dict"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.input_options.InputOptions.from_args_or_dict">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="InputOptions.from_args_or_dict">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.input_options.InputOptions.from_args_or_dict">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_args_or_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">opt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s1">&#39;InputOptions&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;InputOptions&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an InputOptions instance from the given dictionary.</span>
 <span class="sd">        If the input is empty, arguments will be parsed from commandline.</span>
@@ -400,10 +405,14 @@
             <span class="n">parser</span> <span class="o">=</span> <span class="n">get_parser</span><span class="p">()</span>
             <span class="n">opt</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">())</span>
             
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">opt</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">opt</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="allow_commandline_and_kwargs"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.input_options.allow_commandline_and_kwargs">[docs]</a><span class="k">def</span> <span class="nf">allow_commandline_and_kwargs</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+
+<div class="viewcode-block" id="allow_commandline_and_kwargs">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.input_options.allow_commandline_and_kwargs">[docs]</a>
+<span class="k">def</span> <span class="nf">allow_commandline_and_kwargs</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Decorator to allow a function to take options from the commandline</span>
 <span class="sd">    or via kwargs, or given an InputOptions instance. </span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -414,6 +423,7 @@
             <span class="n">opt</span> <span class="o">=</span> <span class="n">InputOptions</span><span class="o">.</span><span class="n">from_args_or_dict</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">wrapper</span></div>
+
 </pre></div>
 
            </div>

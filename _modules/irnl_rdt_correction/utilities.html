@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>irnl_rdt_correction.utilities &mdash; irnl-rdt-correction 1.1.0 documentation</title>
+  <title>irnl_rdt_correction.utilities &mdash; irnl-rdt-correction 1.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
@@ -11,11 +11,11 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=58fbf978"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -86,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#utilities">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Optics"><code class="docutils literal notranslate"><span class="pre">Optics</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.Timer"><code class="docutils literal notranslate"><span class="pre">Timer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.corrector_sign_beam_symmetry"><code class="docutils literal notranslate"><span class="pre">corrector_sign_beam_symmetry()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.get_max_knl_order"><code class="docutils literal notranslate"><span class="pre">get_max_knl_order()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.i_pow"><code class="docutils literal notranslate"><span class="pre">i_pow()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.utilities.is_anti_mirror_symmetric"><code class="docutils literal notranslate"><span class="pre">is_anti_mirror_symmetric()</span></code></a></li>
@@ -140,7 +141,9 @@
 
 <span class="c1"># Classes ----------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="Timer"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.Timer">[docs]</a><span class="k">class</span> <span class="nc">Timer</span><span class="p">:</span>
+<div class="viewcode-block" id="Timer">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.Timer">[docs]</a>
+<span class="k">class</span> <span class="nc">Timer</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Collect Times and print a summary at the end. &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="n">print_fun</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="nb">print</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="p">{}</span>
@@ -189,7 +192,10 @@
             <span class="n">last_time</span> <span class="o">=</span> <span class="n">step_time</span></div>
 
 
-<div class="viewcode-block" id="Optics"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.Optics">[docs]</a><span class="nd">@dataclass</span>
+
+<div class="viewcode-block" id="Optics">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.Optics">[docs]</a>
+<span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Optics</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Store Optics Data. &quot;&quot;&quot;</span>
     <span class="n">beam</span><span class="p">:</span> <span class="nb">int</span>
@@ -197,14 +203,20 @@
     <span class="n">errors</span><span class="p">:</span> <span class="n">DataFrame</span></div>
 
 
+
 <span class="c1"># KNL-Checks -------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="get_max_knl_order"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.get_max_knl_order">[docs]</a><span class="k">def</span> <span class="nf">get_max_knl_order</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">TfsDataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="get_max_knl_order">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.get_max_knl_order">[docs]</a>
+<span class="k">def</span> <span class="nf">get_max_knl_order</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">TfsDataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Return the maximum order in the KN(S)L columns of the DataFrame. &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^K(\d+)S?L$&quot;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="is_anti_mirror_symmetric"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.is_anti_mirror_symmetric">[docs]</a><span class="k">def</span> <span class="nf">is_anti_mirror_symmetric</span><span class="p">(</span><span class="n">column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+<div class="viewcode-block" id="is_anti_mirror_symmetric">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.is_anti_mirror_symmetric">[docs]</a>
+<span class="k">def</span> <span class="nf">is_anti_mirror_symmetric</span><span class="p">(</span><span class="n">column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Returns true if the column name is a KNL/KNSL column and the</span>
 <span class="sd">    magnetic field that this column represents is anti-symmetric upon mirroring on y axis.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
@@ -214,6 +226,7 @@
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">column_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="sa">f</span><span class="s2">&quot;K</span><span class="si">{</span><span class="n">order</span><span class="si">:</span><span class="s2">d</span><span class="si">}{</span><span class="n">SKEW_NAME_MAP</span><span class="p">[</span><span class="n">is_even</span><span class="p">(</span><span class="n">order</span><span class="p">)]</span><span class="si">}</span><span class="s2">L&quot;</span></div>
+
 
 
 <span class="c1"># Small Helpers ----------------------------------------------------------------</span>
@@ -242,18 +255,45 @@
     <span class="k">return</span> <span class="ow">not</span> <span class="n">is_odd</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="i_pow"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.i_pow">[docs]</a><span class="k">def</span> <span class="nf">i_pow</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">complex</span><span class="p">:</span>
+<div class="viewcode-block" id="i_pow">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.i_pow">[docs]</a>
+<span class="k">def</span> <span class="nf">i_pow</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">complex</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; i to the power of n.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">1</span><span class="n">j</span><span class="o">**</span><span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)</span>   <span class="c1"># more exact with modulo</span></div>
 
 
-<div class="viewcode-block" id="log_setup"><a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.log_setup">[docs]</a><span class="k">def</span> <span class="nf">log_setup</span><span class="p">():</span>
+
+<div class="viewcode-block" id="corrector_sign_beam_symmetry">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.corrector_sign_beam_symmetry">[docs]</a>
+<span class="k">def</span> <span class="nf">corrector_sign_beam_symmetry</span><span class="p">(</span><span class="n">beam</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function returns -1 if there is if there is a sign change</span>
+<span class="sd">    change for the powering of the corrector and it&#39;s field component,</span>
+<span class="sd">    due to the anti-symmetric magnetic field.</span>
+<span class="sd">    See Chapter 3.1 Beam Directions in [DillyNonlinearIRCorrections2023]_</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        beam (int): beam used</span>
+<span class="sd">        column_name (str): column name of the field strength</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: -1 if the corrector circuit has opposite sign to its field, 1 otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_even</span><span class="p">(</span><span class="n">beam</span><span class="p">)</span> <span class="ow">and</span> <span class="n">is_anti_mirror_symmetric</span><span class="p">(</span><span class="n">column_name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">return</span> <span class="mi">1</span></div>
+
+
+
+<div class="viewcode-block" id="log_setup">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.utilities.log_setup">[docs]</a>
+<span class="k">def</span> <span class="nf">log_setup</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Set up a basic logger. &quot;&quot;&quot;</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
         <span class="n">stream</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span>
         <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
         <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(levelname)7s</span><span class="s2"> | </span><span class="si">%(message)s</span><span class="s2"> | </span><span class="si">%(name)s</span><span class="s2">&quot;</span>
     <span class="p">)</span></div>
+
 
 </pre></div>
 
