@@ -85,7 +85,8 @@ def test_dual_optics(tmp_path: Path):
     b1 = beta**(exp_x+exp_y)
     b2 = beta2**(exp_x+exp_y)
     dual_correction = np.linalg.lstsq(np.array([[b1, b1], [b2, b2]]),
-                                      np.array([-b1*error_strengths1, -b2*error_strengths2]))[0]
+                                      np.array([-b1*error_strengths1, -b2*error_strengths2]), 
+                                      rcond=None)[0]
 
     assert all(np.abs(dual_correction) > 0)  # just for safety, that there is a solution
 
