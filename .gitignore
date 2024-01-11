@@ -261,3 +261,6 @@ Temporary Items
 *.synctex.*
 *.toc
 *.fdb_latexmk
+
+# Personal testing scripts
+tst_*

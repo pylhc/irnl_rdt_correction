@@ -228,8 +228,8 @@ def test_beams_symmetries(tmp_path: Path, accel: str, feeddown: int):
     # here: 2 == sextupole
     kl_columns = [f"K{order}{orientation}L" for order in orders for orientation in orientations]
     
-    twiss_0.loc[:, kl_columns]  = 0
-    errors_0.loc[:, kl_columns]  = 0
+    twiss_0.loc[:, kl_columns]  = 0.0
+    errors_0.loc[:, kl_columns]  = 0.0
 
     # orbit at corrector should not matter, as we don't use feed-down to correct here)
     # twiss_0.loc[:, [X, Y]] = 0.5
@@ -243,23 +243,23 @@ def test_beams_symmetries(tmp_path: Path, accel: str, feeddown: int):
             if magnet_order in ("D", "DS") and is_lhc:
                 continue
             corrector_magnets = twiss_0.index.str.match(rf"MC{magnet_order}X") 
-            twiss_0.loc[corrector_magnets, kl] = 1
+            twiss_0.loc[corrector_magnets, kl] = 1.0
 
     # Power other magnets and assign errors
     non_corrector_magnets = twiss_0.index.str.match(r"M.\.")  # M[A-Z]. is created above
-    twiss_0.loc[non_corrector_magnets, kl_columns] = 1
+    twiss_0.loc[non_corrector_magnets, kl_columns] = 1.0
     twiss_0.loc[non_corrector_magnets, [X, Y]] = 0.5
     
     non_corrector_magnets = errors_0.index.str.match(r"M.\.")  # M[A-Z]. is created above
-    errors_0.loc[non_corrector_magnets, kl_columns] = 1
+    errors_0.loc[non_corrector_magnets, kl_columns] = 1.0
     errors_0.loc[non_corrector_magnets, [f"{DELTA}{X}", f"{DELTA}{Y}"]] = 0.5
 
     # modify the left side, so they don't fully compensate for even (madx)-orders
     left_hand_magnets = twiss_0.index.str.match(r".*L\d$")
-    twiss_0.loc[left_hand_magnets, f"{BETA}{Y}"] = 2 * twiss_0.loc[left_hand_magnets, f"{BETA}{Y}"]
+    twiss_0.loc[left_hand_magnets, f"{BETA}{Y}"] = 2.0 * twiss_0.loc[left_hand_magnets, f"{BETA}{Y}"]
 
     left_hand_magnets = errors_0.index.str.match(r".*L\d$")
-    errors_0.loc[left_hand_magnets, kl_columns] = errors_0.loc[left_hand_magnets, kl_columns] / 2  
+    errors_0.loc[left_hand_magnets, kl_columns] = errors_0.loc[left_hand_magnets, kl_columns] / 2.0  
 
     # Pre-calculate the integral based on this setup. 
     integral_left = 1.5 * n_magnets
