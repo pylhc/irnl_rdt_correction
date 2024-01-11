@@ -221,7 +221,7 @@ def _check_dfs(beams: Sequence[int], twiss_dfs: Sequence[DataFrame], errors_dfs:
           -> either Error or Warning depending on ``ignore_missing_columns``.
     """
     twiss_dfs, errors_dfs = tuple(tuple(
-        convert_numeric_columns_to_float(df.copy()) for df in dfs) for dfs in (twiss_dfs, errors_dfs)
+        convert_numeric_columns_to_float(df) for df in dfs) for dfs in (twiss_dfs, errors_dfs)
     )
 
     needed_twiss = list(PLANES)
@@ -283,6 +283,7 @@ def convert_numeric_columns_to_float(df: TfsDataFrame) -> TfsDataFrame:
     This avoids that the user accidentally gives columns with dtype int (e.g. all 0), 
     in which case assigning float values will fail in some pandas version after 2.1.0 
     (which had a deprecation warning). """
+    df = df.copy()
     numeric_columns = df.select_dtypes(include=['number']).columns
     df[numeric_columns] = df[numeric_columns].astype('float64')
     return df
