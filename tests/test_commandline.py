@@ -51,7 +51,7 @@ def test_basic_correction(tmp_path: Path, accel: str):
     order = 4
     orientation = ""
 
-    correct_ips = (1, 2, 5, 8)
+    correct_ips = (1, 3)
     error_value = 2
     n_magnets = 4
     n_ips = 4
