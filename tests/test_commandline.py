@@ -51,7 +51,7 @@ def test_basic_correction(tmp_path: Path, accel: str):
     order = 4
     orientation = ""
 
-    correct_ips = (1, 3)
+    correct_ips = (1, 2, 5, 8)
     error_value = 2
     n_magnets = 4
     n_ips = 4
@@ -78,18 +78,19 @@ def test_basic_correction(tmp_path: Path, accel: str):
     tfs.write(errors_path, errors, save_index="NAME")
 
     # Correction -----------------------------------------------------------
-    subprocess.run([sys.executable, "-m", "irnl_rdt_correction",
-     "--accel", accel, 
-    "--twiss", twiss_path,
-    "--errors", errors_path,
-    "--beams", "1",
-    "--output", result_path,
-    "--feeddown", "0",
-    "--ips", *[str(ip) for ip in correct_ips],
-    "--ignore_missing_columns",
-    "--iterations", "1",
-    ], 
-    capture_output=True, text=True
+    subprocess.run([sys.executable, "-m", 
+                    "irnl_rdt_correction",
+                    "--accel", accel,
+                    "--twiss", twiss_path,
+                    "--errors", errors_path,
+                    "--beams", "1",
+                    "--output", result_path,
+                    "--feeddown", "0",
+                    "--ips", *[str(ip) for ip in correct_ips],
+                    "--ignore_missing_columns",
+                    "--iterations", "1",
+                    ],
+                   capture_output=True, text=True
     )
 
     madx_corrections = result_path.with_suffix(".madx").read_text()
