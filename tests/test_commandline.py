@@ -80,7 +80,6 @@ def test_basic_correction(tmp_path: Path, accel: str):
     # Correction -----------------------------------------------------------
     subprocess.run([sys.executable, "-m", "irnl_rdt_correction",
      "--accel", accel, 
-    
     "--twiss", twiss_path,
     "--errors", errors_path,
     "--beams", "1",

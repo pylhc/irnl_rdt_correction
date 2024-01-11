@@ -407,7 +407,7 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
         dx = twiss_df.loc[corrector.name, X] + errors_df.loc[corrector.name, f"{DELTA}{X}"]
         dy = twiss_df.loc[corrector.name, Y] + errors_df.loc[corrector.name, f"{DELTA}{Y}"]
         dx_idy = dx + 1j*dy
-        z_cmplx = (dx_idy**p) / np.math.factorial(p)  # Eq. (32)
+        z_cmplx = (dx_idy**p) / math.factorial(p)  # Eq. (32)
 
         # Get the correct part of z_cmplx, see Eq. (36) in [DillyNonlinearIRCorrections2023]_
         if (corrector.skew and is_odd(lm)) or (not corrector.skew and is_even(lm)):

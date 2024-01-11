@@ -220,8 +220,9 @@ def _check_dfs(beams: Sequence[int], twiss_dfs: Sequence[DataFrame], errors_dfs:
         - All needed field strengths are present in twiss
           -> either Error or Warning depending on ``ignore_missing_columns``.
     """
-    twiss_dfs, errors_dfs = tuple(tuple(df.copy() for df in dfs) 
-                                  for dfs in (twiss_dfs, errors_dfs))
+    twiss_dfs, errors_dfs = tuple(tuple(
+        convert_numeric_columns_to_float(df.copy()) for df in dfs) for dfs in (twiss_dfs, errors_dfs)
+    )
 
     needed_twiss = list(PLANES)
     needed_errors = [f"{DELTA}{p}" for p in PLANES]
@@ -258,7 +259,7 @@ def _check_dfs(beams: Sequence[int], twiss_dfs: Sequence[DataFrame], errors_dfs:
                       f"the errors: {list2str(not_found_optics.to_list())}."
                       f"They are assumed to be zero.")
             for indx in not_found_optics:
-                errors.loc[indx, :] = 0
+                errors.loc[indx, :] = 0.0
 
         for df, needed_cols, file_type in ((
             twiss, needed_twiss, "twiss"), (errors, needed_errors, "error")
@@ -273,8 +274,18 @@ def _check_dfs(beams: Sequence[int], twiss_dfs: Sequence[DataFrame], errors_dfs:
                     raise IOError(text)
                 LOG.warning(text + " They are assumed to be zero.")
                 for kl in missing_cols:
-                    df[kl] = 0
+                    df[kl] = 0.0
     return beams, twiss_dfs, errors_dfs
+
+
+def convert_numeric_columns_to_float(df: TfsDataFrame) -> TfsDataFrame:
+    """ Convert numeric columns in df to float. 
+    This avoids that the user accidentally gives columns with dtype int (e.g. all 0), 
+    in which case assigning float values will fail in some pandas version after 2.1.0 
+    (which had a deprecation warning). """
+    numeric_columns = df.select_dtypes(include=['number']).columns
+    df[numeric_columns] = df[numeric_columns].astype('float64')
+    return df
 
 
 def maybe_switch_signs(optics: Optics):
