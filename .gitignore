@@ -239,6 +239,7 @@ Temporary Items
 # VSCode
 .vscode
 .vscode/
+.history/
 
 # Neovim
 .nvimlog

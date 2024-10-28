@@ -1,0 +1,77 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "irnl_rdt_correction/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/.github",
+  "/doc",
+  "/tests",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["irnl_rdt_correction"]
+
+[project]
+name = "irnl_rdt_correction"
+readme = "README.md"
+description = "Correction script to power the nonlinear correctors in the (HL-)LHC insertion regions based on RDTs."
+authors = [
+    {name = "OMC Team", email = "pylhc@github.com"},  # see zenodo file / commits for details
+]
+license = "MIT"
+dynamic = ["version"]
+requires-python = ">=3.9"
+
+keywords = [
+  "accelerator", "nonlinear", "correction", "lhc", "hl-lhc",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "numpy >= 1.19, < 2.0; python_version < '3.10'",  # first pytables compatible with numpy 2 is 3.10 but does not support python 3.9
+    "numpy >= 1.19; python_version >= '3.10'",  # otherwise we can use numpy 2 as on python 3.10 there is a pytables which is ok with it"numpy>=1.19",
+    "pandas>=1.0,!=1.2",  # not 1.2 because of https://github.com/pandas-dev/pandas/issues/39872
+    "tfs-pandas>=3.0.2",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "pytest-cov>=2.9",
+    "h5py>=2.9.0",
+    "tables >= 3.9",  # TODO: require 3.10.1 minimum when it's out and we drop python 3.9 support
+]
+doc = [
+    "sphinx >= 7.0",
+    "sphinx_rtd_theme >= 2.0",
+]
+
+all = [
+    "irnl_rdt_correction[test]",
+    "irnl_rdt_correction[doc]",
+]
+
+[project.urls]
+homepage = "https://github.com/pylhc/irnl_rdt_correction"
+repository = "https://github.com/pylhc/irnl_rdt_correction"
+documentation = "https://pylhc.github.io/irnl_rdt_correction/"
+changelog = "https://github.com/pylhc/irnl_rdt_correction/releases"
