@@ -60,7 +60,7 @@ def read_lhc_model(beam: int) -> TfsDataFrame:
 
 
 def generate_pseudo_model(n_ips: int, n_magnets: int, accel: str,
-                          betax: float = 1, betay: float = 1, x: float = 0, y: float = 0) -> pd.DataFrame:
+                          betax: float = 1.0, betay: float = 1.0, x: float = 0.0, y: float = 0.0) -> pd.DataFrame:
     """Generate a Twiss-Like DataFrame with magnets as index and Beta and Orbit columns."""
     df = pd.DataFrame(
         index=(
@@ -77,7 +77,7 @@ def generate_pseudo_model(n_ips: int, n_magnets: int, accel: str,
     return df
 
 
-def generate_errortable(index: Sequence, value: float = 0, max_order: int = MAX_N) -> pd.DataFrame:
+def generate_errortable(index: Sequence, value: float = 0.0, max_order: int = MAX_N) -> pd.DataFrame:
     """Return DataFrame from index and KN(S)L + D[XY] columns."""
     return pd.DataFrame(value,
                         index=index,

@@ -13,7 +13,7 @@ from irnl_rdt_correction.input_options import InputOptions
 __title__ = "irnl-rdt-correction"
 __description__ = "Correction script to power the nonlinear correctors in the (HL-)LHC insertion regions based on RDTs."
 __url__ = "https://github.com/pylhc/irnl_rdt_correction"
-__version__ = "1.1.1"
+__version__ = "1.1.2"
 __author__ = "pylhc"
 __author_email__ = "pylhc@github.com"
 __license__ = "MIT"

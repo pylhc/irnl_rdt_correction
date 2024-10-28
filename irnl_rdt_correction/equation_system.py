@@ -7,6 +7,7 @@ This is Eq. (40) of [DillyNonlinearIRCorrections2023]_.
 
 """
 import logging
+import math
 from typing import Dict, List, Sequence, Set, Tuple
 
 import numpy as np
@@ -354,7 +355,7 @@ def get_elements_integral(rdt: RDT, ip: int, optics: Optics, feeddown: int) -> f
             iksl_err = 1j*errors_df.loc[elements, f"K{n_mad:d}SL"]
 
             k_sum += ((kl_opt + kl_err + iksl_opt + iksl_err) *
-                      (dx_idy**q) / np.math.factorial(q))
+                      (dx_idy**q) / math.factorial(q))
 
         # note the minus sign before the sum!
         integral += -sum(np.real(i_pow(lm) * k_sum.to_numpy()) * (side_sign * betax * betay).to_numpy())
@@ -406,7 +407,7 @@ def get_corrector_coefficient(rdt: RDT, corrector: IRCorrector, optics: Optics) 
         dx = twiss_df.loc[corrector.name, X] + errors_df.loc[corrector.name, f"{DELTA}{X}"]
         dy = twiss_df.loc[corrector.name, Y] + errors_df.loc[corrector.name, f"{DELTA}{Y}"]
         dx_idy = dx + 1j*dy
-        z_cmplx = (dx_idy**p) / np.math.factorial(p)  # Eq. (32)
+        z_cmplx = (dx_idy**p) / math.factorial(p)  # Eq. (32)
 
         # Get the correct part of z_cmplx, see Eq. (36) in [DillyNonlinearIRCorrections2023]_
         if (corrector.skew and is_odd(lm)) or (not corrector.skew and is_even(lm)):
