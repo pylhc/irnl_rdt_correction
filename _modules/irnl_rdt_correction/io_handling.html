@@ -1,21 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>irnl_rdt_correction.io_handling &mdash; irnl-rdt-correction 1.1.1 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <title>irnl_rdt_correction.io_handling &mdash; irnl-rdt-correction 1.1.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=449bdd91" />
+
   
-        <script src="../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=58fbf978"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6f037312"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -33,9 +33,6 @@
             irnl-rdt-correction
               <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                1.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -73,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_df"><code class="docutils literal notranslate"><span class="pre">build_correction_df()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_str"><code class="docutils literal notranslate"><span class="pre">build_correction_str()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.build_correction_str_from_df"><code class="docutils literal notranslate"><span class="pre">build_correction_str_from_df()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.convert_numeric_columns_to_float"><code class="docutils literal notranslate"><span class="pre">convert_numeric_columns_to_float()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.get_and_write_output"><code class="docutils literal notranslate"><span class="pre">get_and_write_output()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.get_optics"><code class="docutils literal notranslate"><span class="pre">get_optics()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools.html#irnl_rdt_correction.io_handling.get_tfs"><code class="docutils literal notranslate"><span class="pre">get_tfs()</span></code></a></li>
@@ -360,8 +358,9 @@
 <span class="sd">        - All needed field strengths are present in twiss</span>
 <span class="sd">          -&gt; either Error or Warning depending on ``ignore_missing_columns``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">twiss_dfs</span><span class="p">,</span> <span class="n">errors_dfs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">dfs</span><span class="p">)</span> 
-                                  <span class="k">for</span> <span class="n">dfs</span> <span class="ow">in</span> <span class="p">(</span><span class="n">twiss_dfs</span><span class="p">,</span> <span class="n">errors_dfs</span><span class="p">))</span>
+    <span class="n">twiss_dfs</span><span class="p">,</span> <span class="n">errors_dfs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span>
+        <span class="n">convert_numeric_columns_to_float</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">dfs</span><span class="p">)</span> <span class="k">for</span> <span class="n">dfs</span> <span class="ow">in</span> <span class="p">(</span><span class="n">twiss_dfs</span><span class="p">,</span> <span class="n">errors_dfs</span><span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="n">needed_twiss</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">PLANES</span><span class="p">)</span>
     <span class="n">needed_errors</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DELTA</span><span class="si">}{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">PLANES</span><span class="p">]</span>
@@ -398,7 +397,7 @@
                       <span class="sa">f</span><span class="s2">&quot;the errors: </span><span class="si">{</span><span class="n">list2str</span><span class="p">(</span><span class="n">not_found_optics</span><span class="o">.</span><span class="n">to_list</span><span class="p">())</span><span class="si">}</span><span class="s2">.&quot;</span>
                       <span class="sa">f</span><span class="s2">&quot;They are assumed to be zero.&quot;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">indx</span> <span class="ow">in</span> <span class="n">not_found_optics</span><span class="p">:</span>
-                <span class="n">errors</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">indx</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">errors</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">indx</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.0</span>
 
         <span class="k">for</span> <span class="n">df</span><span class="p">,</span> <span class="n">needed_cols</span><span class="p">,</span> <span class="n">file_type</span> <span class="ow">in</span> <span class="p">((</span>
             <span class="n">twiss</span><span class="p">,</span> <span class="n">needed_twiss</span><span class="p">,</span> <span class="s2">&quot;twiss&quot;</span><span class="p">),</span> <span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="n">needed_errors</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">)</span>
@@ -413,8 +412,22 @@
                     <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s2">&quot; They are assumed to be zero.&quot;</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">kl</span> <span class="ow">in</span> <span class="n">missing_cols</span><span class="p">:</span>
-                    <span class="n">df</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">df</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="k">return</span> <span class="n">beams</span><span class="p">,</span> <span class="n">twiss_dfs</span><span class="p">,</span> <span class="n">errors_dfs</span>
+
+
+<div class="viewcode-block" id="convert_numeric_columns_to_float">
+<a class="viewcode-back" href="../../tools.html#irnl_rdt_correction.io_handling.convert_numeric_columns_to_float">[docs]</a>
+<span class="k">def</span> <span class="nf">convert_numeric_columns_to_float</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">TfsDataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TfsDataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Convert numeric columns in df to float. </span>
+<span class="sd">    This avoids that the user accidentally gives columns with dtype int (e.g. all 0), </span>
+<span class="sd">    in which case assigning float values will fail in some pandas version after 2.1.0 </span>
+<span class="sd">    (which had a deprecation warning). &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">numeric_columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;number&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">numeric_columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">numeric_columns</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
 
 
 <div class="viewcode-block" id="maybe_switch_signs">
