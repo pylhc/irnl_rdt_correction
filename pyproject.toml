@@ -57,6 +57,7 @@ test = [
     "pytest>=7.0",
     "pytest-cov>=2.9",
     "h5py>=2.9.0",
+    "tables >= 3.9",  # TODO: require 3.10.1 minimum when it's out and we drop python 3.9 support
 ]
 doc = [
     "sphinx >= 7.0",
